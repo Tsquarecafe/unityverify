@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  type              String?
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  expires      DateTime
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+}
+
+enum UserType {
+  AGENT
+  ADMIN
+}
+
+model User {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?       @unique
+  password       String?
+  emailVerified  DateTime?
+  image          String?
+  type           UserType      @default(AGENT)
+  accountBalance Float         @default(0)
+  agentBonus     Float         @default(0)
+  accounts       Account[]
+  sessions       Session[]
+  transactions   Transaction[]
+  payments       Payment[]
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model Transaction {
+  id        String            @id @default(auto()) @map("_id") @db.ObjectId
+  type      String
+  slipType  SlipType?         @relation(fields: [slipId], references: [id], onDelete: Cascade)
+  slipId    String?           @db.ObjectId
+  status    TransactionStatus @default(PENDING)
+  price     Float
+  slipBlob  Bytes?
+  reference String?
+  createdBy User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String            @db.ObjectId
+  createdAt DateTime          @default(now())
+}
+
+model SlipType {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  price        Float
+  image        String
+  transactions Transaction[]
+}
+
+enum PaymentStatus {
+  INITIATED
+  PAID
+  CREDITED
+  FAILED
+}
+
+enum PaymentMethod {
+  CARD
+  TRANSFER
+}
+
+model Payment {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  paymentReference String
+  amount           Float
+  status           PaymentStatus @default(INITIATED)
+  createdBy        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String        @db.ObjectId
+  createdAt        DateTime      @default(now())
+  paymentMethod    PaymentMethod
+}
