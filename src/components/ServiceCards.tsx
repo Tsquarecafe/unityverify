@@ -60,14 +60,16 @@ const ServiceCards: FC<ServiceCardsProps> = ({
                 Other Services
               </h1>
               <div className="space-y-2">
-                {servicesData.slice(5, servicesData.length).map((item) => (
-                  <p
-                    key={item.slug}
-                    className="text-xs font-light text-zinc-600"
-                  >
-                    {item.title}
-                  </p>
-                ))}
+                {servicesData
+                  .slice(doSlice, servicesData.length)
+                  .map((item) => (
+                    <p
+                      key={item.slug}
+                      className="text-xs font-light text-zinc-600"
+                    >
+                      {item.title}
+                    </p>
+                  ))}
               </div>
 
               <div className="absolute border-[1px] border-slate-300 bottom-4 right-4 rounded-full flex justify-center items-center overflow-hidden w-[50px] h-[40px]">

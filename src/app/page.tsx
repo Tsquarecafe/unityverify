@@ -32,7 +32,11 @@ export default function Home() {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          <ServiceCards displayedFromHome servicesData={generalServices} />
+          <ServiceCards
+            doSlice={5}
+            displayedFromHome
+            servicesData={generalServices}
+          />
         </div>
       </div>
     </main>
