@@ -39,7 +39,7 @@ const InputModal: FC = ({}) => {
 
   const { modalTitle } = useSelector((store: RootState) => store.modal);
   const modalRef = useRef(null);
-  useOnClickOutside(modalRef, () => dispatch(closeModal()));
+
   const router = useRouter();
   const [input, setInput] = useState<string>("");
   const [demography, setDemography] = useState<demographyInput>({
@@ -49,6 +49,8 @@ const InputModal: FC = ({}) => {
     gender: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
+
+  useOnClickOutside(modalRef, () => (!loading ? dispatch(closeModal()) : null));
 
   const verify: FormSubmitHandler = async (e) => {
     setLoading(true);
@@ -123,7 +125,9 @@ const InputModal: FC = ({}) => {
           });
         }
 
-        dispatch(closeModal());
+        if (!loading) {
+          dispatch(closeModal());
+        }
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -154,7 +158,7 @@ const InputModal: FC = ({}) => {
           <div className="m-4 flex justify-between items-center">
             <h3 className="font-semibold">{modalTitle}</h3>
             <button
-              onClick={() => dispatch(closeModal())}
+              onClick={() => (!loading ? dispatch(closeModal()) : null)}
               className="cursor-pointer"
             >
               <XSquare />

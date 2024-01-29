@@ -21,7 +21,6 @@ const PaymentRecord: FC<PaymentRecordProps> = ({
   createdAt,
 }) => {
   const parsedDate = parseISO(`${createdAt}`);
-  console.log(parseISO(`${createdAt}`), "createdAt");
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyClick = async () => {

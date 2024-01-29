@@ -75,7 +75,6 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
     );
   };
 
-  console.log(numberOfPages, "numberOfPages");
 
   return (
     <>

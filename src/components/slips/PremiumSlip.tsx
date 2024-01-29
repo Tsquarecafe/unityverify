@@ -30,7 +30,6 @@ const PremiumSlip = async (res: verificationResponseType) => {
   const { surname, firstname, middlename, birthdate, nin, photo, gender } =
     data;
 
-  console.log(photo);
 
   const fetchFont = async () => {
     const font: Font = {
