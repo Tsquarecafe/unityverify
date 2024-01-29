@@ -31,10 +31,12 @@ interface demographyInput {
 
 const InputModal: FC = ({}) => {
   const dispatch = useDispatch<AppDispatch>();
+
   const {
-    selectedSubService: { title: serviceType },
+    selectedSubService,
     selectedSlipType: { title: slipType, price },
   } = useSelector((store: RootState) => store.service);
+
   const { modalTitle } = useSelector((store: RootState) => store.modal);
   const modalRef = useRef(null);
   useOnClickOutside(modalRef, () => dispatch(closeModal()));
@@ -60,14 +62,14 @@ const InputModal: FC = ({}) => {
         });
       } else {
         const res = await axios.post("/api/transactions", {
-          type: serviceType,
+          type: selectedSubService ? selectedSubService.title : "",
           slipType,
           price,
         });
 
         if (res?.status == 201 && res?.data) {
           let verificationResult;
-          if (serviceType === ninSearchServiceTitle) {
+          if (selectedSubService?.title === ninSearchServiceTitle) {
             verificationResult = await dispatch(
               verifyByNIN({
                 nin: input,
@@ -75,7 +77,7 @@ const InputModal: FC = ({}) => {
                 slipId: res.data.slipId,
               })
             );
-          } else if (serviceType === phoneSearchServiceTitle) {
+          } else if (selectedSubService?.title === phoneSearchServiceTitle) {
             verificationResult = await dispatch(
               verifyByPhone({
                 phone: input,
@@ -83,7 +85,7 @@ const InputModal: FC = ({}) => {
                 slipId: res.data.slipId,
               })
             );
-          } else if (serviceType === demoSearchServiceTitle) {
+          } else if (selectedSubService?.title === demoSearchServiceTitle) {
             verificationResult = await dispatch(
               verifyByDemography({
                 firstname: demography.firstname,
@@ -160,11 +162,11 @@ const InputModal: FC = ({}) => {
           </div>
           <hr />
           <form onSubmit={verify}>
-            {serviceType === ninSearchServiceTitle ? (
+            {selectedSubService?.title === ninSearchServiceTitle ? (
               <NIN input={input} setInput={setInput} />
-            ) : serviceType === phoneSearchServiceTitle ? (
+            ) : selectedSubService?.title === phoneSearchServiceTitle ? (
               <PhoneNumberSearch input={input} setInput={setInput} />
-            ) : serviceType === demoSearchServiceTitle ? (
+            ) : selectedSubService?.title === demoSearchServiceTitle ? (
               <DemographySearch
                 demography={demography}
                 setDemography={setDemography}
