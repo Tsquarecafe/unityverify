@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 import { CustomError } from "./customError";
 
 export const authOptions: NextAuthOptions = {
+  // @ts-ignore
   adapter: PrismaAdapter(db),
   session: {
     strategy: "jwt",
