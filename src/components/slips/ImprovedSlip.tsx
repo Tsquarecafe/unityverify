@@ -33,13 +33,13 @@ const ImprovedSlip = async (res: verificationResponseType) => {
   const fetchFont = async () => {
     const font: Font = {
       Consolas: {
-        data: await fetch("/fonts/ConsolasRegular.ttf").then((res) =>
+        data: await fetch("/fonts/ConsolasRegular.TTF").then((res) =>
           res.arrayBuffer()
         ),
         fallback: true,
       },
       ComicSans: {
-        data: await fetch("/fonts/ComicSans.ttf").then((res) =>
+        data: await fetch("/fonts/ComicSans.TTF").then((res) =>
           res.arrayBuffer()
         ),
         fallback: false,

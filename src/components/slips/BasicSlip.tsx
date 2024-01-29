@@ -58,7 +58,7 @@ const BasicSlip = async (res: verificationResponseType) => {
         fallback: true,
       },
       CalibriBold: {
-        data: await fetch("/fonts/CalibriBold.ttf").then((res) =>
+        data: await fetch("/fonts/CalibriBold.TTF").then((res) =>
           res.arrayBuffer()
         ),
         fallback: false,
