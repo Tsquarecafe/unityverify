@@ -52,13 +52,13 @@ const BasicSlip = async (res: verificationResponseType) => {
   const fetchFont = async () => {
     const font: Font = {
       Calibri: {
-        data: await fetch("../../../fonts/CalibriRegular.ttf").then((res) =>
+        data: await fetch("/fonts/CalibriRegular.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: true,
       },
       CalibriBold: {
-        data: await fetch("../../../fonts/CalibriBold.ttf").then((res) =>
+        data: await fetch("/fonts/CalibriBold.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: false,

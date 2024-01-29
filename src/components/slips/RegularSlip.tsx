@@ -42,7 +42,7 @@ const RegularSlip = async (res: verificationResponseType) => {
   const fetchFont = async () => {
     const font: Font = {
       Calibri: {
-        data: await fetch("../../../fonts/CalibriRegular.ttf").then((res) =>
+        data: await fetch("/fonts/CalibriRegular.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: true,

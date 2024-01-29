@@ -35,19 +35,19 @@ const PremiumSlip = async (res: verificationResponseType) => {
   const fetchFont = async () => {
     const font: Font = {
       Consolas: {
-        data: await fetch("../../../fonts/ConsolasRegular.ttf").then((res) =>
+        data: await fetch("/fonts/ConsolasRegular.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: true,
       },
       ComicSans: {
-        data: await fetch("../../../fonts/ComicSans.ttf").then((res) =>
+        data: await fetch("/fonts/ComicSans.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: false,
       },
       CalibriBold: {
-        data: await fetch("../../../fonts/CalibriBold.ttf").then((res) =>
+        data: await fetch("/fonts/CalibriBold.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: false,
