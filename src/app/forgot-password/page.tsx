@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/Input";
 import { FC, useState } from "react";
 
 interface pageProps {}
-const page: FC<pageProps> = ({}) => {
+const ForgotPassword: FC<pageProps> = ({}) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,4 +57,4 @@ const page: FC<pageProps> = ({}) => {
   );
 };
 
-export default page;
+export default ForgotPassword;
