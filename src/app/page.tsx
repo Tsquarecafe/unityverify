@@ -6,25 +6,27 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-5xl md:h-screen py-20 px-4">
+    <main className="mx-auto max-w-5xl md:h-screen py-8 md:py-20 px-4">
       <div className="flex flex-col md:flex-row gap-12 md:gap-8 items-center  ">
         <div className="flex flex-col gap-4">
-          <Brand />
-          <h2 className="text-3xl  md:text-5xl font-bold leading-[4rem]">
+          <div className="w-full mb-3 md:flex md:justify-start">
+            <Brand />
+          </div>
+          <h2 className="text-3xl  md:text-4xl font-bold md:leading-[2.5rem]">
             Sign Up to Get Started
           </h2>
-          <p className="font-medium">
+          <p className="font-medium text-center md:text-left">
             Your one-stop reliable service for verification
           </p>
 
-          <div>
+          <div className="mt-7">
             <HomeSignUpBtns />
 
             <p className="mt-4 text-sm">
               Already have an Account?{" "}
               <Link
                 href="/sign-in"
-                className="text-gray-500 hover:text-gray-700 font-semibold"
+                className="text-slate-900 text-md hover:text-slate-700 font-semibold"
               >
                 Login
               </Link>

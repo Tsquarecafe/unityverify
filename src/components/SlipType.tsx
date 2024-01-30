@@ -1,5 +1,6 @@
 import { selectSlipType } from "@/lib/redux/slices/service/serviceSlice";
 import { RootState } from "@/lib/redux/store";
+import { formatToNaira } from "@/lib/utils";
 import { CheckCheck } from "lucide-react";
 import Image from "next/image";
 import { FC } from "react";
@@ -41,7 +42,7 @@ const SlipType: FC<SlipTypeProps> = (props) => {
       </div>
 
       <div className=" rounded-lg hidden absolute bottom-0 top-3/4  left-0 right-0 group-hover:flex items-center justify-center text-white font-semibold bg-slate-800 bg-opacity-80 ">
-        Price: {price}
+        Price: {formatToNaira.format(price)}
       </div>
     </div>
   );

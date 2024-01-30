@@ -23,8 +23,8 @@ const SignIn: FC<SignInProps> = ({}) => {
 
         <div className="bg-white w-full flex items-center justify-center">
           <div className="w-full h-100">
-            <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">
-              Nice to have you here!
+            <h1 className="text-xl mb-4 md:text-2xl text-center md:text-left font-bold leading-tight mt-12">
+              Nice to have you here!😊
             </h1>
 
             <UserAuthForm signupPage />

@@ -30,6 +30,7 @@ const HomeSignUpBtns: FC<HomeSignUpBtnsProps> = ({}) => {
   return (
     <div className="flex flex-col gap-3">
       <Button
+        size="lg"
         isLoading={isLoadingGoogle}
         onClick={loginWithGoogle}
         className="w-full"
@@ -38,7 +39,10 @@ const HomeSignUpBtns: FC<HomeSignUpBtnsProps> = ({}) => {
         <span className="ml-4">Log in with Google</span>
       </Button>
 
-      <Link href="/sign-up" className={`${buttonVariants()} w-full`}>
+      <Link
+        href="/sign-up"
+        className={`${buttonVariants({ size: "lg" })} w-full`}
+      >
         Do not have a gmail account
       </Link>
     </div>

@@ -180,7 +180,7 @@ export const getAllSlips = createAppAsyncThunk(
 
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Could not Verify by Phone");
+      return thunkAPI.rejectWithValue("Could not get Slips");
     }
   }
 );

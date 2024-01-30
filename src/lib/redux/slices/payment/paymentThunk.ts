@@ -29,9 +29,7 @@ interface IGet {
 export const getAllUsersPayments = createAppAsyncThunk(
   "payments/getAllUsersPayments",
   async ({ status, limit, page, method, duration, search }: IGet, thunkAPI) => {
-    let baseUrl = "/api/payments/all";
-
-    if (limit) baseUrl = `${baseUrl}?limit=${limit}`;
+    let baseUrl = `/api/payments/all?limit=${limit || 10}`;
 
     if (page) baseUrl = `${baseUrl}&page=${page}`;
 
@@ -42,8 +40,9 @@ export const getAllUsersPayments = createAppAsyncThunk(
 
     try {
       const res = await axios.get(baseUrl);
+      console.log(res.data, "getAllUsersPayments");
 
-      return res.data;
+      return { ...res.data, currentPage: page };
     } catch (error) {
       return thunkAPI.rejectWithValue(
         "Could not retrieve users payment history"
@@ -69,7 +68,7 @@ export const updatePayment = createAppAsyncThunk(
         paymentId,
         status,
       });
-      getAllUsersPayments({});
+
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

@@ -212,7 +212,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ signupPage }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
-              placeholder="Email"
+              placeholder="name@email.com"
             />
           </div>
 
@@ -238,7 +238,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ signupPage }) => {
 
         <Button
           isLoading={isLoadingEmail}
-          size="sm"
+          size="lg"
           className="w-full"
           type="submit"
         >
@@ -249,6 +249,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ signupPage }) => {
       <hr className="my-6 border-gray-300 w-full" />
 
       <Button
+        size="lg"
         isLoading={isLoadingGoogle}
         onClick={loginWithGoogle}
         className="w-full"

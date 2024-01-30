@@ -11,7 +11,7 @@ import Brand from "./Brand";
 interface SignInProps {}
 const SignIn: FC<SignInProps> = ({}) => {
   return (
-    <section className="max-w-screen h-screen m-0 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+    <section className="max-w-screen min-h-screen  m-0 bg-white shadow sm:rounded-lg flex justify-center flex-1">
       <div className="w-full lg:w-1/2 xl:w-5/12 p-6 sm:p-12 ">
         <div className="text-slate-800 flex items-center justify-between">
           <Brand />
@@ -23,8 +23,8 @@ const SignIn: FC<SignInProps> = ({}) => {
 
         <div className="bg-white w-full flex items-center justify-center">
           <div className="w-full h-100">
-            <h1 className="text-xl md:text-2xl font-bold leading-tight mt-12">
-              Welcome back!
+            <h1 className="text-xl mb-4 md:text-2xl text-center md:text-left font-bold leading-tight mt-12">
+              Welcome back! 😊
             </h1>
 
             <UserAuthForm />

@@ -121,7 +121,7 @@ const TopUp: FC<TopUpProps> = ({}) => {
     <div>
       <div className="border border-slate-50 rounded-lg p-4 my-6">
         <div className="flex flex-col lg:flex-row justify-between gap-4 items-center text-sm mb-6">
-          <div className="flex gap-2 lg:min-w-[500px]">
+          <div className="flex gap-2 items-center lg:min-w-[500px]">
             <div className="bg-white pr-2 flex w-full border-[1px] border-slate-200 gap-2 items-center justify-between rounded-lg">
               <Input
                 value={searchInput}
@@ -146,11 +146,11 @@ const TopUp: FC<TopUpProps> = ({}) => {
           </Button>
         </div>
 
-        <div className="flex flex-col gap-3 lg:flex-row justify-between items-center mb-4">
+        <div className="flex flex-col gap-4 lg:flex-row justify-between items-center mb-4">
           <div className="grid grid-cols-2 w-full items-center lg:gap-3">
             <span className="  font-semibold text-sm">Filter by Duration</span>
             <Select onValueChange={setFilterDuration}>
-              <SelectTrigger className="lg:w-[180px]">
+              <SelectTrigger className="">
                 <SelectValue placeholder="Duration" />
               </SelectTrigger>
               <SelectContent>
@@ -166,7 +166,7 @@ const TopUp: FC<TopUpProps> = ({}) => {
           <div className="grid grid-cols-2 w-full items-center lg:gap-3 ">
             <span className=" font-semibold text-sm">Filter by Status</span>
             <Select onValueChange={setFilterPaymentStatus}>
-              <SelectTrigger className="lg:w-[180px]">
+              <SelectTrigger className="">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -181,7 +181,7 @@ const TopUp: FC<TopUpProps> = ({}) => {
           <div className="grid grid-cols-2 w-full items-center lg:gap-3 ">
             <span className=" font-semibold text-sm">Filter by Method</span>
             <Select onValueChange={setFilterPaymentMethod}>
-              <SelectTrigger className="lg:w-[180px]">
+              <SelectTrigger className="">
                 <SelectValue placeholder="Method" />
               </SelectTrigger>
               <SelectContent>

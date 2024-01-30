@@ -97,7 +97,11 @@ const NINService: FC<pageProps> = ({}) => {
                         </div>
                       ))}
                     </div>
-                    <Button className="w-full mt-4" onClick={handleOpenModal}>
+                    <Button
+                      size="lg"
+                      className="w-full mt-4"
+                      onClick={handleOpenModal}
+                    >
                       Proceed
                     </Button>
                   </>

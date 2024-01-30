@@ -21,7 +21,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
-          <div className="h-[40px] bg-slate-900 text-white text-[12px]  mt-10 flex items-center justify-center">
+          <div className="h-[40px] border-t border-b border-slate-200 bg-white  text-slate-800 text-[12px]  flex items-center justify-center">
             &copy; 2024 TSquare-Cafe
           </div>
           <Toaster />

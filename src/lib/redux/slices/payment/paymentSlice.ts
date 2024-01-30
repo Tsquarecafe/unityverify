@@ -77,6 +77,9 @@ const paymentSlice = createSlice({
       .addCase(getAllUsersPayments.fulfilled, (state, action) => {
         state.allPayments = action.payload.payments;
         state.numberOfPages = action.payload.numberOfPages;
+       if(action.payload.currentPage){
+        state.currentPage = action.payload.currentPage;
+       }
 
         state.isLoading = false;
       })

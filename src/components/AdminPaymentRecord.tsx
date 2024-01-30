@@ -6,7 +6,10 @@ import Image from "next/image";
 import { formatToNaira } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/redux/store";
-import { updatePayment } from "@/lib/redux/slices/payment/paymentThunk";
+import {
+  getAllUsersPayments,
+  updatePayment,
+} from "@/lib/redux/slices/payment/paymentThunk";
 import { Button } from "./ui/Button";
 import { useOnClickOutside } from "@/hooks/useOnclickOutside";
 
@@ -32,6 +35,16 @@ const AdminPaymentRecord: FC<AdminPaymentRecordProps> = ({
 
   const ref = useRef(null);
   useOnClickOutside(ref, () => setShowOptns(false));
+
+  const handleCreditUser = async () => {
+    await dispatch(
+      updatePayment({
+        paymentId: id,
+        status: PaymentStatus.CREDITED,
+      })
+    );
+    await dispatch(getAllUsersPayments({}));
+  };
   return (
     <div className="w-full grid gap-6 grid-cols-[2rem_2fr_2fr_1fr_4rem_1.5fr_3rem_3rem] justify-between p-2 rounded-lg items-center text-sm bg-slate-100">
       <span>{index + 1}</span>
@@ -50,7 +63,6 @@ const AdminPaymentRecord: FC<AdminPaymentRecordProps> = ({
       <span>{formatToNaira.format(amount)}</span>
       <div className="flex gap-2 items-center text-xs">
         <div className="flex gap-2 items-center">
-          <CalendarDays className="h-4 w-4" />
           {format(parsedDate, "do LLL")}, {format(parsedDate, "HH : mm : ss")}
         </div>
       </div>
@@ -81,14 +93,7 @@ const AdminPaymentRecord: FC<AdminPaymentRecordProps> = ({
                   isLoading={isLoading}
                   disabled={isLoading}
                   className="bg-inherit hover:bg-inherit h-full w-full text-gray-900 p-0"
-                  onClick={() =>
-                    dispatch(
-                      updatePayment({
-                        paymentId: id,
-                        status: PaymentStatus.CREDITED,
-                      })
-                    )
-                  }
+                  onClick={handleCreditUser}
                 >
                   Credit
                 </Button>
