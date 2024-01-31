@@ -194,3 +194,22 @@ export const monthNames = [
   "November",
   "December",
 ];
+
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout;
+
+  return function debouncedFunction(this: any, ...args: Parameters<T>) {
+    const context = this;
+
+    const later = () => {
+      clearTimeout(timeout);
+      func.apply(context, args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}

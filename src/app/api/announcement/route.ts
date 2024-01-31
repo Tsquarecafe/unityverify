@@ -5,11 +5,11 @@ import { NextRequest } from "next/server";
 
 export async function GET() {
   try {
-    const slips = await db.slipType.findMany();
+    const announcement = await db.announcement.findMany();
 
-    return new Response(JSON.stringify(slips), { status: 200 });
+    return new Response(JSON.stringify(announcement), { status: 200 });
   } catch (error) {
-    return new Response("Could not get slip types, Please try again", {
+    return new Response("Could not get announcement, Please try again", {
       status: 500,
     });
   }
@@ -17,7 +17,8 @@ export async function GET() {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { slipId, price } = await req.json();
+    const { announcementId, title, text } = await req.json();
+
     const session = await getAuthSession();
 
     if (!session || !session.user)
@@ -29,23 +30,24 @@ export async function PATCH(req: NextRequest) {
         status: 403,
       });
 
-    if (!slipId || !price)
+    if (!announcementId || !title || !text)
       return new Response("Bad request, Ensure Complete Details", {
         status: 400,
       });
 
-    await db.slipType.update({
+    await db.announcement.update({
       where: {
-        id: slipId,
+        id: announcementId,
       },
       data: {
-        price,
+        title,
+        text,
       },
     });
 
-    return new Response("Slip Price Updated Successfully ", { status: 200 });
+    return new Response("Announcement Updated Successfully ", { status: 200 });
   } catch (error) {
-    return new Response("Could not update slip Price , Please try again", {
+    return new Response("Could not update Announcement , Please try again", {
       status: 500,
     });
   }

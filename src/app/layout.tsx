@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/Toaster";
 import Providers from "@/components/Providers";
+import Link from "next/link";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +19,26 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html className="scroll-smooth" lang="en">
+      <body className={`${inter.className}`}>
         <Providers>
-          {children}
+          <div className="vh-subtract-40">{children}</div>
           <div className="h-[40px] border-t border-b border-slate-200 bg-white  text-slate-800 text-[12px]  flex items-center justify-center">
             &copy; 2024 TSquare-Cafe
           </div>
+
+          <Link
+            href="https://wa.me/+2348030961870"
+            className="fixed w-[50px] h-[50px] flex border-2 border-green-500 overflow-hidden  bottom-4 right-8 bg-slate-50 text-white rounded-full shadow-lg z-50"
+          >
+            <Image
+              src="/assets/whatsapp.svg"
+              alt="Whatsapp logo"
+              className="w-full h-full"
+              height={50}
+              width={50}
+            />
+          </Link>
           <Toaster />
         </Providers>
       </body>

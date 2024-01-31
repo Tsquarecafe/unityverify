@@ -103,6 +103,7 @@ export async function POST(req: NextRequest) {
     // Create unique Transaction  ID
     const paymentReference = `${paymentMethod.slice(0, 4)}${amount}${user.name
       ?.slice(0, 5)
+      .replace(/\s+/g, "")
       .trim()}-${createUniqueId()}`;
 
     const newPayment = await db.payment.create({

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import TransactionRecord from "./TransactionRecord";
 import { Button } from "./ui/Button";
 import { Download } from "lucide-react";
@@ -20,9 +20,15 @@ import { getAllSlips } from "@/lib/redux/slices/service/serviceThunk";
 import { useSession } from "next-auth/react";
 import { UserRole } from "@/lib/utils";
 
-const statusList = ["PENDING", "SUCCESS", "FAILED"];
+const statusList = ["ALL", "PENDING", "SUCCESS", "FAILED"];
 
 interface AllTransactionsProps {}
+
+type retrievePayloadType = {
+  limit: number;
+  status?: string;
+  slipyType?: string;
+};
 const AllTransactions: FC<AllTransactionsProps> = ({}) => {
   const { transactions, numberOfPages, limit, currentPage } = useSelector(
     (store: RootState) => store.transactions
@@ -32,6 +38,9 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
   );
   const { data: session } = useSession();
   const dispatch = useDispatch<AppDispatch>();
+
+  const [filterSlipType, setFilterSlipType] = useState<string>("");
+  const [filterStatus, setFilterStatus] = useState("");
 
   useEffect(() => {
     const getSlipTypes = async () => {
@@ -49,6 +58,27 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
 
     getSlipTypes();
   }, []);
+
+  const retrievePayments = async () => {
+    try {
+      let payload: retrievePayloadType = { limit: 10 };
+
+      if (filterSlipType) payload = { ...payload, slipyType: filterSlipType };
+      if (filterStatus) payload = { ...payload, status: filterStatus };
+
+      dispatch(getTransactions(payload));
+    } catch (error) {
+      return toast({
+        title: "Somthing went wrong",
+        description: "Unable to get Transactions details",
+        variant: "destructive",
+      });
+    }
+  };
+
+  useEffect(() => {
+    retrievePayments();
+  }, [filterStatus, filterSlipType]);
 
   const handlePrevPage = async () => {
     dispatch(
@@ -81,13 +111,15 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
         <div className=" flex flex-col lg:flex-row gap-4 justify-between items-center text-sm my-6">
           <div className="grid grid-cols-[1.5fr_2fr] lg:flex items-center justify-between gap-4 ">
             <span className=" font-semibold">Filter by Slip Type</span>
-            <Select>
+
+            <Select onValueChange={setFilterSlipType}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Slip Type" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="ALL">ALL</SelectItem>
                 {allSlips?.map((slip) => (
-                  <SelectItem className="" key={slip.id} value={slip.title}>
+                  <SelectItem key={slip.id} value={slip.title}>
                     {slip.title}
                   </SelectItem>
                 ))}
@@ -97,7 +129,7 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
 
           <div className="grid grid-cols-[1.5fr_2fr] lg:flex items-center justify-between gap-4 ">
             <span className=" font-semibold">Filter by Status</span>
-            <Select>
+            <Select onValueChange={setFilterStatus}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
@@ -165,54 +197,56 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
               </tr>
 
               <tr>
-                {numberOfPages ? (
-                  <div className="flex  gap-6 items-center justify-center mx-auto mt-8 w-full ">
-                    <Button className="bg-slate-700" onClick={handlePrevPage}>
-                      Prev
-                    </Button>
-                    <div className="flex gap-4 flex-wrap">
-                      {[...Array(numberOfPages).keys()]
-                        .slice(0, 10)
-                        .map((_, index) => (
-                          <button
-                            className={`w-10 h-10 rounded-lg  ${
-                              currentPage === index + 1
-                                ? "bg-emerald-800 text-white "
-                                : "bg-gray-300"
-                            } hover:bg-emerald-500 hover:text-white`}
-                            onClick={() => handleSelectPage(index + 1)}
-                            key={index}
-                          >
-                            {index + 1}
-                          </button>
-                        ))}
-                      ...
-                      {[...Array(numberOfPages).keys()]
-                        .slice(-1)
-                        .map((_, index) => (
-                          <button
-                            className={`w-10 h-10 rounded-lg  ${
-                              currentPage ===
-                              [...Array(numberOfPages).keys()].length
-                                ? "bg-emerald-800 text-white "
-                                : "bg-gray-300"
-                            } hover:bg-emerald-500 hover:text-white`}
-                            onClick={() =>
-                              handleSelectPage(
+                <td>
+                  {numberOfPages ? (
+                    <div className="flex  gap-6 items-center justify-center mx-auto mt-8 w-full ">
+                      <Button className="bg-slate-700" onClick={handlePrevPage}>
+                        Prev
+                      </Button>
+                      <div className="flex gap-4 flex-wrap">
+                        {[...Array(numberOfPages).keys()]
+                          .slice(0, 10)
+                          .map((_, index) => (
+                            <button
+                              className={`w-10 h-10 rounded-lg  ${
+                                currentPage === index + 1
+                                  ? "bg-emerald-800 text-white "
+                                  : "bg-gray-300"
+                              } hover:bg-emerald-500 hover:text-white`}
+                              onClick={() => handleSelectPage(index + 1)}
+                              key={index}
+                            >
+                              {index + 1}
+                            </button>
+                          ))}
+                        ...
+                        {[...Array(numberOfPages).keys()]
+                          .slice(-1)
+                          .map((_, index) => (
+                            <button
+                              className={`w-10 h-10 rounded-lg  ${
+                                currentPage ===
                                 [...Array(numberOfPages).keys()].length
-                              )
-                            }
-                            key={index}
-                          >
-                            {[...Array(numberOfPages).keys()].length}
-                          </button>
-                        ))}
+                                  ? "bg-emerald-800 text-white "
+                                  : "bg-gray-300"
+                              } hover:bg-emerald-500 hover:text-white`}
+                              onClick={() =>
+                                handleSelectPage(
+                                  [...Array(numberOfPages).keys()].length
+                                )
+                              }
+                              key={index}
+                            >
+                              {[...Array(numberOfPages).keys()].length}
+                            </button>
+                          ))}
+                      </div>
+                      <Button className="bg-slate-800" onClick={handleNextPage}>
+                        Next
+                      </Button>
                     </div>
-                    <Button className="bg-slate-800" onClick={handleNextPage}>
-                      Next
-                    </Button>
-                  </div>
-                ) : null}
+                  ) : null}
+                </td>
               </tr>
             </tbody>
           </table>

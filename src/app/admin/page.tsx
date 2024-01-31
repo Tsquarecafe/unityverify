@@ -17,12 +17,9 @@ const page: FC<pageProps> = ({}) => {
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 grid" >
         <ReportCard />
-        <Anouncement
-          title="Current Announcement"
-          description="Always endeavour to check your announcement card to get latest information from the adminiatrators desk"
-        />
+        <Anouncement />
       </div>
 
       <div className=" grid grid-cols-3 gap-2 w-full lg:col-span-2">

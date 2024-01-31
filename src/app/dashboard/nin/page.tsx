@@ -99,7 +99,7 @@ const NINService: FC<pageProps> = ({}) => {
                     </div>
                     <Button
                       size="lg"
-                      className="w-full mt-4"
+                      className="w-full mt-4 hidden lg:flex"
                       onClick={handleOpenModal}
                     >
                       Proceed
@@ -114,6 +114,15 @@ const NINService: FC<pageProps> = ({}) => {
               <div className="grid">
                 <Summary />
               </div>
+
+              <Button
+                id="proceed-btn"
+                size="lg"
+                className="w-full mt-4 flex lg:hidden"
+                onClick={handleOpenModal}
+              >
+                Proceed
+              </Button>
             </>
           ) : null}
         </div>

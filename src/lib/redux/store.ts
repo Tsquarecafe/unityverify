@@ -5,6 +5,7 @@ import UserSlice from "./slices/user/userSlice";
 import TransactionSlice from "./slices/transaction/transactionSlice";
 import PaymentSlice from "./slices/payment/paymentSlice";
 import ReportSlice from "./slices/report/reportSlice";
+import AnnouncementSlice from "./slices/announcement/announcementSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     transactions: TransactionSlice,
     payments: PaymentSlice,
     report: ReportSlice,
+    announcement: AnnouncementSlice,
   },
 });
 

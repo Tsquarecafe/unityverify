@@ -7,8 +7,9 @@ import { toast } from "@/hooks/use-toast";
 
 import { getAllUsers } from "@/lib/redux/slices/user/userThunk";
 import { AppDispatch, RootState } from "@/lib/redux/store";
+import { debounce } from "@/lib/utils";
 import { Download, Search } from "lucide-react";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,6 +19,17 @@ const Users: FC<pageProps> = ({}) => {
     useSelector((store: RootState) => store.user);
 
   const dispatch = useDispatch<AppDispatch>();
+
+  const [searchInput, setSearchInput] = useState("");
+
+  const retriveUsers = async () => {
+    await dispatch(getAllUsers({ search: searchInput }));
+  };
+
+  useEffect(() => {
+    const getData = debounce(retriveUsers, 2500);
+    getData();
+  }, [searchInput]);
 
   useEffect(() => {
     const getUsersDetails = async () => {
@@ -79,7 +91,12 @@ const Users: FC<pageProps> = ({}) => {
         <div>
           <div className="flex gap-3 flex-col md:flex-row justify-between  md:items-center text-sm my-6">
             <div className="flex  gap-3 lg:min-w-[500px]">
-              <Input type="search" placeholder="Search here" />
+              <Input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                type="search"
+                placeholder="Search here"
+              />
               <Button className="text-xs">
                 <Search className="h-4 w-4 mr-2" />
                 Search
@@ -95,7 +112,7 @@ const Users: FC<pageProps> = ({}) => {
           <div className="relative overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="grid gap-6 grid-cols-[2fr_2fr_1fr_1fr_1.5fr_1.1fr_2rem] grid-rows-1 w-full mb-3 bg-gray-100 p-3 rounded-lg">
+                <tr className="grid gap-4 grid-cols-[2fr_2fr_1fr_1fr_1.5fr_1.1fr_2rem] grid-rows-1 w-full mb-3 bg-gray-100 p-3 rounded-lg">
                   <th className="text-left text-sm">Name</th>
                   <th className="text-left text-sm">Email</th>
                   <th className="text-left text-sm">Acc Balance</th>

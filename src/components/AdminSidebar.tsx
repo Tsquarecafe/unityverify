@@ -2,7 +2,15 @@
 
 import { FC } from "react";
 import SidebarLink from "./SidebarLink";
-import { History, Home, LogOutIcon, Settings, ShieldCheck } from "lucide-react";
+import {
+  Bell,
+  History,
+  Home,
+  LogOutIcon,
+  Settings,
+  ShieldCheck,
+  StickyNote,
+} from "lucide-react";
 import Brand from "./Brand";
 import { Button, buttonVariants } from "./ui/Button";
 import { signOut } from "next-auth/react";
@@ -14,7 +22,7 @@ const AdminSidebar: FC<AdminSidebarProps> = ({}) => {
 
   const handleSignOut = async () => {
     signOut({
-      callbackUrl: `${window.location.origin}/sign`,
+      callbackUrl: `${window.location.origin}/sign-in`,
     });
 
     router.replace("/sign-in");
@@ -22,7 +30,7 @@ const AdminSidebar: FC<AdminSidebarProps> = ({}) => {
   return (
     <div className="w-full text-sm h-full space-y-2 text-white rounded-lg grid grid-rows-[auto_1fr]">
       <div className="  hidden lg:block bg-slate-900 text-zinc-50 rounded-lg p-4">
-        <Brand />
+        <Brand fromSidebar />
       </div>
       <div className=" bg-slate-900 max-h-full rounded-lg">
         <div className="flex flex-col p-4 space-y-4">
@@ -32,6 +40,12 @@ const AdminSidebar: FC<AdminSidebarProps> = ({}) => {
             icon={<ShieldCheck />}
             text="Users"
             link="/admin/users"
+          />
+          <SidebarLink icon={<StickyNote />} text="Slips" link="/admin/slips" />
+          <SidebarLink
+            icon={<Bell />}
+            text="Annoucement"
+            link="/admin/announcement"
           />
         </div>
 

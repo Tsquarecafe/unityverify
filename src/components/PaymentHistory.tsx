@@ -15,7 +15,7 @@ const PaymentHistory: FC<PaymentHistoryProps> = ({}) => {
   );
 
   return (
-    <div className="bg-white py-4 px-2 rounded-lg w-full  text-sm">
+    <div className="bg-white py-4 px-2 rounded-lg w-full text-sm">
       <div className="flex flex-col gap-6">
         <div className="flex justify-between items-center">
           <h3 className="font-semibold">Top up</h3>

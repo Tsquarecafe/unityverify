@@ -14,6 +14,7 @@ export type subServiceDataType = {
 };
 
 export type slipDataType = {
+  id: string;
   title: string;
   image: string;
   price: number;

@@ -1,23 +1,31 @@
 import { selectSlipType } from "@/lib/redux/slices/service/serviceSlice";
 import { RootState } from "@/lib/redux/store";
 import { formatToNaira } from "@/lib/utils";
+import { slipDataType } from "@/types/service";
 import { CheckCheck } from "lucide-react";
 import Image from "next/image";
-import { FC } from "react";
+import { useRouter } from "next/navigation";
+import { FC, SetStateAction, Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-interface SlipTypeProps {
-  title: string;
-  image: string;
-  price: number;
+interface SlipTypeProps extends slipDataType {
+  setShowEdit?: Dispatch<SetStateAction<boolean>>;
 }
 const SlipType: FC<SlipTypeProps> = (props) => {
-  const { title, image, price } = props;
+  const { title, id, image, price, setShowEdit } = props;
   const { selectedSlipType } = useSelector((store: RootState) => store.service);
   const dispatch = useDispatch();
+
+  const router = useRouter();
+
   return (
     <div
-      onClick={() => dispatch(selectSlipType(props))}
+      onClick={() => {
+        dispatch(selectSlipType({ title, id, image, price }));
+        setShowEdit && setShowEdit(true);
+
+        router.push("/dashboard/nin#proceed-btn");
+      }}
       className={`relative group bg-slate-100 p-3 rounded-lg h-[187px] cursor-pointer border-[2px] transition-all  ${
         selectedSlipType.title === title ? "border-emerald-500 shadow-lg" : ""
       } hover:border-emerald-500 hover:shadow-lg`}

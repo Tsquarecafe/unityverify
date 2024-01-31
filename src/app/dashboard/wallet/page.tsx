@@ -54,12 +54,8 @@ const Wallet: FC<pageProps> = ({}) => {
           <div className="grid lg:grid-cols-2 gap-2">
             <AccountInfocard isDisplayedFromWallet />
 
-            <div className="hidden lg:block">
-              <Anouncement
-                fromWallet
-                title="Current Price Per Unit: N200"
-                description="Your Units are what your use to perform transactions on the platform. You can Purchase units by initiating a purchase and then following the subsequent instructions"
-              />
+            <div className="hidden h-full lg:block">
+              <Anouncement />
             </div>
           </div>
 
@@ -105,7 +101,9 @@ const Wallet: FC<pageProps> = ({}) => {
                 <div className="flex bg-slate-100 p-4 rounded-lg border border-slate-300 gap-4 text-xs justify-between items-center">
                   <div className="flex flex-col gap-3">
                     Payment Reference:
-                    <span className="font-semibold">{mostRecentPaymentRef}</span>
+                    <span className="font-semibold">
+                      {mostRecentPaymentRef}
+                    </span>
                   </div>
 
                   <button onClick={handleCopyClick}>

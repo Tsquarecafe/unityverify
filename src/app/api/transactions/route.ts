@@ -2,12 +2,15 @@ import { db } from "@/lib/db";
 import { NextRequest } from "next/server";
 import { transactionValidator } from "@/lib/validators/transaction";
 import { getAuthSession } from "@/lib/auth";
-import {  z } from "zod";
+import { z } from "zod";
 import { UserRole } from "@/lib/utils";
+import { TransactionStatus } from "@prisma/client";
 
 interface IQueryObj {
   where?: {
-    userId: string;
+    userId?: string;
+    status?: TransactionStatus;
+    slipId?: string;
   };
   include: {
     slipType: boolean;
@@ -30,6 +33,8 @@ export async function GET(req: NextRequest) {
   const isFilter = req.nextUrl.searchParams.get("filter");
   const limit = parseInt(req.nextUrl.searchParams.get("limit") || "0");
   const page = parseInt(req.nextUrl.searchParams.get("page") || "0");
+  const status = req.nextUrl.searchParams.get("status") as TransactionStatus;
+  const slipyType = req.nextUrl.searchParams.get("slipyType");
 
   const session = await getAuthSession();
 
@@ -92,6 +97,36 @@ export async function GET(req: NextRequest) {
           },
           ...queryObj,
         };
+
+      // @ts-ignore
+      if (status && status != "ALL") {
+        queryObj = {
+          where: {
+            status: status,
+          },
+          ...queryObj,
+        };
+      }
+
+      if (slipyType && slipyType != "ALL") {
+        const filterSlip = await db.slipType.findFirst({
+          where: {
+            title: slipyType,
+          },
+        });
+
+        if (!filterSlip)
+          return new Response("Invalid Slip, Please try again", {
+            status: 400,
+          });
+
+        queryObj = {
+          where: {
+            slipId: filterSlip.id,
+          },
+          ...queryObj,
+        };
+      }
 
       if (page && limit) {
         const skip = (page - 1) * limit;
@@ -159,7 +194,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (user && user.accountBalance < (slip.price + 170)) {
+    if (user && user.accountBalance < slip.price + 170) {
       return new Response("Insufficient Balance, Please Credit your account ", {
         status: 401,
       });

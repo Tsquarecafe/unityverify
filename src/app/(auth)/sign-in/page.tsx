@@ -11,7 +11,7 @@ const page: FC<pageProps> = async ({}) => {
   return (
     <>
       {!session ? (
-        <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+        <div className="min-h-screen h-full bg-gray-100 text-gray-900 flex justify-center">
           <SignIn />
         </div>
       ) : session.user.type === UserRole.ADMIN ? (

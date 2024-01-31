@@ -110,3 +110,9 @@ model Payment {
   createdAt        DateTime      @default(now())
   paymentMethod    PaymentMethod
 }
+
+model Announcement {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  text  String
+}

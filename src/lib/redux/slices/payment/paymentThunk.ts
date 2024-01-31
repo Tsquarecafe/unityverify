@@ -45,7 +45,7 @@ export const getAllUsersPayments = createAppAsyncThunk(
       return { ...res.data, currentPage: page };
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        "Could not retrieve users payment history"
+        "Could not retrieve all users payment history"
       );
     }
   }
@@ -72,7 +72,7 @@ export const updatePayment = createAppAsyncThunk(
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        "Could not retrieve user payment history"
+        "Could not update user payment history"
       );
     }
   }

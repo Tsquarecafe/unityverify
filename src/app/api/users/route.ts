@@ -4,6 +4,9 @@ import { User } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 interface IQueryObj {
+  where?: {
+    OR: [{ name: { contains: string } }, { email: { contains: string } }];
+  };
   include: {
     transactions: boolean;
     payments: boolean;
@@ -19,6 +22,7 @@ interface IQueryObj {
 export async function GET(req: NextRequest) {
   const limit = parseInt(req.nextUrl.searchParams.get("limit") || "0");
   const page = parseInt(req.nextUrl.searchParams.get("page") || "0");
+  const search = req.nextUrl.searchParams.get("search");
   try {
     const session = await getAuthSession();
 
@@ -37,6 +41,14 @@ export async function GET(req: NextRequest) {
         name: "asc",
       },
     };
+
+    if (search)
+      queryObj = {
+        ...queryObj,
+        where: {
+          OR: [{ name: { contains: search } }, { email: { contains: search } }],
+        },
+      };
 
     if (page && limit) {
       const skip = (page - 1) * limit;

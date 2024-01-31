@@ -57,7 +57,7 @@ const ReportCard: FC<ReportCardProps> = ({}) => {
   }, []);
 
   return (
-    <div className="bg-white p-4 rounded-lg h-[350px]">
+    <div className="bg-white p-4 rounded-lg h-full">
       <h3 className=" text-sm font-semibold mb-3 ">Verification Summary</h3>
       <div className="flex flex-col space-y-3">
         <MiniValidationReportCard

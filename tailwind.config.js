@@ -2,11 +2,11 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -72,5 +72,18 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ addUtilities }) {
+      const newUtilities = {};
+
+      // Define a custom utility class for w-screen - 40px
+      newUtilities[".vh-subtract-40"] = {
+        minHeight: "calc(100vh - 40px)",
+      };
+
+      // Add the custom utilities to the stylesheet
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+  ],
+};

@@ -17,14 +17,15 @@ export const getUser = createAppAsyncThunk(
 interface IGet {
   limit?: number;
   page?: number;
+  search?: string;
 }
 export const getAllUsers = createAppAsyncThunk(
   "user/getAllUser",
-  async ({ limit, page }: IGet, thunkAPI) => {
-    let baseUrl = "/api/users";
-    if (limit) baseUrl = `${baseUrl}?limit=${limit}`;
+  async ({ limit, page, search }: IGet, thunkAPI) => {
+    let baseUrl = `/api/users?limit=${limit || 10}`;
 
     if (page) baseUrl = `${baseUrl}&page=${page}`;
+    if (search) baseUrl = `${baseUrl}&search=${search}`;
     try {
       const res = await axios.get(baseUrl);
 

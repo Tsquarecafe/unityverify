@@ -14,6 +14,7 @@ import {
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { FormSubmitHandler } from "@/types/events";
+import { Eye, EyeOff } from "lucide-react";
 
 interface UserAuthFormProps {
   signupPage?: boolean;
@@ -31,6 +32,8 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ signupPage }) => {
   const [password, setPassword] = useState<string>("");
   const [isLoadingEmail, setIsLoadingEmail] = useState<boolean>(false);
   const [isLoadingGoogle, setIsLoadingGoogle] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const router = useRouter();
 
   const registerWithCredentials: FormSubmitHandler = async (e) => {
@@ -116,7 +119,6 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ signupPage }) => {
         });
       }
 
-      router.replace("/dashboard");
       router.refresh();
     } catch (error) {
       console.log(error);
@@ -218,12 +220,22 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ signupPage }) => {
 
           <div className={`${!signupPage ? "" : "w-full"}`}>
             <label className="block text-gray-700 text-sm pb-2">Password</label>
-            <Input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              placeholder="Password"
-            />
+            <div className="flex gap-1  border border-slate-200 rounded-lg">
+              <Input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className=" border-0"
+              />
+              <button
+                type="button"
+                className="bg-slate-100 p-2"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {!showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
           </div>
         </div>
 

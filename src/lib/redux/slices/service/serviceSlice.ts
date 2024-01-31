@@ -33,6 +33,7 @@ const initialState: ServiceSliceState = {
   },
   selectedSubService: null,
   selectedSlipType: {
+    id: "",
     title: "",
     image: "",
     price: 0,

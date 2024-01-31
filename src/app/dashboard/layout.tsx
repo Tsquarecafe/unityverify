@@ -4,13 +4,11 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import MobileSidebar from "@/components/mobileSidebar/MobileSidebar";
 import { toast } from "@/hooks/use-toast";
+import { getAnnouncement } from "@/lib/redux/slices/announcement/announcementThunk";
 import { getPayments } from "@/lib/redux/slices/payment/paymentThunk";
 import { getTransactions } from "@/lib/redux/slices/transaction/transactionThunk";
 import { getUser } from "@/lib/redux/slices/user/userThunk";
 import { AppDispatch, RootState } from "@/lib/redux/store";
-import { UserRole } from "@/lib/utils";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -25,9 +23,9 @@ const Layout: FC<layoutProps> = ({ children }) => {
   );
   const { yourPayments } = useSelector((store: RootState) => store.payments);
   const { showMobileSidebar } = useSelector((store: RootState) => store.modal);
-
-  const router = useRouter();
-  const { data: session } = useSession();
+  const { announcements } = useSelector(
+    (store: RootState) => store.announcement
+  );
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -41,6 +39,7 @@ const Layout: FC<layoutProps> = ({ children }) => {
             })
           );
         if (!yourPayments) await dispatch(getPayments());
+        if (!announcements) await dispatch(getAnnouncement());
       } catch (error) {
         return toast({
           title: "Somthing went wrong",
@@ -52,11 +51,6 @@ const Layout: FC<layoutProps> = ({ children }) => {
 
     getUserInfo();
   }, []);
-
-  useEffect(() => {
-    if (session && session.user.type === UserRole.ADMIN)
-      return router.push("/admin");
-  }, [session]);
 
   return (
     <div className="bg-slate-200 p-2 relative">

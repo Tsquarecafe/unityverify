@@ -34,8 +34,8 @@ export const authOptions: NextAuthOptions = {
 
         if (!user || !user.password)
           throw new CustomError({
-            name: "Unauthorized",
-            message: "User does not exist",
+            name: "Error in Sign In",
+            message: "Either User does not exist or Auth is through google",
             status: 400,
           });
 
