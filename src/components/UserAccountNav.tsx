@@ -58,7 +58,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
                   callbackUrl: `${window.location.origin}/sign-in`,
                 });
 
-                router.push("/sign-in");
+                router.replace("/sign-in");
               }}
               className="cursor-pointer"
             >
