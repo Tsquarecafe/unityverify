@@ -9,7 +9,7 @@ import Image from "next/image";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TSquareCafe",
+  title: "UnityVerify",
   description: "Your Sure Verification Platform",
 };
 
@@ -24,7 +24,7 @@ export default async function RootLayout({
         <Providers>
           <div className="vh-subtract-40">{children}</div>
           <div className="h-[40px] border-t border-b border-slate-200 bg-white  text-slate-800 text-[12px]  flex items-center justify-center">
-            &copy; 2024 TSquare-Cafe
+            &copy; 2024 UnityVerify
           </div>
 
           <Link
