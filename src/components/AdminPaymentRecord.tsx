@@ -1,6 +1,6 @@
 import { FC, useRef, useState } from "react";
 import { format, parseISO } from "date-fns";
-import { CalendarDays, Clock12, MoreVertical } from "lucide-react";
+import {  MoreVertical } from "lucide-react";
 import { Payment, PaymentStatus, User } from "@prisma/client";
 import Image from "next/image";
 import { formatToNaira } from "@/lib/utils";

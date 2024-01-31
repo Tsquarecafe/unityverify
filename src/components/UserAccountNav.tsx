@@ -20,6 +20,15 @@ interface UserAccountNavProps {
 }
 const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
   const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut({
+      callbackUrl: "/sign-in",
+    });
+
+    router.replace("/sign-in");
+  };
+
   return (
     <>
       {user ? (
@@ -54,11 +63,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
             <DropdownMenuItem
               onSelect={(event) => {
                 event.preventDefault();
-                signOut({
-                  redirect:false
-                });
-
-                router.replace("/sign-in");
+                handleSignOut();
               }}
               className="cursor-pointer"
             >
