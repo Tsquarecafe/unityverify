@@ -1,5 +1,5 @@
 import { createAppAsyncThunk } from "../../createAppAsyncThunk";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 interface IupdateTransaction {
   transactionId: string;
@@ -22,10 +22,15 @@ const updateTransaction = async ({
   });
 };
 
-const updateFailedTransaction = async () => {
-  await axios.patch("/api/transactions?failed=true", {
-    status: "FAILED",
-  });
+const updateFailedTransaction = async (transactionId: string) => {
+  try {
+    return await axios.patch("/api/transactions?failed=true", {
+      status: "FAILED",
+      transactionId,
+    });
+  } catch (error) {
+    return error;
+  }
 };
 
 export const verifyByNIN = createAppAsyncThunk(
@@ -56,7 +61,7 @@ export const verifyByNIN = createAppAsyncThunk(
 
       return res.data;
     } catch (error) {
-      await updateFailedTransaction();
+      await updateFailedTransaction(transactionId);
       return thunkAPI.rejectWithValue("Could not Verify by NIN");
     }
   }
@@ -89,8 +94,11 @@ export const verifyByVNIN = createAppAsyncThunk(
 
       return res.data;
     } catch (error) {
-      await updateFailedTransaction();
-      return thunkAPI.rejectWithValue("Could not Verify by VNIN");
+      await updateFailedTransaction(transactionId);
+      if (error && error instanceof AxiosError) {
+        return thunkAPI.rejectWithValue(error.response?.data);
+      }
+      return thunkAPI.rejectWithValue("Counld not verify by VNIN");
     }
   }
 );
@@ -134,7 +142,7 @@ export const verifyByDemography = createAppAsyncThunk(
 
       return res.data;
     } catch (error) {
-      await updateFailedTransaction();
+      await updateFailedTransaction(transactionId);
       return thunkAPI.rejectWithValue("Could not Verify by Demography");
     }
   }
@@ -167,7 +175,13 @@ export const verifyByPhone = createAppAsyncThunk(
 
       return res.data;
     } catch (error) {
-      await updateFailedTransaction();
+      console.log(error && error instanceof AxiosError);
+
+      const res = await updateFailedTransaction(transactionId);
+      console.log(res, "Error transaction");
+      if (error && error instanceof AxiosError) {
+        return thunkAPI.rejectWithValue(error.response?.data);
+      }
       return thunkAPI.rejectWithValue("Could not Verify by Phone");
     }
   }

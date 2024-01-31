@@ -6,6 +6,7 @@ import type { Template } from "@pdfme/common";
 import { format } from "date-fns";
 import QRCode from "qrcode";
 import { verificationResponseType } from "@/types/service";
+import { toast } from "@/hooks/use-toast";
 
 const generateQR = async (text: string) => {
   try {
@@ -62,7 +63,7 @@ const ImprovedSlip = async (res: verificationResponseType) => {
           givenNames: `${firstname}, ${middlename}`.toUpperCase(),
           dob: format(new Date(birthdate), "dd MMM yyyy"),
           photo: `data:image/jpeg;base64,${photo}`,
-          nin: `${nin.slice(0, 4)}  ${nin.slice(3, 6)}  ${nin.slice(5, -1)}`,
+          nin: `${nin?.slice(0, 4)}  ${nin.slice(3, 6)}  ${nin.slice(5, -1)}`,
           ninBackdrop1: nin,
           ninBackdrop2: nin,
           ninBackdrop3: nin,
@@ -85,6 +86,11 @@ const ImprovedSlip = async (res: verificationResponseType) => {
       return new Blob([pdf.buffer], { type: "application/pdf" });
     } catch (error) {
       console.log(error);
+      return toast({
+        title: "Error Generating Basic NIN Slip",
+        description: "Unable to generate NIN slip type. Plese try again later",
+        variant: "destructive",
+      });
     }
   };
 

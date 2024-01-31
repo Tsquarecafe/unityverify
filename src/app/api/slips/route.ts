@@ -29,7 +29,7 @@ export async function PATCH(req: NextRequest) {
         status: 403,
       });
 
-    if (!slipId || !price)
+    if (!slipId || (!price && price != 0))
       return new Response("Bad request, Ensure Complete Details", {
         status: 400,
       });

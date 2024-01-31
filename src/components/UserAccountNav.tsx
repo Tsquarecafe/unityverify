@@ -55,7 +55,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
               onSelect={(event) => {
                 event.preventDefault();
                 signOut({
-                  callbackUrl: `${window.location.origin}/sign-in`,
+                  redirect:false
                 });
 
                 router.replace("/sign-in");

@@ -127,7 +127,9 @@ const EditSlipPrice = () => {
           <div className="flex gap-3 items-center">
             <Input
               value={price}
-              onChange={(e) => setPrice(parseInt(e.target.value))}
+              onChange={(e) =>
+                setPrice(e.target.value === "" ? 0 : parseFloat(e.target.value))
+              }
               placeholder="Enter new Price"
             />
             <Button isLoading={loading} onClick={handleUpdate}>

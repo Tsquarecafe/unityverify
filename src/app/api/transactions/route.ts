@@ -231,14 +231,12 @@ export async function PATCH(req: NextRequest) {
   const body = await req.json();
 
   const failed = req.nextUrl.searchParams.get("failed");
-  const saveSlip = req.nextUrl.searchParams.get("saveSlip");
 
-  const { transactionId, slipId, reference, status, slipBlob } = z
+  const { transactionId, slipId, reference, status } = z
     .object({
       transactionId: z.string().optional(),
       slipId: z.string().optional(),
       reference: z.string().optional(),
-      slipBlob: z.any().optional(),
       status: z.enum(["PENDING", "SUCCESS", "FAILED"]).optional(),
     })
     .parse(body);
@@ -246,12 +244,11 @@ export async function PATCH(req: NextRequest) {
   try {
     let updateObj = {};
 
-    if (!failed && !saveSlip) {
-      updateObj = { status, reference };
-    } else if (!failed && saveSlip) {
-      updateObj = { slipBlob };
-    } else {
+    if (status) {
       updateObj = { status };
+    }
+    if (reference) {
+      updateObj = { reference };
     }
 
     const session = await getAuthSession();
@@ -305,11 +302,13 @@ export async function PATCH(req: NextRequest) {
       status: 200,
     });
   } catch (error) {
+    console.log(error, "error");
+
     if (error instanceof z.ZodError) {
       return new Response("invalid Request Data", { status: 422 });
     }
 
-    return new Response("Could not post to transaction, Please try again", {
+    return new Response("Could not Update to transaction, Please try again", {
       status: 500,
     });
   }

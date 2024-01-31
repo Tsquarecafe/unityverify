@@ -49,7 +49,7 @@ const SlipType: FC<SlipTypeProps> = (props) => {
             width={200}
             src={`/assets/services/${image}`}
             alt={title}
-            className="h-[120px] w-full object-contain"
+            className="h-[120px] w-[300px] object-contain"
           />
         </div>
       </div>

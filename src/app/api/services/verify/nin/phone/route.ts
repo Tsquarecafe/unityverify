@@ -37,9 +37,13 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     } else {
-      return new Response("Something Went Wrong, Please try again latter", {
-        status: 500,
-      });
+    
+      return new Response(
+        res.data?.message || "Something Went Wrong, Please try again latter",
+        {
+          status: 500,
+        }
+      );
     }
   } catch (error) {
     console.log(error, "Error");
