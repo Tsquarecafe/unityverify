@@ -1,8 +1,9 @@
 import { selectSlipType } from "@/lib/redux/slices/service/serviceSlice";
 import { RootState } from "@/lib/redux/store";
-import { formatToNaira } from "@/lib/utils";
+import { UserRole, formatToNaira } from "@/lib/utils";
 import { slipDataType } from "@/types/service";
 import { CheckCheck } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FC, SetStateAction, Dispatch } from "react";
@@ -16,6 +17,8 @@ const SlipType: FC<SlipTypeProps> = (props) => {
   const { selectedSlipType } = useSelector((store: RootState) => store.service);
   const dispatch = useDispatch();
 
+  const { data: session } = useSession();
+
   const router = useRouter();
 
   return (
@@ -24,7 +27,9 @@ const SlipType: FC<SlipTypeProps> = (props) => {
         dispatch(selectSlipType({ title, id, image, price }));
         setShowEdit && setShowEdit(true);
 
-        router.push("/dashboard/nin#proceed-btn");
+        session?.user.type === UserRole.AGENT
+          ? router.push("/dashboard/nin#proceed-btn")
+          : null;
       }}
       className={`relative group bg-slate-100 p-3 rounded-lg h-[187px] cursor-pointer border-[2px] transition-all  ${
         selectedSlipType.title === title ? "border-emerald-500 shadow-lg" : ""
