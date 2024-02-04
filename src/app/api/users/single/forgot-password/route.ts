@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password/${resetToken}`;
+    const resetUrl = `${process.env.VERCEL_URL}/reset-password/${resetToken}`;
 
     const { name } = existingUser;
     const transporter = nodemailer.createTransport({
