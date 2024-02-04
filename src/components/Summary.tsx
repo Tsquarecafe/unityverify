@@ -1,12 +1,21 @@
 import { RootState } from "@/lib/redux/store";
-import { FC } from "react";
+import { formatToNaira } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface SummaryProps {}
+
 const Summary: FC<SummaryProps> = ({}) => {
-  const { selectedSubService, selectedSlipType } = useSelector(
+  const { selectedSubService, response, selectedSlipType } = useSelector(
     (store: RootState) => store.service
   );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!response) router.replace("/dashboard/nin/");
+  }, []);
+
   return (
     <div className="bg-white rounded-lg p-4">
       <div className="space-y-6 ">
@@ -16,7 +25,7 @@ const Summary: FC<SummaryProps> = ({}) => {
           <div className="grid grid-cols-2 justify-between items-center">
             <span className="font-thin text-slate-500">Verification Cost</span>
             <span className="font-semibold ">
-              #{selectedSubService?.price || 0}
+              {formatToNaira.format(selectedSubService?.price || 0)}
             </span>
           </div>
           <div className="grid grid-cols-2 justify-between items-center">
@@ -31,7 +40,7 @@ const Summary: FC<SummaryProps> = ({}) => {
               {selectedSlipType.price === 0 &&
               selectedSlipType.title === "Basic NIN Slip"
                 ? "FREE"
-                : `#${selectedSlipType.price}`}
+                : `${formatToNaira.format(selectedSlipType.price)}`}
             </span>
           </div>
 

@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import TransactionRecord from "./TransactionRecord";
-import { Button } from "./ui/Button";
+import { Button, buttonVariants } from "./ui/Button";
 import { Download } from "lucide-react";
 import { AppDispatch, RootState } from "@/lib/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,8 @@ import { TailSpin } from "react-loader-spinner";
 import { toast } from "@/hooks/use-toast";
 import { getAllSlips } from "@/lib/redux/slices/service/serviceThunk";
 import { useSession } from "next-auth/react";
-import { UserRole } from "@/lib/utils";
+import { UserRole, cn } from "@/lib/utils";
+import { generateCSVFile } from "@/lib/createCSV";
 
 const statusList = ["ALL", "PENDING", "SUCCESS", "FAILED"];
 
@@ -143,10 +144,19 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
             </Select>
           </div>
 
-          <Button className=" text-xs w-full lg:w-fit" variant="outline">
-            <Download className="mr-2 h-4 w-4" />
-            Export to CSV
-          </Button>
+          {transactions ? (
+            <a
+              download="UnityVerify_Transaction_List"
+              href={generateCSVFile(transactions)}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "text-xs w-full lg:w-fit"
+              )}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export to CSV
+            </a>
+          ) : null}
         </div>
 
         <div className="relative overflow-x-auto">

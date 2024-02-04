@@ -20,7 +20,7 @@ interface ServiceSliceState {
   selectedSlipType: slipDataType;
   allSlips: SlipType[] | null;
   isLoading: boolean;
-  response: verificationResponseType;
+  response: verificationResponseType | null;
 }
 
 const initialState: ServiceSliceState = {
@@ -40,58 +40,7 @@ const initialState: ServiceSliceState = {
   },
   allSlips: null,
   isLoading: false,
-  response: {
-    status: false,
-    reference: "",
-    data: {
-      firstname: "",
-      surname: "",
-      middlename: "",
-      birthdate: "",
-      userid: "",
-      gender: "",
-      telephoneno: "",
-      vnin: "",
-      self_origin_lga: "",
-      heigth: "",
-      birthstate: "",
-      signature: "",
-      religion: "",
-      educationallevel: "",
-      maritalstatus: "",
-      self_origin_state: "",
-      spoken_language: "",
-      trackingId: "",
-      self_origin_place: "",
-      residence_town: "",
-      nok_town: "",
-      residence_state: "",
-      residence_address: "",
-      birthcountry: "",
-      psurname: "",
-      pfirstname: "",
-      nok_lga: "",
-      nok_address2: "",
-      nok_state: "",
-      nok_surname: "",
-      nok_firstname: "",
-      ospokenlang: "",
-      residencestatus: "",
-      pmiddlename: "",
-      email: "",
-      nok_postalcode: "",
-      nin: "",
-      employmentstatus: "",
-      birthlga: "",
-      residence_lga: "",
-      title: "",
-      profession: "",
-      centralID: "",
-      nok_address1: "",
-      photo: "",
-      nok_middlename: "",
-    },
-  },
+  response: null,
 };
 
 const serviceSlice = createSlice({

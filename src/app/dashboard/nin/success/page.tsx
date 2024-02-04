@@ -6,7 +6,6 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 import { RootState } from "@/lib/redux/store";
 import { cn } from "@/lib/utils";
 import { Check, ChevronLeft, Download } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -21,7 +20,8 @@ const Slip: FC<SlipProps> = ({}) => {
   const router = useRouter();
   useEffect(() => {
     const getSlipBlob = async () => {
-      setSlipBlob(await SelectSlip({ slipTitle: title, response }));
+      if (response)
+        setSlipBlob(await SelectSlip({ slipTitle: title, response }));
     };
 
     getSlipBlob();
@@ -46,7 +46,7 @@ const Slip: FC<SlipProps> = ({}) => {
             Transaction Completed Successfully
           </h2>
           <p className="text-slate-400 text-sm leading-6">
-            Thank you for choosing to verify with us at <b>TSquareCafe</b>. Your
+            Thank you for choosing to verify with us at <b>UnityVerify</b>. Your
             <b> slips</b> or verification result are ready and can be accessed
             through the links below. Do not hesitate to reach out to us should
             you encounter any challenge. Have a great moment!
@@ -54,18 +54,20 @@ const Slip: FC<SlipProps> = ({}) => {
 
           {slipBlob && (
             <div className="flex gap-6 items-center">
-              <a
-                download={`nin_basic_slip for_${response.data.firstname}_${response.data.surname}_from_Tsquarecafe  `}
-                href={
-                  slipBlob && slipBlob.size > 0
-                    ? URL.createObjectURL(slipBlob)
-                    : "/"
-                }
-                className={`${buttonVariants()} text-xs flex items-center `}
-              >
-                <Download />
-                Download Slip
-              </a>
+              {response ? (
+                <a
+                  download={`nin_basic_slip for_${response.data.firstname}_${response.data.surname}_from_Tsquarecafe  `}
+                  href={
+                    slipBlob && slipBlob.size > 0
+                      ? URL.createObjectURL(slipBlob)
+                      : "/"
+                  }
+                  className={`${buttonVariants()} text-xs flex items-center `}
+                >
+                  <Download />
+                  Download Slip
+                </a>
+              ) : null}
 
               <Button
                 onClick={openSlipInWindow}

@@ -2,7 +2,7 @@
 
 import AdminPaymentRecord from "@/components/AdminPaymentRecord";
 import PaymentRecord from "@/components/PaymentRecord";
-import { Button } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
   Select,
@@ -12,8 +12,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { generateCSVFile } from "@/lib/createCSV";
 import { getAllUsersPayments } from "@/lib/redux/slices/payment/paymentThunk";
 import { AppDispatch, RootState } from "@/lib/redux/store";
+import { cn } from "@/lib/utils";
 import { Download, Search, X } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
@@ -140,10 +142,19 @@ const TopUp: FC<TopUpProps> = ({}) => {
             </Button>
           </div>
 
-          <Button className="text-xs w-full lg:w-fit" variant="outline">
-            <Download className="mr-2 h-4 w-4" />
-            Export to CSV
-          </Button>
+          {allPayments ? (
+            <a
+              download="UnityVerify_Payment_List"
+              href={generateCSVFile(allPayments)}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "text-xs w-full lg:w-fit"
+              )}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export to CSV
+            </a>
+          ) : null}
         </div>
 
         <div className="flex flex-col gap-4 lg:flex-row justify-between items-center mb-4">

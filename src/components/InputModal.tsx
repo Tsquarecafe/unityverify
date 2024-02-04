@@ -32,10 +32,9 @@ interface demographyInput {
 const InputModal: FC = ({}) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const {
-    selectedSubService,
-    selectedSlipType: { title: slipType, price },
-  } = useSelector((store: RootState) => store.service);
+  const { selectedSubService } = useSelector(
+    (store: RootState) => store.service
+  );
 
   const { modalTitle } = useSelector((store: RootState) => store.modal);
   const modalRef = useRef(null);
@@ -65,8 +64,6 @@ const InputModal: FC = ({}) => {
       } else {
         const res = await axios.post("/api/transactions", {
           type: selectedSubService ? selectedSubService.title : "",
-          slipType,
-          price,
         });
 
         if (res?.status == 201 && res?.data) {
@@ -76,7 +73,6 @@ const InputModal: FC = ({}) => {
               verifyByNIN({
                 nin: input,
                 transactionId: res.data.id,
-                slipId: res.data.slipId,
               })
             );
           } else if (selectedSubService?.title === phoneSearchServiceTitle) {
@@ -84,7 +80,6 @@ const InputModal: FC = ({}) => {
               verifyByPhone({
                 phone: input,
                 transactionId: res.data.id,
-                slipId: res.data.slipId,
               })
             );
           } else if (selectedSubService?.title === demoSearchServiceTitle) {
@@ -95,7 +90,6 @@ const InputModal: FC = ({}) => {
                 dob: demography.dob,
                 gender: demography.gender,
                 transactionId: res.data.id,
-                slipId: res.data.slipId,
               })
             );
           } else {
@@ -103,12 +97,9 @@ const InputModal: FC = ({}) => {
               verifyByVNIN({
                 vnin: input,
                 transactionId: res.data.id,
-                slipId: res.data.slipId,
               })
             );
           }
-
-          console.log(verificationResult, "verificationResult")
 
           if (verificationResult?.meta.requestStatus === "rejected") {
             return toast({
@@ -117,7 +108,7 @@ const InputModal: FC = ({}) => {
               variant: "destructive",
             });
           }
-          router.push("/dashboard/nin/slip");
+          router.push(`/dashboard/nin/select-slip/${res.data.id}`);
         } else {
           return toast({
             title: "Verification Failed",

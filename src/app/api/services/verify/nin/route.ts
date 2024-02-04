@@ -64,7 +64,6 @@ export async function POST(req: Request) {
       });
     }
   } catch (error) {
-    console.log(error, "Error");
     return new Response("Could not verify, please try again", {
       status: 500,
     });

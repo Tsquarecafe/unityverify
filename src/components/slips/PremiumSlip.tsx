@@ -28,7 +28,6 @@ const PremiumSlip = async (res: verificationResponseType) => {
 
   const { data } = res;
 
-  console.log(data, "data");
 
   const { surname, firstname, middlename, birthdate, nin, photo, gender } =
     data;

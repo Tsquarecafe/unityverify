@@ -76,7 +76,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ signupPage }) => {
         }
         if (error.response?.status === 400) {
           return toast({
-            title: "Error Signing Up",
+            title: "Bad Request",
             description: error.response?.data,
             variant: "destructive",
           });

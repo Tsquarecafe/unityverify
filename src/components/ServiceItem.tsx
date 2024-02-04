@@ -1,4 +1,3 @@
-import { setModalTitle } from "@/lib/redux/slices/modalSlice";
 import { selectSubService } from "@/lib/redux/slices/service/serviceSlice";
 import { RootState } from "@/lib/redux/store";
 import { subServiceDataType } from "@/types/service";
@@ -24,10 +23,9 @@ const ServiceItem: FC<subServiceDataType> = (props) => {
   return (
     <div
       onClick={() => {
-        dispatch(setModalTitle(`Verify by ${title} `));
         dispatch(selectSubService(props));
 
-        router.push("/dashboard/nin#slip-types");
+        router.push("/dashboard/nin#proceed-btn");
       }}
       className={`relative cursor-pointer group bg-white block p-4 rounded-lg h-[220px] border-2 ${
         selectedSubService?.slug === slug ? "border-emerald-500 shadow-lg" : ""

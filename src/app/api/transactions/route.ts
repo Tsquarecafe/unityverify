@@ -167,24 +167,13 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const { type, slipType, status } = transactionValidator.parse(body);
+  const { type, status } = transactionValidator.parse(body);
   try {
     const session = await getAuthSession();
+
     if (!session || !session?.user) {
       return new Response("You Must be Logged in to access this", {
         status: 401,
-      });
-    }
-
-    const slip = await db.slipType.findFirst({
-      where: {
-        title: slipType,
-      },
-    });
-
-    if (!slip) {
-      return new Response("Invalid slip type selected, Please try again", {
-        status: 400,
       });
     }
 
@@ -194,7 +183,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (user && user.accountBalance < slip.price + 170) {
+    if (user && user.accountBalance < 170) {
       return new Response("Insufficient Balance, Please Credit your account ", {
         status: 401,
       });
@@ -203,19 +192,15 @@ export async function POST(req: NextRequest) {
     const newTransaction = await db.transaction.create({
       data: {
         type,
-        slipId: slip?.id,
         status,
-        price: slip?.price,
+        price: 150,
         userId: session.user.id,
       },
     });
 
-    return new Response(
-      JSON.stringify({ id: newTransaction.id, slipId: newTransaction.slipId }),
-      {
-        status: 201,
-      }
-    );
+    return new Response(JSON.stringify({ id: newTransaction.id }), {
+      status: 201,
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response("invalid Request Data", { status: 422 });
@@ -230,12 +215,9 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const body = await req.json();
 
-  const failed = req.nextUrl.searchParams.get("failed");
-
-  const { transactionId, slipId, reference, status } = z
+  const { transactionId, reference, status } = z
     .object({
       transactionId: z.string().optional(),
-      slipId: z.string().optional(),
       reference: z.string().optional(),
       status: z.enum(["PENDING", "SUCCESS", "FAILED"]).optional(),
     })
@@ -245,10 +227,10 @@ export async function PATCH(req: NextRequest) {
     let updateObj = {};
 
     if (status) {
-      updateObj = { status };
+      updateObj = { status, ...updateObj };
     }
     if (reference) {
-      updateObj = { reference };
+      updateObj = { reference, ...updateObj };
     }
 
     const session = await getAuthSession();
@@ -258,24 +240,13 @@ export async function PATCH(req: NextRequest) {
         status: 401,
       });
     }
+
     await db.transaction.update({
       where: {
         id: transactionId,
       },
       data: updateObj,
     });
-
-    const slip = await db.slipType.findFirst({
-      where: {
-        id: slipId,
-      },
-    });
-
-    if (!slip) {
-      return new Response("Invalid Request, Please try again", {
-        status: 400,
-      });
-    }
 
     const user = await db.user.findFirst({
       where: {
@@ -293,7 +264,7 @@ export async function PATCH(req: NextRequest) {
         id: session.user.id,
       },
       data: {
-        accountBalance: user.accountBalance - (slip.price + 170),
+        accountBalance: user.accountBalance - 170,
         agentBonus: user.agentBonus + 20,
       },
     });
@@ -302,7 +273,6 @@ export async function PATCH(req: NextRequest) {
       status: 200,
     });
   } catch (error) {
-    console.log(error, "error");
 
     if (error instanceof z.ZodError) {
       return new Response("invalid Request Data", { status: 422 });

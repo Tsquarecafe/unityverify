@@ -40,7 +40,6 @@ export const getAllUsersPayments = createAppAsyncThunk(
 
     try {
       const res = await axios.get(baseUrl);
-      console.log(res.data, "getAllUsersPayments");
 
       return { ...res.data, currentPage: page };
     } catch (error) {

@@ -1,13 +1,13 @@
 "use client";
 
 import UserRecord from "@/components/UserRecord";
-import { Button } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { toast } from "@/hooks/use-toast";
-
+import { generateCSVFile } from "@/lib/createCSV";
 import { getAllUsers } from "@/lib/redux/slices/user/userThunk";
 import { AppDispatch, RootState } from "@/lib/redux/store";
-import { debounce } from "@/lib/utils";
+import { cn, debounce } from "@/lib/utils";
 import { Download, Search } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
@@ -103,10 +103,19 @@ const Users: FC<pageProps> = ({}) => {
               </Button>
             </div>
 
-            <Button className="text-xs" variant="outline">
-              <Download className="mr-2 h-4 w-4" />
-              Export to CSV
-            </Button>
+            {allUsers ? (
+              <a
+                download="UnityVerify_User_List"
+                href={generateCSVFile(allUsers)}
+                className={cn(
+                  buttonVariants({ variant: "outline" }),
+                  "text-sm"
+                )}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Export to CSV
+              </a>
+            ) : null}
           </div>
 
           <div className="relative overflow-x-auto">

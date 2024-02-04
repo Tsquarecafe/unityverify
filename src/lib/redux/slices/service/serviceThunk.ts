@@ -3,26 +3,23 @@ import axios, { AxiosError } from "axios";
 
 interface IupdateTransaction {
   transactionId: string;
-  slipId: string;
   reference: string;
   status: "SUCCESS" | "PENDING" | "FAILED";
 }
 
 const updateTransaction = async ({
   transactionId,
-  slipId,
   reference,
   status,
 }: IupdateTransaction) => {
   await axios.patch("/api/transactions", {
     transactionId,
-    slipId,
     reference,
     status,
   });
 };
 
-const updateFailedTransaction = async (transactionId: string) => {
+export const updateFailedTransaction = async (transactionId: string) => {
   try {
     return await axios.patch("/api/transactions?failed=true", {
       status: "FAILED",
@@ -39,11 +36,9 @@ export const verifyByNIN = createAppAsyncThunk(
     {
       nin,
       transactionId,
-      slipId,
     }: {
       nin: string;
       transactionId: string;
-      slipId: string;
     },
     thunkAPI
   ) => {
@@ -53,7 +48,6 @@ export const verifyByNIN = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          slipId,
           reference: res.data.reference,
           status: "SUCCESS",
         });
@@ -72,11 +66,9 @@ export const verifyByVNIN = createAppAsyncThunk(
     {
       vnin,
       transactionId,
-      slipId,
     }: {
       vnin: string;
       transactionId: string;
-      slipId: string;
     },
     thunkAPI
   ) => {
@@ -86,7 +78,6 @@ export const verifyByVNIN = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          slipId,
           reference: res.data.reference,
           status: "SUCCESS",
         });
@@ -112,14 +103,12 @@ export const verifyByDemography = createAppAsyncThunk(
       dob,
       gender,
       transactionId,
-      slipId,
     }: {
       firstname: string;
       lastname: string;
       dob: string;
       gender: string;
       transactionId: string;
-      slipId: string;
     },
     thunkAPI
   ) => {
@@ -134,7 +123,6 @@ export const verifyByDemography = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          slipId,
           reference: res.data.reference,
           status: "SUCCESS",
         });
@@ -153,11 +141,9 @@ export const verifyByPhone = createAppAsyncThunk(
     {
       phone,
       transactionId,
-      slipId,
     }: {
       phone: string;
       transactionId: string;
-      slipId: string;
     },
     thunkAPI
   ) => {
@@ -167,7 +153,6 @@ export const verifyByPhone = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          slipId,
           reference: res.data.reference,
           status: "SUCCESS",
         });
@@ -175,10 +160,7 @@ export const verifyByPhone = createAppAsyncThunk(
 
       return res.data;
     } catch (error) {
-      console.log(error && error instanceof AxiosError);
-
       const res = await updateFailedTransaction(transactionId);
-      console.log(res, "Error transaction");
       if (error && error instanceof AxiosError) {
         return thunkAPI.rejectWithValue(error.response?.data);
       }

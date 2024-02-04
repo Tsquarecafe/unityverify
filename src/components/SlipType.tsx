@@ -11,9 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 interface SlipTypeProps extends slipDataType {
   setShowEdit?: Dispatch<SetStateAction<boolean>>;
+  transactionId?: string;
 }
 const SlipType: FC<SlipTypeProps> = (props) => {
-  const { title, id, image, price, setShowEdit } = props;
+  const { title, id, image, price, setShowEdit, transactionId } = props;
   const { selectedSlipType } = useSelector((store: RootState) => store.service);
   const dispatch = useDispatch();
 
@@ -27,8 +28,10 @@ const SlipType: FC<SlipTypeProps> = (props) => {
         dispatch(selectSlipType({ title, id, image, price }));
         setShowEdit && setShowEdit(true);
 
-        session?.user.type === UserRole.AGENT
-          ? router.push("/dashboard/nin#proceed-btn")
+        session?.user.type === UserRole.AGENT && transactionId
+          ? router.push(
+              `/dashboard/nin/select-slip/${transactionId}#proceed-btn`
+            )
           : null;
       }}
       className={`relative group bg-slate-100 p-3 rounded-lg h-[187px] cursor-pointer border-[2px] transition-all  ${
