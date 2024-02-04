@@ -31,15 +31,15 @@ const BasicSlip = async (res: verificationResponseType) => {
 
   const inputs = [
     {
-      lastname: surname.toUpperCase(),
-      firstname: firstname.toUpperCase(),
-      middlename: middlename.toUpperCase(),
-      gender: gender.toUpperCase(),
-      residence_address: residence_address.toUpperCase(),
-      residence_town: residence_town.toUpperCase(),
+      lastname: surname?.toUpperCase(),
+      firstname: firstname?.toUpperCase(),
+      middlename: middlename?.toUpperCase(),
+      gender: gender?.toUpperCase(),
+      residence_address: residence_address?.toUpperCase(),
+      residence_town: residence_town?.toUpperCase(),
       residence_state,
       tracking_id: trackingId,
-      nin: `${nin?.slice(0, 4)} ${nin.slice(3, 6)} ${nin.slice(5, -1)}`,
+      nin: `${nin?.slice(0, 4)} ${nin?.slice(3, 6)} ${nin?.slice(5, -1)}`,
       dob: birthdate,
       birth_state: birthstate,
       birth_lga: birthlga,

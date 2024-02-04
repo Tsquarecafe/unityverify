@@ -59,11 +59,11 @@ const ImprovedSlip = async (res: verificationResponseType) => {
 
       const inputs = [
         {
-          surname: surname.toUpperCase(),
+          surname: surname?.toUpperCase(),
           givenNames: `${firstname}, ${middlename}`.toUpperCase(),
           dob: format(new Date(birthdate), "dd MMM yyyy"),
           photo: `data:image/jpeg;base64,${photo}`,
-          nin: `${nin?.slice(0, 4)}  ${nin.slice(3, 6)}  ${nin.slice(5, -1)}`,
+          nin: `${nin?.slice(0, 4)}  ${nin?.slice(3, 6)}  ${nin?.slice(5, -1)}`,
           ninBackdrop1: nin,
           ninBackdrop2: nin,
           ninBackdrop3: nin,
