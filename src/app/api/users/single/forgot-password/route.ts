@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+    const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password/${resetToken}`;
 
     const { name } = existingUser;
     const transporter = nodemailer.createTransport({
