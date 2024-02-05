@@ -28,7 +28,14 @@ export async function GET(req: NextRequest) {
     });
 
     const totalIncome = allTransactions.reduce((total, transaction) => {
-      return total + (transaction.price + (transaction.slipType?.price || 0));
+      return (
+        total +
+        (transaction.price +
+          (transaction.slipType?.reduce(
+            (total, slip) => slip.price + total,
+            0
+          ) || 0))
+      );
     }, 0);
 
     let monthlySummary = {};
