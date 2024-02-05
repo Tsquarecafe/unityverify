@@ -9,7 +9,7 @@ import { UserRole, formatToNaira } from "@/lib/utils";
 interface TransactionRecordProps extends Transaction {
   createdBy: User;
   index: number;
-  slipType: SlipType;
+  slipType: SlipType[];
 }
 
 const TransactionRecord: FC<TransactionRecordProps> = ({
@@ -53,7 +53,11 @@ const TransactionRecord: FC<TransactionRecordProps> = ({
       <h5 className="">{type}</h5>
       <span>{(reference || id).slice(0, 7)}...</span>
       <span>{formatToNaira.format(price)}</span>
-      <div>{slipType?.title}</div>
+      <div>
+        {slipType?.map((slip) => (
+          <span key={slip.id}>{slip.title}</span>
+        ))}
+      </div>
       <div className="flex gap-2 items-center text-xs">
         <CalendarDays className="h-4 w-4" />
         {format(parsedDate, "do LLL")}, {format(parsedDate, "HH : mm : ss")}

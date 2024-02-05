@@ -2,13 +2,43 @@
 
 import { FC } from "react";
 import PaymentRecord from "./PaymentRecord";
-import { RootState } from "@/lib/redux/store";
-import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
+import Pagination from "./Pagination";
+import { getPayments } from "@/lib/redux/slices/payment/paymentThunk";
 
 interface AllPaymentsProps {}
 const AllPayments: FC<AllPaymentsProps> = ({}) => {
-  const { yourPayments } = useSelector((store: RootState) => store.payments);
+  const { yourPayments, currentPage, numberOfPages, limit } = useSelector(
+    (store: RootState) => store.payments
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handlePrevPage = async () => {
+    dispatch(
+      getPayments({
+        limit,
+        page: currentPage > 1 ? currentPage - 1 : numberOfPages,
+      })
+    );
+  };
+  const handleSelectPage = async (value: number) => {
+    dispatch(
+      getPayments({
+        limit,
+        page: value,
+      })
+    );
+  };
+  const handleNextPage = async () => {
+    dispatch(
+      getPayments({
+        limit,
+        page: currentPage < numberOfPages ? currentPage + 1 : 1,
+      })
+    );
+  };
 
   return (
     <div className="bg-white mt-4 rounded-lg p-4">
@@ -67,6 +97,14 @@ const AllPayments: FC<AllPaymentsProps> = ({}) => {
                 )}
               </td>
             </tr>
+
+            <Pagination
+              currentPage={currentPage}
+              numberOfPages={numberOfPages}
+              handlePrevPage={handlePrevPage}
+              handleSelectPage={handleSelectPage}
+              handleNextPage={handleNextPage}
+            />
           </tbody>
         </table>
       </div>

@@ -8,6 +8,9 @@ import { UserRole, createUniqueId } from "@/lib/utils";
 export async function GET(req: NextRequest) {
   let paymentSummary = {};
   try {
+    const limit = parseInt(req.nextUrl.searchParams.get("limit") || "0");
+    const page = parseInt(req.nextUrl.searchParams.get("page") || "0");
+
     const session = await getAuthSession();
 
     if (!session || !session?.user) {
@@ -41,6 +44,14 @@ export async function GET(req: NextRequest) {
       }
     });
 
+    let queryObj = {};
+
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+
+      queryObj = { ...queryObj, take: limit, skip };
+    }
+
     const yourPayments = await db.payment.findMany({
       where: {
         userId: session?.user.id,
@@ -51,6 +62,7 @@ export async function GET(req: NextRequest) {
       orderBy: {
         createdAt: "desc",
       },
+      ...queryObj,
     });
 
     yourPayments.forEach((payment) => {
@@ -59,12 +71,20 @@ export async function GET(req: NextRequest) {
       }
     });
 
+    const totalNumberOfPayments = await db.payment.count({
+      where: {
+        userId: session?.user.id,
+      }
+    });
+    const numberOfPages = Math.ceil(totalNumberOfPayments / limit);
+
     paymentSummary = {
       yourPayments,
       creditedPayments,
       initiatedPayments,
       failedPayments,
       totalAmount,
+      numberOfPages
     };
 
     return new Response(JSON.stringify(paymentSummary), { status: 200 });

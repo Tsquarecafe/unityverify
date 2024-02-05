@@ -71,8 +71,8 @@ enum TransactionStatus {
 model Transaction {
   id        String            @id @default(auto()) @map("_id") @db.ObjectId
   type      String
-  slipType  SlipType?         @relation(fields: [slipId], references: [id], onDelete: Cascade)
-  slipId    String?           @db.ObjectId
+  slipType  SlipType[]        @relation(fields: [slipIds], references: [id])
+  slipIds    String[]          @db.ObjectId
   status    TransactionStatus @default(PENDING)
   price     Float
   slipBlob  Bytes?
@@ -83,11 +83,12 @@ model Transaction {
 }
 
 model SlipType {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  title        String
-  price        Float
-  image        String
-  transactions Transaction[]
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  price         Float
+  image         String
+  transactionId String[]        @db.ObjectId
+  transactions  Transaction[] @relation(fields: [transactionId], references: [id])
 }
 
 enum PaymentStatus {

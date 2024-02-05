@@ -20,6 +20,7 @@ import { getAllSlips } from "@/lib/redux/slices/service/serviceThunk";
 import { useSession } from "next-auth/react";
 import { UserRole, cn } from "@/lib/utils";
 import { generateCSVFile } from "@/lib/createCSV";
+import Pagination from "./Pagination";
 
 const statusList = ["ALL", "PENDING", "SUCCESS", "FAILED"];
 
@@ -144,7 +145,7 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
             </Select>
           </div>
 
-          {transactions ? (
+          {transactions && transactions.length > 0 ? (
             <a
               download="UnityVerify_Transaction_List"
               href={generateCSVFile(transactions)}
@@ -206,58 +207,13 @@ const AllTransactions: FC<AllTransactionsProps> = ({}) => {
                 </td>
               </tr>
 
-              <tr>
-                <td>
-                  {numberOfPages ? (
-                    <div className="flex  gap-6 items-center justify-center mx-auto mt-8 w-full ">
-                      <Button className="bg-slate-700" onClick={handlePrevPage}>
-                        Prev
-                      </Button>
-                      <div className="flex gap-4 flex-wrap">
-                        {[...Array(numberOfPages).keys()]
-                          .slice(0, 10)
-                          .map((_, index) => (
-                            <button
-                              className={`w-10 h-10 rounded-lg  ${
-                                currentPage === index + 1
-                                  ? "bg-emerald-800 text-white "
-                                  : "bg-gray-300"
-                              } hover:bg-emerald-500 hover:text-white`}
-                              onClick={() => handleSelectPage(index + 1)}
-                              key={index}
-                            >
-                              {index + 1}
-                            </button>
-                          ))}
-                        ...
-                        {[...Array(numberOfPages).keys()]
-                          .slice(-1)
-                          .map((_, index) => (
-                            <button
-                              className={`w-10 h-10 rounded-lg  ${
-                                currentPage ===
-                                [...Array(numberOfPages).keys()].length
-                                  ? "bg-emerald-800 text-white "
-                                  : "bg-gray-300"
-                              } hover:bg-emerald-500 hover:text-white`}
-                              onClick={() =>
-                                handleSelectPage(
-                                  [...Array(numberOfPages).keys()].length
-                                )
-                              }
-                              key={index}
-                            >
-                              {[...Array(numberOfPages).keys()].length}
-                            </button>
-                          ))}
-                      </div>
-                      <Button className="bg-slate-800" onClick={handleNextPage}>
-                        Next
-                      </Button>
-                    </div>
-                  ) : null}
-                </td>
-              </tr>
+              <Pagination
+                currentPage={currentPage}
+                numberOfPages={numberOfPages}
+                handlePrevPage={handlePrevPage}
+                handleSelectPage={handleSelectPage}
+                handleNextPage={handleNextPage}
+              />
             </tbody>
           </table>
         </div>

@@ -28,7 +28,6 @@ const PremiumSlip = async (res: verificationResponseType) => {
 
   const { data } = res;
 
-
   const { surname, firstname, middlename, birthdate, nin, photo, gender } =
     data;
 
@@ -64,11 +63,14 @@ const PremiumSlip = async (res: verificationResponseType) => {
       const qrcode = (await generateQR(`{ surname: ${surname},
             givenNames: ${firstname} ${middlename}, dob: ${birthdate}}`)) as string;
 
+      const [day, month, year] = birthdate?.split("-");
+      const formattedBirthdate = `${month}-${day}-${year}`;
+
       const inputs = [
         {
           surname: surname.toUpperCase(),
           givenNames: `${firstname}, ${middlename}`.toUpperCase(),
-          dob: format(new Date(birthdate), "dd MMM yyyy"),
+          dob: format(new Date(formattedBirthdate), "dd MMM yyyy"),
           gender,
           NGA: "NGA",
           photo: `data:image/jpeg;base64,${photo}`,

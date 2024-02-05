@@ -56,7 +56,7 @@ const PendingPayment: FC<PendingPaymentProps> = ({}) => {
               )
             ) : (
               <div className="w-full p-6">
-                <TailSpin />
+                <TailSpin width={35} height={35} />
               </div>
             )}
           </div>

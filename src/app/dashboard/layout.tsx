@@ -38,7 +38,7 @@ const Layout: FC<layoutProps> = ({ children }) => {
               page: currentPage,
             })
           );
-        if (!yourPayments) await dispatch(getPayments());
+        if (!yourPayments) await dispatch(getPayments({}));
         if (!announcements) await dispatch(getAnnouncement());
       } catch (error) {
         return toast({

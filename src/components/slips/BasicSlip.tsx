@@ -29,6 +29,7 @@ const BasicSlip = async (res: verificationResponseType) => {
     gender,
   } = data;
 
+
   const inputs = [
     {
       lastname: surname?.toUpperCase(),

@@ -10,7 +10,9 @@ interface IQueryObj {
   where?: {
     userId?: string;
     status?: TransactionStatus;
-    slipId?: string;
+    slipIds?: {
+      has: string;
+    };
   };
   include: {
     slipType: boolean;
@@ -115,14 +117,16 @@ export async function GET(req: NextRequest) {
           },
         });
 
-        if (!filterSlip)
+        if (!filterSlip || !filterSlip.id)
           return new Response("Invalid Slip, Please try again", {
             status: 400,
           });
 
         queryObj = {
           where: {
-            slipId: filterSlip.id,
+            slipIds: {
+              has: filterSlip.id,
+            },
           },
           ...queryObj,
         };
@@ -134,6 +138,7 @@ export async function GET(req: NextRequest) {
         queryObj = { ...queryObj, take: limit, skip };
       }
 
+      // @ts-ignore
       transactions = await db.transaction.findMany(queryObj);
     }
     let totalNumberOfTransactions = 0;
@@ -273,7 +278,6 @@ export async function PATCH(req: NextRequest) {
       status: 200,
     });
   } catch (error) {
-
     if (error instanceof z.ZodError) {
       return new Response("invalid Request Data", { status: 422 });
     }

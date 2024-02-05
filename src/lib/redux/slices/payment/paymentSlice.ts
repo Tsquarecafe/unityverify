@@ -65,6 +65,8 @@ const paymentSlice = createSlice({
         state.initiatedPayments = action.payload.initiatedPayments;
         state.failedPayments = action.payload.failedPayments;
         state.totalAmount = action.payload.totalAmount;
+        state.currentPage = action.payload.currentPage;
+        state.numberOfPages = action.payload.numberOfPages;
         state.isLoading = false;
       })
       .addCase(getPayments.rejected, (state, action) => {
@@ -77,9 +79,8 @@ const paymentSlice = createSlice({
       .addCase(getAllUsersPayments.fulfilled, (state, action) => {
         state.allPayments = action.payload.payments;
         state.numberOfPages = action.payload.numberOfPages;
-       if(action.payload.currentPage){
         state.currentPage = action.payload.currentPage;
-       }
+   
 
         state.isLoading = false;
       })

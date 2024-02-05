@@ -1,5 +1,5 @@
 import { imageBlob } from "@/lib/imageBlob";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 const baseURL = "https://api.prembly.com";
 const headers = {
@@ -9,23 +9,33 @@ const headers = {
 };
 
 const ninVerify = async (nin: string) => {
-  return await axios.post(
-    `${baseURL}/identitypass/verification/vnin`,
-    {
-      number_nin: nin,
-    },
-    { headers }
-  );
+  try {
+    return await axios.post(
+      `${baseURL}/identitypass/verification/vnin`,
+      {
+        number_nin: nin,
+      },
+      { headers }
+    );
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
 };
 
 const vninVerify = async (vnin: string) => {
-  return await axios.post(
-    `${baseURL}/identitypass/verification/vnin`,
-    {
-      number: vnin,
-    },
-    { headers }
-  );
+  try {
+    return await axios.post(
+      `${baseURL}/identitypass/verification/vnin`,
+      {
+        number: vnin,
+      },
+      { headers }
+    );
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
 };
 
 export async function POST(req: Request) {
@@ -34,8 +44,10 @@ export async function POST(req: Request) {
   try {
     let res: AxiosResponse;
     if (nin) {
+      // @ts-ignore
       res = await ninVerify(nin);
     } else {
+      // @ts-ignore
       res = await vninVerify(vnin);
     }
 
@@ -64,6 +76,7 @@ export async function POST(req: Request) {
       });
     }
   } catch (error) {
+    console.log(error);
     return new Response("Could not verify, please try again", {
       status: 500,
     });

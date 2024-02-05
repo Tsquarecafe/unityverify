@@ -57,11 +57,14 @@ const ImprovedSlip = async (res: verificationResponseType) => {
       const qrcode = (await generateQR(`{ surname: ${surname},
             givenNames: ${firstname} ${middlename}, dob: ${birthdate}}`)) as string;
 
+            const [day, month, year] = birthdate?.split("-");
+            const formattedBirthdate = `${month}-${day}-${year}`;
+
       const inputs = [
         {
           surname: surname?.toUpperCase(),
           givenNames: `${firstname}, ${middlename}`.toUpperCase(),
-          dob: format(new Date(birthdate), "dd MMM yyyy"),
+          dob: format(new Date(formattedBirthdate), "dd MMM yyyy"),
           photo: `data:image/jpeg;base64,${photo}`,
           nin: `${nin?.slice(0, 4)}  ${nin?.slice(3, 6)}  ${nin?.slice(5, -1)}`,
           ninBackdrop1: nin,

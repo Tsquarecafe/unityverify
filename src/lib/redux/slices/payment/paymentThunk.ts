@@ -4,11 +4,24 @@ import { PaymentStatus } from "@prisma/client";
 
 export const getPayments = createAppAsyncThunk(
   "payments/getAllPayments",
-  async (_, thunkAPI) => {
-    try {
-      const res = await axios.get("/api/payments");
+  async (
+    {
+      limit,
+      page,
+    }: {
+      limit?: number;
+      page?: number;
+    },
+    thunkAPI
+  ) => {
+    let baseUrl = `/api/payments?limit=${limit || 10}`;
 
-      return res.data;
+    if (page) baseUrl = `${baseUrl}&page=${page}`;
+
+    try {
+      const res = await axios.get(baseUrl);
+
+      return { ...res.data, currentPage: page || 1 };
     } catch (error) {
       return thunkAPI.rejectWithValue(
         "Could not retrieve user payment history"
@@ -41,7 +54,7 @@ export const getAllUsersPayments = createAppAsyncThunk(
     try {
       const res = await axios.get(baseUrl);
 
-      return { ...res.data, currentPage: page };
+      return { ...res.data, currentPage: page || 1 };
     } catch (error) {
       return thunkAPI.rejectWithValue(
         "Could not retrieve all users payment history"
@@ -70,9 +83,7 @@ export const updatePayment = createAppAsyncThunk(
 
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        "Could not update user payment history"
-      );
+      return thunkAPI.rejectWithValue("Could not update user payment history");
     }
   }
 );

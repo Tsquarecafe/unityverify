@@ -30,7 +30,12 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (slipId) {
-      updateObj = { slipId, ...updateObj };
+      updateObj = {
+        slipIds: {
+          push: slipId,
+        },
+        ...updateObj,
+      };
     }
 
     const slip = await db.slipType.findFirst({
