@@ -142,7 +142,7 @@ const TopUp: FC<TopUpProps> = ({}) => {
             </Button>
           </div>
 
-          {allPayments ? (
+          {allPayments && allPayments.length > 0 ? (
             <a
               download="UnityVerify_Payment_List"
               href={generateCSVFile(allPayments)}

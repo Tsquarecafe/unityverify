@@ -103,7 +103,7 @@ const Users: FC<pageProps> = ({}) => {
               </Button>
             </div>
 
-            {allUsers ? (
+            {allUsers && allUsers.length > 0 ? (
               <a
                 download="UnityVerify_User_List"
                 href={generateCSVFile(allUsers)}

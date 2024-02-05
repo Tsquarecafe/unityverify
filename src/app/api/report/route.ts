@@ -26,16 +26,10 @@ export async function GET(req: NextRequest) {
         slipType: true,
       },
     });
+    const allPayments = await db.payment.findMany();
 
-    const totalIncome = allTransactions.reduce((total, transaction) => {
-      return (
-        total +
-        (transaction.price +
-          (transaction.slipType?.reduce(
-            (total, slip) => slip.price + total,
-            0
-          ) || 0))
-      );
+    const totalIncome = allPayments.reduce((total, payment) => {
+      return total + payment.amount || 0;
     }, 0);
 
     let monthlySummary = {};

@@ -71,7 +71,6 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     } else {
-      console.log(res, "response")
       return new Response("Something Went Wrong, Please try again latter", {
         status: 500,
       });
