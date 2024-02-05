@@ -87,8 +87,8 @@ model SlipType {
   title         String
   price         Float
   image         String
-  transactionId String[]        @db.ObjectId
-  transactions  Transaction[] @relation(fields: [transactionId], references: [id])
+  transactionsId String[]        @db.ObjectId
+  transactions  Transaction[] @relation(fields: [transactionsId], references: [id])
 }
 
 enum PaymentStatus {

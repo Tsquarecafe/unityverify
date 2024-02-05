@@ -1,7 +1,7 @@
 import { selectSlipType } from "@/lib/redux/slices/service/serviceSlice";
 import { RootState } from "@/lib/redux/store";
 import { UserRole, formatToNaira } from "@/lib/utils";
-import { slipDataType } from "@/types/service";
+import { SlipType } from "@prisma/client";
 import { CheckCheck } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { FC, SetStateAction, Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-interface SlipTypeProps extends slipDataType {
+interface SlipTypeProps extends SlipType {
   setShowEdit?: Dispatch<SetStateAction<boolean>>;
   transactionId?: string;
 }
