@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 interface SlipTypeProps extends slipDataType {
   setShowEdit?: Dispatch<SetStateAction<boolean>>;
-  transactionId?: string[];
+  transactionId?: string;
 }
 const SlipType: FC<SlipTypeProps> = (props) => {
   const { title, id, image, price, setShowEdit, transactionId } = props;
