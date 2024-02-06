@@ -37,16 +37,18 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     } else {
-    
-      return new Response(
-        res.data?.message || "Something Went Wrong, Please try again latter",
-        {
+      if (res?.data?.message) {
+        return new Response(res.data.message, {
           status: 500,
-        }
-      );
+        });
+      } else {
+        return new Response("Something Went Wrong, Please try again latter", {
+          status: 500,
+        });
+      }
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return new Response("Could not verify, please try again", {
       status: 500,
     });

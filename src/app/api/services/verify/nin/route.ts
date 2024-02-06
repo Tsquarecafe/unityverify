@@ -18,7 +18,7 @@ const ninVerify = async (nin: string) => {
       { headers }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return error;
   }
 };
@@ -33,7 +33,7 @@ const vninVerify = async (vnin: string) => {
       { headers }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return error;
   }
 };
@@ -71,9 +71,15 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     } else {
-      return new Response("Something Went Wrong, Please try again latter", {
-        status: 500,
-      });
+      if (res?.data?.message) {
+        return new Response(res.data.message, {
+          status: 500,
+        });
+      } else {
+        return new Response("Something Went Wrong, Please try again latter", {
+          status: 500,
+        });
+      }
     }
   } catch (error) {
     console.log(error);

@@ -29,7 +29,11 @@ export async function GET(req: NextRequest) {
     const allPayments = await db.payment.findMany();
 
     const totalIncome = allPayments.reduce((total, payment) => {
-      return total + payment.amount || 0;
+      if (payment.status === "CREDITED") {
+        return total + payment.amount ?? total;
+      } else {
+        return total;
+      }
     }, 0);
 
     let monthlySummary = {};
