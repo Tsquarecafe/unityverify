@@ -29,7 +29,7 @@ const RegularSlip = async (res: verificationResponseType) => {
       surname: surname?.toUpperCase(),
       firstname: firstname?.toUpperCase(),
       middlename: middlename?.toUpperCase(),
-      gender: gender?.toUpperCase(),
+      gender: `${gender}`.toUpperCase(),
       residenceAddress: residence_address,
       residenceTown: residence_town,
       residenceState: residence_state,
