@@ -50,12 +50,12 @@ const TransactionRecord: FC<TransactionRecordProps> = ({
           <h4 className="text-xs">{createdBy.name?.toUpperCase()}</h4>
         </div>
       ) : null}
-      <h5 className="">{type}</h5>
+      <h5 className="text-xs">{type}</h5>
       <span>{(reference || id).slice(0, 7)}...</span>
       <span>{formatToNaira.format(price)}</span>
       <div>
         {slipType?.map((slip) => (
-          <span key={slip.id}>{slip.title}</span>
+          <span className="block text-xs" key={slip.id}>{slip.title}</span>
         ))}
       </div>
       <div className="flex gap-2 items-center text-xs">

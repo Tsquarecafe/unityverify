@@ -64,7 +64,6 @@ const SlipPage: FC<SlipPageProps> = ({}) => {
       });
       if (res.status === 200) {
         router.push("/dashboard/nin/success");
-        setIsLoading(false);
       } else {
         setIsLoading(false);
         return toast({
@@ -81,6 +80,8 @@ const SlipPage: FC<SlipPageProps> = ({}) => {
         description: "Unable to Perfrom slip Update",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
