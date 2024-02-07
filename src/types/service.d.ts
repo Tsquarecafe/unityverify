@@ -72,3 +72,45 @@ export type verificationResponseType = {
     nok_middlename: string;
   };
 };
+
+export type verificationResponseTypeQV = {
+  birthcountry: 'nigeria',
+    birthdate: '21-10-1985',
+    birthlga: 'Efon',
+    birthstate: 'Ekiti',
+    centralID: '53743336',
+    educationallevel: 'tertiary',
+    emplymentstatus: 'self employed',
+    firstname: 'TAYE',
+    gender: 'm',
+    heigth: '178',
+    maritalstatus: 'single',
+    middlename: 'AKIN',
+    nin: '33700057640',
+    nok_address1: '7 AMUSA AROWOLO STREET',
+    nok_firstname: 'FUNMILAYO',
+    nok_lga: 'Ikorodu',
+    nok_state: 'Lagos',
+    nok_surname: 'IDOWU',
+    nok_town: 'IKORODU',
+    nspokenlang: 'YORUBA',
+    photo: "",
+    religion: 'christianity',
+    residence_AdressLine1: '6 FLAT HOUSE GBENGA ARIA IWO ROAD',
+    residence_Town: 'IBADAN',
+    residence_lga: 'Lagelu',
+    residence_state: 'Oyo',
+    residencestatus: 'birth',
+    self_origin_lga: 'Efon',
+    self_origin_place: 'EFON ALAYE',
+    self_origin_state: 'Ekiti',
+    signature: "",
+    surname: 'IDOWU',
+    telephoneno: '08030961870',
+    title: 'mr',
+    trackingId: 'S7Y0NYFA3000M0W'
+}
+
+
+// residence_address
+// residence_town

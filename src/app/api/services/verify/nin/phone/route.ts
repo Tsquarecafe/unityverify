@@ -1,28 +1,33 @@
-import axios, { AxiosPromise, AxiosResponse } from "axios";
-// import { verificationResponseType } from "@/types/service";
+import axios from "axios";
 
-const baseURL = "https://api.prembly.com";
 const headers = {
   "Content-Type": "application/json",
-  "x-api-key": process.env.VERIFICATION_API_KEY,
-  "app-id": process.env.VERIFICATION_APP_ID,
+  "x-api-key": process.env.QUICK_VERIFY_API_KEY,
 };
 
 export async function POST(req: Request) {
   const { phone } = await req.json();
 
+  if (!phone)
+    return new Response("Please Provide a valid Phone registered with NIMC", {
+      status: 400,
+    });
+
   try {
     let res = await axios.post(
-      `${baseURL}/identitypass/verification/phone_number/advance`,
+      "https://api.quickverify.com.ng/verification/nin-phone",
       {
-        number: phone,
+        phone,
       },
       { headers }
     );
 
-    if (res.data.status) {
-      const photoUrlStringNew = res.data.data.photo.replace(/\n/g, "");
-      const signatureUrlStringNew = res.data.data.signature.replace(/\n/g, "");
+    if (res.data?.status) {
+      const { residence_Town, residence_AdressLine1, photo, signature } =
+        res.data?.data;
+
+      const photoUrlStringNew = photo?.replace(/\n/g, "");
+      const signatureUrlStringNew = signature?.replace(/\n/g, "");
 
       return new Response(
         JSON.stringify({
@@ -30,8 +35,9 @@ export async function POST(req: Request) {
             ...res.data.data,
             photo: photoUrlStringNew,
             signature: signatureUrlStringNew,
+            residence_address: residence_AdressLine1,
+            residence_town: residence_Town,
           },
-          reference: res.data.verification.reference,
           status: res.data.status,
         }),
         { status: 200 }

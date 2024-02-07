@@ -21,6 +21,7 @@ import {
   ninSearchServiceTitle,
   phoneSearchServiceTitle,
 } from "@/lib/utils";
+import { de } from "date-fns/locale";
 
 interface demographyInput {
   firstname: string;
@@ -55,7 +56,19 @@ const InputModal: FC = ({}) => {
     setLoading(true);
     e.preventDefault();
     try {
-      if (!input) {
+      if (!input && selectedSubService?.title != demoSearchServiceTitle) {
+        return toast({
+          title: "Verification Failed",
+          description: "Please enter a valid input",
+          variant: "destructive",
+        });
+      } else if (
+        (!demography.firstname ||
+          !demography.lastname ||
+          !demography.gender ||
+          !demography.dob) &&
+        selectedSubService?.title === demoSearchServiceTitle
+      ) {
         return toast({
           title: "Verification Failed",
           description: "Please enter a valid input",
@@ -246,6 +259,7 @@ const DemographySearch: FC<{
         <Input
           onChange={handleChange}
           value={demography.firstname}
+          name="firstname"
           type="text"
           placeholder="Enter Firstname"
         />
@@ -254,6 +268,7 @@ const DemographySearch: FC<{
         <Input
           onChange={handleChange}
           value={demography.lastname}
+          name="lastname"
           type="text"
           placeholder="Enter Lastname"
         />
@@ -261,16 +276,18 @@ const DemographySearch: FC<{
       <div className="m-4">
         <Input
           onChange={handleChange}
+          name="gender"
           value={demography.gender}
           type="text"
-          placeholder="Enter Gender"
+          placeholder="male or female"
         />
       </div>
       <div className="m-4">
         <Input
           onChange={handleChange}
+          name="dob"
           value={demography.dob}
-          type="text"
+          type="date"
           placeholder="Enter Date of Birth"
         />
       </div>

@@ -6,7 +6,6 @@ import InfoCard from "./InfoCard";
 import { Banknote, CreditCard, MonitorCheck, User } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
-import { info } from "console";
 import { AdminCardsTile } from "@/lib/utils";
 
 interface AdminInfoCardsProps {}

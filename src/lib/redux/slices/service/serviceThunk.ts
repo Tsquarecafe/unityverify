@@ -56,6 +56,9 @@ export const verifyByNIN = createAppAsyncThunk(
       return res.data;
     } catch (error) {
       await updateFailedTransaction(transactionId);
+      if (error && error instanceof AxiosError) {
+        return thunkAPI.rejectWithValue(error.response?.data);
+      }
       return thunkAPI.rejectWithValue("Could not Verify by NIN");
     }
   }
@@ -113,7 +116,7 @@ export const verifyByDemography = createAppAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const res = await axios.post("/api/services/verify/demography", {
+      const res = await axios.post("/api/services/verify/nin/demography", {
         firstname,
         lastname,
         dob,
@@ -131,6 +134,9 @@ export const verifyByDemography = createAppAsyncThunk(
       return res.data;
     } catch (error) {
       await updateFailedTransaction(transactionId);
+      if (error && error instanceof AxiosError) {
+        return thunkAPI.rejectWithValue(error.response?.data);
+      }
       return thunkAPI.rejectWithValue("Could not Verify by Demography");
     }
   }

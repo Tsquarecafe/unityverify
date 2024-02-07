@@ -121,7 +121,7 @@ const Wallet: FC<pageProps> = ({}) => {
                   Whatapp:
                 </span>
                 <Link
-                  href="https://wa.me/+2348030961870"
+                  href="https://chat.whatsapp.com/Djb9tPhuE6yHjZ3XjAHP57"
                   target="_blank"
                   rel="noreferrer"
                   className={`${buttonVariants()} bg-green-200 hover:bg-green-300 text-white`}

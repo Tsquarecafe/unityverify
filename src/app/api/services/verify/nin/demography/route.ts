@@ -1,53 +1,65 @@
-import axios, { AxiosPromise, AxiosResponse } from "axios";
-// import { verificationResponseType } from "@/types/service";
+import axios from "axios";
 
-const baseURL = "https://api.prembly.com";
 const headers = {
   "Content-Type": "application/json",
-  "x-api-key": process.env.VERIFICATION_API_KEY,
-  "app-id": process.env.VERIFICATION_APP_ID,
+  "x-api-key": process.env.QUICK_VERIFY_API_KEY,
 };
 
 export async function POST(req: Request) {
   const { firstname, lastname, gender, dob } = await req.json();
 
+  if (!firstname || !lastname || !gender || !dob)
+    return new Response("Please Provide all fields Registered with NIMC", {
+      status: 400,
+    });
+
+  const [year, month, day] = dob?.split("-");
+  const formattedDate = `${day}-${month}-${year}`;
+
   try {
     let res = await axios.post(
-      `${baseURL}/identitypass/verification/`,
+      "https://api.quickverify.com.ng/verification/nin-demography",
       {
         firstname,
         lastname,
         gender,
-        dob,
+        dob: formattedDate,
       },
       { headers }
     );
 
-    if (res.data.status) {
-      const photoUrlStringNew = res.data.nin_data.photo.replace(/\n/g, "");
-      const signatureUrlStringNew = res.data.nin_data.signature.replace(
-        /\n/g,
-        ""
-      );
+    if (res.data?.status) {
+      const { residence_Town, residence_AdressLine1, photo, signature } =
+        res.data?.data;
+
+      const photoUrlStringNew = photo?.replace(/\n/g, "");
+      const signatureUrlStringNew = signature?.replace(/\n/g, "");
 
       return new Response(
         JSON.stringify({
           data: {
-            ...res.data.nin_data,
+            ...res.data.data,
             photo: photoUrlStringNew,
             signature: signatureUrlStringNew,
+            residence_address: residence_AdressLine1,
+            residence_town: residence_Town,
           },
-          reference: res.data.verification.reference,
           status: res.data.status,
         }),
         { status: 200 }
       );
     } else {
+      if (res?.data?.message) {
+        return new Response(res.data.message, {
+          status: 500,
+        });
+      }
       return new Response("Something Went Wrong, Please try again latter", {
         status: 500,
       });
     }
   } catch (error) {
+    console.log(error, "error");
     return new Response("Could not verify, please try again", {
       status: 500,
     });
