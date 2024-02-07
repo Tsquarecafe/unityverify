@@ -41,7 +41,7 @@ const HTML_TEMPLATE = ({ name, url }: { name: string; url: string }) => {
           <div class="container">
             <div class="email">
               <div class="email-header">
-                <h1>CONFIRMATION OF REGISTRATION</h1>
+                <h1>CONFIRMATION OF PASSWORD RESET</h1>
               </div>
               <div class="email-body">
               <h3>Hi! ${name}</h3>
