@@ -252,19 +252,18 @@ export async function PATCH(req: NextRequest) {
       },
       data: updateObj,
     });
-
-    const user = await db.user.findFirst({
-      where: {
-        id: session.user.id,
-      },
-    });
-
-    if (!user)
-      return new Response("Invalid Login Credentials", {
-        status: 401,
+    if (status != "FAILED") {
+      const user = await db.user.findFirst({
+        where: {
+          id: session.user.id,
+        },
       });
 
-    if (status != "FAILED") {
+      if (!user)
+        return new Response("Invalid Login Credentials", {
+          status: 401,
+        });
+
       await db.user.update({
         where: {
           id: session.user.id,
