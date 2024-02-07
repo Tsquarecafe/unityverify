@@ -264,15 +264,17 @@ export async function PATCH(req: NextRequest) {
         status: 401,
       });
 
-    await db.user.update({
-      where: {
-        id: session.user.id,
-      },
-      data: {
-        accountBalance: user.accountBalance - 170,
-        agentBonus: user.agentBonus + 20,
-      },
-    });
+    if (status != "FAILED") {
+      await db.user.update({
+        where: {
+          id: session.user.id,
+        },
+        data: {
+          accountBalance: user.accountBalance - 170,
+          agentBonus: user.agentBonus + 20,
+        },
+      });
+    }
 
     return new Response("OK", {
       status: 200,
