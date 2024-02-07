@@ -28,7 +28,7 @@ export default async function RootLayout({
           </div>
 
           <Link
-            href="https://wa.me/+2348030961870"
+            href="https://chat.whatsapp.com/Djb9tPhuE6yHjZ3XjAHP57"
             className="fixed w-[50px] h-[50px] flex border-2 border-green-500 overflow-hidden  bottom-4 right-8 bg-slate-50 text-white rounded-full shadow-lg z-50"
           >
             <Image

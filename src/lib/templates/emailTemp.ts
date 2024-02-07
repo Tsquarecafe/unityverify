@@ -1,7 +1,6 @@
 // an email template that can be used with Nodemailer to send emails
 
 const HTML_TEMPLATE = ({ name, url }: { name: string; url: string }) => {
-
   return `
       <!DOCTYPE html>
       <html>
@@ -63,11 +62,9 @@ const HTML_TEMPLATE = ({ name, url }: { name: string; url: string }) => {
 
               <p>If you have any issues or didn't request a password reset, please contact our support team at:</p>
 
-              
-              <p>Whatsapp: +234 803 096 1870</p>
-              <p>Email: unityverifyenterprise@gmail.com</p>
-             
 
+              <p>Email: tsquarecafe@gmail.com</p>
+             
               </div>
               <div class="email-footer">
                 <p>Cheers!!</p>
