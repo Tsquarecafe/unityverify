@@ -56,7 +56,7 @@ const Slip: FC<SlipProps> = ({}) => {
             <div className="flex gap-6 items-center">
               {response ? (
                 <a
-                  download={`nin_slip_for_${response.data.firstname}_${response.data.surname}_from_Tsquarecafe  `}
+                  download={`${title}_for_${response.data.firstname}_${response.data.surname}_from_Tsquarecafe  `}
                   href={
                     slipBlob && slipBlob.size > 0
                       ? URL.createObjectURL(slipBlob)
