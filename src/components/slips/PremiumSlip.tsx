@@ -74,7 +74,7 @@ const PremiumSlip = async (res: verificationResponseType) => {
           gender: `${gender}`.toUpperCase(),
           NGA: "NGA",
           photo: `data:image/jpeg;base64,${photo}`,
-          nin: `${nin?.slice(0, 4)} ${nin?.slice(3, 6)} ${nin?.slice(5, -1)}`,
+          nin: `${nin?.slice(0, 4)}  ${nin?.slice(4, 7)}  ${nin?.slice(7)}`,
           issuedDate: format(new Date(), "dd MMM yyyy"),
           ninBackdrop1: nin,
           ninBackdrop2: nin,

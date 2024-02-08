@@ -66,7 +66,7 @@ const ImprovedSlip = async (res: verificationResponseType) => {
           givenNames: `${firstname}, ${middlename}`.toUpperCase(),
           dob: format(new Date(formattedBirthdate), "dd MMM yyyy"),
           photo: `data:image/jpeg;base64,${photo}`,
-          nin: `${nin?.slice(0, 4)}  ${nin?.slice(3, 6)}  ${nin?.slice(5, -1)}`,
+          nin: `${nin?.slice(0, 4)}  ${nin?.slice(4, 7)}  ${nin?.slice(7)}`,
           ninBackdrop1: nin,
           ninBackdrop2: nin,
           ninBackdrop3: nin,

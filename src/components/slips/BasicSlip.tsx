@@ -29,7 +29,6 @@ const BasicSlip = async (res: verificationResponseType) => {
     gender,
   } = data;
 
-
   const inputs = [
     {
       lastname: surname?.toUpperCase(),
@@ -40,7 +39,7 @@ const BasicSlip = async (res: verificationResponseType) => {
       residence_town: residence_town?.toUpperCase(),
       residence_state,
       tracking_id: trackingId,
-      nin: `${nin?.slice(0, 4)} ${nin?.slice(3, 6)} ${nin?.slice(5, -1)}`,
+      nin: `${nin?.slice(0, 4)}  ${nin?.slice(4, 7)}  ${nin?.slice(7)}`,
       dob: birthdate,
       birth_state: birthstate,
       birth_lga: birthlga,
