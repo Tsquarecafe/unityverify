@@ -43,7 +43,7 @@ const HomeSignUpBtns: FC<HomeSignUpBtnsProps> = ({}) => {
         href="/sign-up"
         className={`${buttonVariants({ size: "lg" })} w-full`}
       >
-        Do not have a gmail account
+        Create an Account
       </Link>
     </div>
   );
