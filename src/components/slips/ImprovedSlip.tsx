@@ -33,17 +33,11 @@ const ImprovedSlip = async (res: verificationResponseType) => {
 
   const fetchFont = async () => {
     const font: Font = {
-      Consolas: {
-        data: await fetch("/fonts/ConsolasRegular.TTF").then((res) =>
+      OCRBRegular: {
+        data: await fetch("/fonts/OCRBRegular.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: true,
-      },
-      ComicSans: {
-        data: await fetch("/fonts/ComicSans.TTF").then((res) =>
-          res.arrayBuffer()
-        ),
-        fallback: false,
       },
     };
 
@@ -57,8 +51,8 @@ const ImprovedSlip = async (res: verificationResponseType) => {
       const qrcode = (await generateQR(`{ surname: ${surname},
             givenNames: ${firstname} ${middlename}, dob: ${birthdate}}`)) as string;
 
-            const [day, month, year] = birthdate?.split("-");
-            const formattedBirthdate = `${month}-${day}-${year}`;
+      const [day, month, year] = birthdate?.split("-");
+      const formattedBirthdate = `${month}-${day}-${year}`;
 
       const inputs = [
         {
@@ -66,7 +60,7 @@ const ImprovedSlip = async (res: verificationResponseType) => {
           givenNames: `${firstname}, ${middlename}`.toUpperCase(),
           dob: format(new Date(formattedBirthdate), "dd MMM yyyy"),
           photo: `data:image/jpeg;base64,${photo}`,
-          nin: `${nin?.slice(0, 4)}  ${nin?.slice(4, 7)}  ${nin?.slice(7)}`,
+          nin: `${nin?.slice(0, 4)} ${nin?.slice(4, 7)} ${nin?.slice(7)}`,
           ninBackdrop1: nin,
           ninBackdrop2: nin,
           ninBackdrop3: nin,

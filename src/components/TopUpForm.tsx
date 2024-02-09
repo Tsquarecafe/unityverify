@@ -37,6 +37,7 @@ const TopUpForm: FC<TopUpFormProps> = ({}) => {
 
       if (res.status === 201) {
         dispatch(setPaymentModal(true));
+        setAmount("");
       }
 
       setIsLoading(false);

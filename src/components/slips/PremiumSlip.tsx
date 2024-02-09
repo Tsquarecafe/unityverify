@@ -33,18 +33,13 @@ const PremiumSlip = async (res: verificationResponseType) => {
 
   const fetchFont = async () => {
     const font: Font = {
-      Consolas: {
-        data: await fetch("/fonts/ConsolasRegular.TTF").then((res) =>
+      OCRBRegular: {
+        data: await fetch("/fonts/OCRBRegular.ttf").then((res) =>
           res.arrayBuffer()
         ),
         fallback: true,
       },
-      ComicSans: {
-        data: await fetch("/fonts/ComicSans.TTF").then((res) =>
-          res.arrayBuffer()
-        ),
-        fallback: false,
-      },
+
       CalibriBold: {
         data: await fetch("/fonts/CalibriBold.TTF").then((res) =>
           res.arrayBuffer()
@@ -74,7 +69,7 @@ const PremiumSlip = async (res: verificationResponseType) => {
           gender: `${gender}`.toUpperCase(),
           NGA: "NGA",
           photo: `data:image/jpeg;base64,${photo}`,
-          nin: `${nin?.slice(0, 4)}  ${nin?.slice(4, 7)}  ${nin?.slice(7)}`,
+          nin: `${nin?.slice(0, 4)} ${nin?.slice(4, 7)} ${nin?.slice(7)}`,
           issuedDate: format(new Date(), "dd MMM yyyy"),
           ninBackdrop1: nin,
           ninBackdrop2: nin,
