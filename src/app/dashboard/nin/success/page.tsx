@@ -33,7 +33,7 @@ const Slip: FC<SlipProps> = ({}) => {
   };
 
   return (
-    <div className="my-6 md:my-16 mx-4">
+    <div className="my-6 md:my-10 mx-4">
       <Button
         onClick={() => router.back()}
         className={cn("mb-4", buttonVariants({ variant: "ghost" }))}
