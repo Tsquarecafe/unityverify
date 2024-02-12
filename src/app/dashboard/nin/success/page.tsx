@@ -56,11 +56,11 @@ const Slip: FC<SlipProps> = ({}) => {
             <div className="flex gap-6 items-center">
               {response ? (
                 <a
-                  download={`${title}_for_${response.data.firstname}_${response.data.surname}_from_Tsquarecafe  `}
+                  download={`${title}_for_${response.data.firstname}_${response.data.surname}_from_UnityVerify  `}
                   href={
                     slipBlob && slipBlob.size > 0
                       ? URL.createObjectURL(slipBlob)
-                      : "/"
+                      : ""
                   }
                   className={`${buttonVariants()} text-xs flex items-center `}
                 >

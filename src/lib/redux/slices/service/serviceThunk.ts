@@ -162,11 +162,13 @@ export const verifyByPhone = createAppAsyncThunk(
           reference: res.data.reference,
           status: "SUCCESS",
         });
+      } else {
+        await updateFailedTransaction(transactionId);
       }
 
       return res.data;
     } catch (error) {
-      const res = await updateFailedTransaction(transactionId);
+      await updateFailedTransaction(transactionId);
       if (error && error instanceof AxiosError) {
         return thunkAPI.rejectWithValue(error.response?.data);
       }
