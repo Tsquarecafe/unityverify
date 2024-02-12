@@ -1,6 +1,7 @@
 "use client";
 
 import AdminSidebar from "@/components/AdminSidebar";
+import Breadcrumb from "@/components/BreadCrumb";
 import Header from "@/components/Header";
 import MobileSidebar from "@/components/mobileSidebar/MobileSidebar";
 import { toast } from "@/hooks/use-toast";
@@ -68,6 +69,14 @@ const Layout: FC<layoutProps> = ({ children }) => {
 
         <div className="w-full">
           <Header />
+          <Breadcrumb
+            homeElement={""}
+            separator={<span> | </span>}
+            activeClasses="text-emerald-500"
+            containerClasses="flex py-3 bg-trasparent text-xs text-slate-700"
+            listClasses="hover:underline mx-2 font-bold"
+            capitalizeLinks
+          />
           {children}
         </div>
       </div>

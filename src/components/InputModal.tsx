@@ -21,7 +21,6 @@ import {
   ninSearchServiceTitle,
   phoneSearchServiceTitle,
 } from "@/lib/utils";
-import { de } from "date-fns/locale";
 
 interface demographyInput {
   firstname: string;
@@ -62,11 +61,10 @@ const InputModal: FC = ({}) => {
           description: "Please enter a valid input",
           variant: "destructive",
         });
-      } else if (
-        (!demography.firstname ||
-          !demography.lastname ||
-          !demography.gender ||
-          !demography.dob) &&
+      }
+
+      if (
+        (!demography.firstname || !demography.lastname || !demography.dob) &&
         selectedSubService?.title === demoSearchServiceTitle
       ) {
         return toast({
@@ -101,7 +99,7 @@ const InputModal: FC = ({}) => {
                 firstname: demography.firstname,
                 lastname: demography.lastname,
                 dob: demography.dob,
-                gender: demography.gender,
+                gender: input,
                 transactionId: res.data.id,
               })
             );
@@ -159,7 +157,7 @@ const InputModal: FC = ({}) => {
       <div className="flex justify-center items-center h-full">
         <div
           ref={modalRef}
-          className="bg-white max-w-[500px] lg:min-w-[400px] h-fit rounded-lg"
+          className="bg-white max-w-[500px] relative lg:min-w-[400px] h-fit rounded-lg"
         >
           <div className="m-4 flex justify-between items-center">
             <h3 className="font-semibold">{modalTitle}</h3>
@@ -274,13 +272,16 @@ const DemographySearch: FC<{
         />
       </div>
       <div className="m-4">
-        <Input
-          onChange={handleChange}
+        <select
           name="gender"
-          value={demography.gender}
-          type="text"
-          placeholder="male or female"
-        />
+          // @ts-ignore
+          onChange={handleChange}
+          className="flex h-12 w-full  rounded-md border border-input bg-background px-3 py-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <option className="text-muted-foreground">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
       </div>
       <div className="m-4">
         <Input

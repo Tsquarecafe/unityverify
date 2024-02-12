@@ -26,6 +26,8 @@ export async function POST(req: Request) {
       const { residence_Town, residence_AdressLine1, photo, signature } =
         res.data?.data;
 
+      console.log(res.data?.data, "res.data?.data");
+
       const photoUrlStringNew = photo?.replace(/\n/g, "");
       const signatureUrlStringNew = signature?.replace(/\n/g, "");
 
@@ -48,7 +50,6 @@ export async function POST(req: Request) {
           status: 500,
         });
       } else {
-        
         return new Response("Something Went Wrong, Please try again latter", {
           status: 500,
         });
