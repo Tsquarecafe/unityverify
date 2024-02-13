@@ -5,6 +5,7 @@ import regularSlipTemplate from "@/lib/templates/regularSlipTemplate.json";
 import { Font } from "@/types/pdfme";
 import { verificationResponseType } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
+import { noPhotoString } from "@/lib/imageBlob";
 
 const RegularSlip = async (res: verificationResponseType) => {
   const template: Template = regularSlipTemplate;
@@ -26,16 +27,16 @@ const RegularSlip = async (res: verificationResponseType) => {
 
   const inputs = [
     {
-      surname: surname?.toUpperCase(),
-      firstname: firstname?.toUpperCase(),
-      middlename: middlename?.toUpperCase(),
+      surname: `${surname || ""}`.toUpperCase(),
+      firstname: `${firstname || ""}`.toUpperCase(),
+      middlename: `${middlename || ""}`.toUpperCase(),
       gender: `${gender}`.toUpperCase(),
-      residenceAddress: residence_address,
-      residenceTown: residence_town,
-      residenceState: residence_state,
-      trackingId: trackingId,
+      residenceAddress: `${residence_address || ""}`,
+      residenceTown: `${residence_town || ""}`,
+      residenceState: `${residence_state || ""}`,
+      trackingId: `${trackingId || ""}`,
       nin,
-      photo: `data:image/jpeg;base64,${photo}`,
+      photo: `data:image/jpeg;base64,${photo || noPhotoString}`,
     },
   ];
 

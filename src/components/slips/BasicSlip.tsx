@@ -5,6 +5,7 @@ import basicSlipTemplate from "@/lib/templates/basicSlipTemplate.json";
 import { Font } from "@/types/pdfme";
 import { verificationResponseType } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
+import { noPhotoString } from "@/lib/imageBlob";
 
 const BasicSlip = async (res: verificationResponseType) => {
   const template: Template = basicSlipTemplate;
@@ -29,25 +30,29 @@ const BasicSlip = async (res: verificationResponseType) => {
     gender,
   } = data;
 
+  console.log(data, "data");
+
   const inputs = [
     {
-      lastname: surname?.toUpperCase(),
-      firstname: firstname?.toUpperCase(),
-      middlename: middlename?.toUpperCase(),
-      gender: gender?.toUpperCase(),
-      residence_address: residence_address?.toUpperCase(),
-      residence_town: residence_town?.toUpperCase(),
-      residence_state,
-      tracking_id: trackingId,
+      lastname: `${surname || ""}`.toUpperCase(),
+      firstname: `${firstname || ""}`.toUpperCase(),
+      middlename: `${middlename || ""}`.toUpperCase(),
+      gender: `${gender || ""}`.toUpperCase(),
+      residence_address: `${residence_address ?? ""}`.toUpperCase(),
+      residence_town: `${residence_town || ""}`.toUpperCase(),
+      residence_state: `${residence_state || ""}`,
+      tracking_id: `${trackingId || ""}`,
       nin: `${nin?.slice(0, 4)}  ${nin?.slice(4, 7)}  ${nin?.slice(7)}`,
-      dob: birthdate,
-      birth_state: birthstate,
-      birth_lga: birthlga,
-      phone: telephoneno,
-      photo: `data:image/jpeg;base64,${photo}`,
-      signature: `data:image/jpeg;base64,${signature || photo}`,
+      dob: `${birthdate || ""}`.toUpperCase(),
+      birth_state: `${birthstate || ""}`,
+      birth_lga: `${birthlga || ""}`,
+      phone: `${telephoneno || ""}`,
+      photo: `data:image/jpeg;base64,${photo || noPhotoString}`,
+      signature: `data:image/jpeg;base64,${signature || noPhotoString}`,
     },
   ];
+
+  console.log(inputs, "inputs");
 
   const fetchFont = async () => {
     const font: Font = {

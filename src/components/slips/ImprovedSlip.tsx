@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import QRCode from "qrcode";
 import { verificationResponseType } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
+import { noPhotoString } from "@/lib/imageBlob";
 
 const generateQR = async (text: string) => {
   try {
@@ -56,10 +57,13 @@ const ImprovedSlip = async (res: verificationResponseType) => {
 
       const inputs = [
         {
-          surname: surname?.toUpperCase(),
-          givenNames: `${firstname}, ${middlename}`.toUpperCase(),
-          dob: format(new Date(formattedBirthdate), "dd MMM yyyy"),
-          photo: `data:image/jpeg;base64,${photo}`,
+          surname: `${surname || ""}`.toUpperCase(),
+          givenNames: `${firstname || ""}, ${middlename || ""}`.toUpperCase(),
+          dob: format(
+            new Date(formattedBirthdate),
+            "dd MMM yyyy"
+          )?.toUpperCase(),
+          photo: `data:image/jpeg;base64,${photo || noPhotoString }`,
           nin: `${nin?.slice(0, 4)} ${nin?.slice(4, 7)} ${nin?.slice(7)}`,
           ninBackdrop1: nin,
           ninBackdrop2: nin,
