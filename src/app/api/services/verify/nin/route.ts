@@ -1,5 +1,4 @@
-import { imageBlob } from "@/lib/imageBlob";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const baseURL = "https://api.prembly.com";
 const headers = {
