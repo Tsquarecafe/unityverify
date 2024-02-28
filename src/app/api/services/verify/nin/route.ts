@@ -1,3 +1,5 @@
+import { noPhotoString } from "@/lib/imageBlob";
+import isBase64 from "is-base64";
 import axios, { AxiosResponse } from "axios";
 
 const baseURL = "https://api.prembly.com";
@@ -52,7 +54,7 @@ export async function POST(req: Request) {
 
     if (res.data.status) {
       const photoUrlStringNew = res.data.nin_data.photo.replace(/\n/g, "");
-      const signatureUrlStringNew = res.data.nin_data.signature.replace(
+      const signatureUrlStringNew = res.data.nin_data?.signature.replace(
         /\n/g,
         ""
       );
@@ -61,11 +63,15 @@ export async function POST(req: Request) {
         JSON.stringify({
           data: {
             ...res.data.nin_data,
-            photo: photoUrlStringNew,
-            signature: signatureUrlStringNew,
+            photo: isBase64(photoUrlStringNew)
+              ? photoUrlStringNew
+              : noPhotoString,
+            signature: isBase64(signatureUrlStringNew)
+              ? signatureUrlStringNew
+              : noPhotoString,
           },
-          reference: res.data.verification.reference,
-          status: res.data.status,
+          reference: res.data.verification?.reference,
+          status: res.data?.status,
         }),
         { status: 200 }
       );

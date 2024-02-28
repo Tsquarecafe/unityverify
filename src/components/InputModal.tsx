@@ -99,7 +99,7 @@ const InputModal: FC = ({}) => {
                 firstname: demography.firstname,
                 lastname: demography.lastname,
                 dob: demography.dob,
-                gender: input,
+                gender: demography.gender,
                 transactionId: res.data.id,
               })
             );

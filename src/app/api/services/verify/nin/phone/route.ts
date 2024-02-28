@@ -1,4 +1,6 @@
+import { noPhotoString } from "@/lib/imageBlob";
 import axios from "axios";
+import isBase64 from "is-base64";
 
 const headers = {
   "Content-Type": "application/json",
@@ -33,8 +35,12 @@ export async function POST(req: Request) {
         JSON.stringify({
           data: {
             ...res.data.data,
-            photo: photoUrlStringNew,
-            signature: signatureUrlStringNew,
+            photo: isBase64(photoUrlStringNew)
+              ? photoUrlStringNew
+              : noPhotoString,
+            signature: isBase64(signatureUrlStringNew)
+              ? signatureUrlStringNew
+              : noPhotoString,
             residence_address: residence_AdressLine1,
             residence_town: residence_Town,
           },
@@ -47,7 +53,11 @@ export async function POST(req: Request) {
         return new Response(res.data.message, {
           status: 500,
         });
-      } else {
+      } else if (!res?.data)
+        return new Response("Record not Found!", {
+          status: 400,
+        });
+      else {
         return new Response("Something Went Wrong, Please try again latter", {
           status: 500,
         });

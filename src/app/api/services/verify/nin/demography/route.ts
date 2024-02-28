@@ -1,4 +1,6 @@
+import { noPhotoString } from "@/lib/imageBlob";
 import axios from "axios";
+import isBase64 from "is-base64";
 
 const headers = {
   "Content-Type": "application/json",
@@ -7,6 +9,14 @@ const headers = {
 
 export async function POST(req: Request) {
   const { firstname, lastname, gender, dob } = await req.json();
+
+  console.log(
+    firstname,
+    lastname,
+    gender,
+    dob,
+    "firstname, lastname, gender, dob"
+  );
 
   if (!firstname || !lastname || !gender || !dob)
     return new Response("Please Provide all fields Registered with NIMC", {
@@ -39,8 +49,12 @@ export async function POST(req: Request) {
         JSON.stringify({
           data: {
             ...res.data.data,
-            photo: photoUrlStringNew,
-            signature: signatureUrlStringNew,
+            photo: isBase64(photoUrlStringNew)
+              ? photoUrlStringNew
+              : noPhotoString,
+            signature: isBase64(signatureUrlStringNew)
+              ? signatureUrlStringNew
+              : noPhotoString,
             residence_address: residence_AdressLine1,
             residence_town: residence_Town,
           },
@@ -59,7 +73,7 @@ export async function POST(req: Request) {
       });
     }
   } catch (error) {
-    console.log(error, "error");
+    console.log(error);
     return new Response("Could not verify, please try again", {
       status: 500,
     });

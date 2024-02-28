@@ -30,15 +30,13 @@ const BasicSlip = async (res: verificationResponseType) => {
     gender,
   } = data;
 
-  console.log(data, "data");
-
   const inputs = [
     {
       lastname: `${surname || ""}`.toUpperCase(),
       firstname: `${firstname || ""}`.toUpperCase(),
       middlename: `${middlename || ""}`.toUpperCase(),
       gender: `${gender || ""}`.toUpperCase(),
-      residence_address: `${residence_address ?? ""}`.toUpperCase(),
+      residence_address: `${residence_address || ""}`.toUpperCase(),
       residence_town: `${residence_town || ""}`.toUpperCase(),
       residence_state: `${residence_state || ""}`,
       tracking_id: `${trackingId || ""}`,
@@ -51,8 +49,6 @@ const BasicSlip = async (res: verificationResponseType) => {
       signature: `data:image/jpeg;base64,${signature || noPhotoString}`,
     },
   ];
-
-  console.log(inputs, "inputs");
 
   const fetchFont = async () => {
     const font: Font = {
