@@ -64,8 +64,12 @@ const NVSSlip = async (res: verificationResponseType) => {
       birthstate: `${birthstate || ""}`,
       birthlga: `${birthlga || ""}`,
       telephoneno: `${telephoneno || ""}`,
-      photo: `data:image/jpeg;base64,${photo || noPhotoString}`,
-      signature: `data:image/jpeg;base64,${signature || noPhotoString}`,
+      photo: `data:image/${
+        photo.charAt(0) === "/" ? "jpeg" : "png"
+      };base64,${photo}`,
+      signature: `data:image/${
+        signature.charAt(0) === "/" ? "jpeg" : "png"
+      };base64,${signature}`,
       self_origin_lga: " ",
       heigth: `${heigth || ""}`.toUpperCase(),
       religion: `${religion || ""}`.toUpperCase(),

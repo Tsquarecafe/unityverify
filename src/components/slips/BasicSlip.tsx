@@ -5,7 +5,6 @@ import basicSlipTemplate from "@/lib/templates/basicSlipTemplate.json";
 import { Font } from "@/types/pdfme";
 import { verificationResponseType } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
-import { noPhotoString } from "@/lib/imageBlob";
 
 const BasicSlip = async (res: verificationResponseType) => {
   const template: Template = basicSlipTemplate;
@@ -45,8 +44,12 @@ const BasicSlip = async (res: verificationResponseType) => {
       birth_state: `${birthstate || ""}`,
       birth_lga: `${birthlga || ""}`,
       phone: `${telephoneno || ""}`,
-      photo: `data:image/jpeg;base64,${photo || noPhotoString}`,
-      signature: `data:image/jpeg;base64,${signature || noPhotoString}`,
+      photo: `data:image/${
+        photo.charAt(0) === "/" ? "jpeg" : "png"
+      };base64,${photo}`,
+      signature: `data:image/${
+        signature.charAt(0) === "/" ? "jpeg" : "png"
+      };base64,${signature}`,
     },
   ];
 

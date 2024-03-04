@@ -207,7 +207,7 @@ const VNIN: FC<{
         <span className="">IMPORTANT:</span> <br />
         Please dial{" "}
         <kbd className="px-2 py-1.5 text-xs font-semibold text-rose-800 bg-rose-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">
-          346*3*YOUR NIN*696739#
+          346*3*YOUR NIN*696739# 
         </kbd>{" "}
         from your registered mobile number to generate the Virtual NIN provided
         below.{" "}

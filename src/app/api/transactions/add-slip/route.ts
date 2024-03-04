@@ -67,6 +67,12 @@ export async function PATCH(req: NextRequest) {
         status: 401,
       });
 
+    if (user.accountBalance < slip.price) {
+      return new Response("Insufficient Balance, Please Credit your account ", {
+        status: 401,
+      });
+    }
+
     await db.user.update({
       where: {
         id: session.user.id,

@@ -5,7 +5,6 @@ import regularSlipTemplate from "@/lib/templates/regularSlipTemplate.json";
 import { Font } from "@/types/pdfme";
 import { verificationResponseType } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
-import { noPhotoString } from "@/lib/imageBlob";
 
 const RegularSlip = async (res: verificationResponseType) => {
   const template: Template = regularSlipTemplate;
@@ -36,7 +35,9 @@ const RegularSlip = async (res: verificationResponseType) => {
       residenceState: `${residence_state || ""}`,
       trackingId: `${trackingId || ""}`,
       nin,
-      photo: `data:image/jpeg;base64,${photo || noPhotoString}`,
+      photo: `data:image/${
+        photo.charAt(0) === "/" ? "jpeg" : "png"
+      };base64,${photo}`,
     },
   ];
 
