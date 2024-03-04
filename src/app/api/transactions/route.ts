@@ -220,10 +220,9 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const body = await req.json();
 
-  const { transactionId, reference, status } = z
+  const { transactionId, status } = z
     .object({
       transactionId: z.string().optional(),
-      reference: z.string().optional(),
       status: z.enum(["PENDING", "SUCCESS", "FAILED"]).optional(),
     })
     .parse(body);
@@ -233,9 +232,6 @@ export async function PATCH(req: NextRequest) {
 
     if (status) {
       updateObj = { status, ...updateObj };
-    }
-    if (reference) {
-      updateObj = { reference, ...updateObj };
     }
 
     const session = await getAuthSession();

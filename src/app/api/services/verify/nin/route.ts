@@ -2,19 +2,18 @@ import { noPhotoString } from "@/lib/imageBlob";
 import isBase64 from "is-base64";
 import axios, { AxiosResponse } from "axios";
 
-const baseURL = "https://api.prembly.com";
+const baseURL = "https://api.quickverify.com.ng/verification";
 const headers = {
   "Content-Type": "application/json",
-  "x-api-key": process.env.VERIFICATION_API_KEY,
-  "app-id": process.env.VERIFICATION_APP_ID,
+  "x-api-key": process.env.QUICK_VERIFY_API_KEY,
 };
 
 const ninVerify = async (nin: string) => {
   try {
     return await axios.post(
-      `${baseURL}/identitypass/verification/vnin`,
+      `${baseURL}/nin-search`,
       {
-        number_nin: nin,
+        nin,
       },
       { headers }
     );
@@ -27,9 +26,9 @@ const ninVerify = async (nin: string) => {
 const vninVerify = async (vnin: string) => {
   try {
     return await axios.post(
-      `${baseURL}/identitypass/verification/vnin`,
+      `${baseURL}/vnin`,
       {
-        number: vnin,
+        vnin,
       },
       { headers }
     );
@@ -52,17 +51,14 @@ export async function POST(req: Request) {
       res = await vninVerify(vnin);
     }
 
-    if (res.data.status) {
-      const photoUrlStringNew = res.data.nin_data.photo.replace(/\n/g, "");
-      const signatureUrlStringNew = res.data.nin_data?.signature.replace(
-        /\n/g,
-        ""
-      );
+    if (res.data?.status) {
+      const photoUrlStringNew = res.data.data?.photo.replace(/\n/g, "");
+      const signatureUrlStringNew = res.data.data?.signature.replace(/\n/g, "");
 
       return new Response(
         JSON.stringify({
           data: {
-            ...res.data.nin_data,
+            ...res.data?.data,
             photo: isBase64(photoUrlStringNew)
               ? photoUrlStringNew
               : noPhotoString,
@@ -70,7 +66,6 @@ export async function POST(req: Request) {
               ? signatureUrlStringNew
               : noPhotoString,
           },
-          reference: res.data.verification?.reference,
           status: res.data?.status,
         }),
         { status: 200 }

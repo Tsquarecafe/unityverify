@@ -3,18 +3,16 @@ import axios, { AxiosError } from "axios";
 
 interface IupdateTransaction {
   transactionId: string;
-  reference: string;
   status: "SUCCESS" | "PENDING" | "FAILED";
 }
 
 const updateTransaction = async ({
   transactionId,
-  reference,
+
   status,
 }: IupdateTransaction) => {
   await axios.patch("/api/transactions", {
     transactionId,
-    reference,
     status,
   });
 };
@@ -48,7 +46,7 @@ export const verifyByNIN = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          reference: res.data.reference,
+
           status: "SUCCESS",
         });
       }
@@ -81,7 +79,6 @@ export const verifyByVNIN = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          reference: res.data.reference,
           status: "SUCCESS",
         });
       }
@@ -126,7 +123,6 @@ export const verifyByDemography = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          reference: res.data.reference,
           status: "SUCCESS",
         });
       }
@@ -159,7 +155,6 @@ export const verifyByPhone = createAppAsyncThunk(
       if (res.status === 200) {
         await updateTransaction({
           transactionId,
-          reference: res.data.reference,
           status: "SUCCESS",
         });
       } else {

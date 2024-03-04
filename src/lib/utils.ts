@@ -110,27 +110,28 @@ export const regularSlipTitle = "NIN Regular Slip";
 export const improvedSlipTitle = "Improved NIN Slip";
 export const basicSlipTitle = "Basic NIN Slip";
 export const premiumSlipTitle = "Premium NIN Slip";
+export const NVSSlipTitle = "NVS Slip";
 
 export const ninSlipTypes = [
   {
     type: "Basic NIN Slip",
     image: "basic.png",
-    price: 0,
   },
   {
     type: "NIN Regular Slip",
     image: "regular.webp",
-    price: 150,
   },
   {
     type: "Improved NIN Slip",
     image: "standard.png",
-    price: 200,
   },
   {
     type: "Premium NIN Slip",
     image: "premium.png",
-    price: 250,
+  },
+  {
+    type: "NVS Slip",
+    image: "nvs.png",
   },
 ];
 

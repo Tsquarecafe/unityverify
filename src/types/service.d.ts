@@ -20,7 +20,7 @@ export type slipDataType = {
   price: number;
 };
 
-export type verificationResponseType = {
+export type verificationResponseType2 = {
   status: boolean;
   reference: string;
   data: {
@@ -43,10 +43,10 @@ export type verificationResponseType = {
     spoken_language: string;
     trackingId: string;
     self_origin_place: string;
-    residence_town: string;
+    residence_town: string; //DDD
     nok_town: string;
     residence_state: string;
-    residence_address: string;
+    residence_address: string; //DDD
     birthcountry: string;
     psurname: string;
     pfirstname: string;
@@ -55,13 +55,13 @@ export type verificationResponseType = {
     nok_state: string;
     nok_surname: string;
     nok_firstname: string;
-    ospokenlang: string;
+    ospokenlang: string; //DDD
     residencestatus: string;
     pmiddlename: string;
     email: string;
     nok_postalcode: string;
     nin: string;
-    employmentstatus: string;
+    employmentstatus: string; //DDD
     birthlga: string;
     residence_lga: string;
     title: string;
@@ -70,5 +70,45 @@ export type verificationResponseType = {
     nok_address1: string;
     photo: string;
     nok_middlename: string;
+  };
+};
+
+export type verificationResponseType = {
+  status: true;
+  data: {
+    birthcountry: string;
+    birthdate: string;
+    birthlga: string;
+    birthstate: string;
+    centralID: string;
+    educationallevel: string;
+    emplymentstatus: string; //DDD
+    firstname: string;
+    gender: string;
+    heigth: string;
+    maritalstatus: string;
+    middlename: string;
+    nin: string;
+    nok_address1: string;
+    nok_firstname: string;
+    nok_lga: string;
+    nok_middlename: string;
+    nok_state: string;
+    nok_surname: string;
+    nok_town: string;
+    nspokenlang: string; //DDD
+    photo: string;
+    profession: string;
+    religion: string;
+    residence_AdressLine1: string; //DDD
+    residence_Town: string; //DDD
+    residence_lga: string;
+    residence_state: string;
+    residencestatus: string;
+    signature: string;
+    surname: string;
+    telephoneno: string;
+    title: string;
+    trackingId: string;
   };
 };

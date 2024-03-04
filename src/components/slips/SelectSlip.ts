@@ -6,9 +6,11 @@ import {
   basicSlipTitle,
   premiumSlipTitle,
   regularSlipTitle,
+  NVSSlipTitle,
 } from "@/lib/utils";
 import { verificationResponseType } from "@/types/service";
 import ImprovedSlip from "./ImprovedSlip";
+import NVSSlip from "./NVSSlip";
 
 const SelectSlip = async ({
   slipTitle,
@@ -25,6 +27,8 @@ const SelectSlip = async ({
     slipBlob = (await PremiumSlip(response)) as Blob;
   } else if (slipTitle === basicSlipTitle) {
     slipBlob = (await BasicSlip(response)) as Blob;
+  } else if (slipTitle === NVSSlipTitle) {
+    slipBlob = (await NVSSlip(response)) as Blob;
   } else {
     slipBlob = (await ImprovedSlip(response)) as Blob;
   }
