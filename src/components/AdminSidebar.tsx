@@ -4,11 +4,13 @@ import { FC } from "react";
 import SidebarLink from "./SidebarLink";
 import {
   Bell,
+  CreditCard,
   History,
   Home,
   LogOutIcon,
   Settings,
   ShieldCheck,
+  SmilePlus,
   StickyNote,
 } from "lucide-react";
 import Brand from "./Brand";
@@ -57,9 +59,14 @@ const AdminSidebar: FC<AdminSidebarProps> = ({}) => {
             link="/admin/transactions"
           />
           <SidebarLink
-            icon={<History />}
+            icon={<CreditCard />}
             text="Payments"
             link="/admin/top-up"
+          />
+          <SidebarLink
+            icon={<SmilePlus />}
+            text="Credit With Email"
+            link="/admin/email-credit"
           />
         </div>
 

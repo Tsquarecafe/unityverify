@@ -1,6 +1,7 @@
 "use client";
 
 import AdminPaymentRecord from "@/components/AdminPaymentRecord";
+import Pagination from "@/components/Pagination";
 import PaymentRecord from "@/components/PaymentRecord";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -144,7 +145,7 @@ const TopUp: FC<TopUpProps> = ({}) => {
           </div>
 
           <Link
-            href="/admin/top-up/email-credit"
+            href="/admin/email-credit"
             className={cn(
               buttonVariants({ variant: "outline" }),
               "text-sm text-emerald-600 h-12 w-full md:w-48 "
@@ -240,7 +241,10 @@ const TopUp: FC<TopUpProps> = ({}) => {
                 {allPayments && allPayments?.length > 0 && !isLoading ? (
                   <div className="space-y-2 w-full">
                     {allPayments.slice(0, 7).map((payment, index) => (
-                      <div className="w-full flex" key={payment.id}>
+                      <div
+                        className="w-full flex overflow-hidden"
+                        key={payment.id}
+                      >
                         <AdminPaymentRecord index={index} {...payment} />
                       </div>
                     ))}
@@ -259,31 +263,15 @@ const TopUp: FC<TopUpProps> = ({}) => {
           </tbody>
         </table>
 
-        {numberOfPages ? (
-          <div className="flex gap-6 items-center justify-center mx-auto mt-8 w-full ">
-            <Button className="bg-slate-700" onClick={handlePrevPage}>
-              Prev
-            </Button>
-            <div className="flex gap-4">
-              {[...Array(numberOfPages).keys()].map((_, index) => (
-                <button
-                  className={`w-10 h-10 rounded-lg  ${
-                    currentPage === index + 1
-                      ? "bg-emerald-800 text-white "
-                      : "bg-gray-300"
-                  } hover:bg-emerald-500 hover:text-white`}
-                  onClick={() => handleSelectPage(index + 1)}
-                  key={index}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-            <Button className="bg-slate-800" onClick={handleNextPage}>
-              Next
-            </Button>
-          </div>
-        ) : null}
+        <div className="flex items-center justify-center w-full">
+          <Pagination
+            currentPage={currentPage}
+            numberOfPages={numberOfPages}
+            handlePrevPage={handlePrevPage}
+            handleSelectPage={handleSelectPage}
+            handleNextPage={handleNextPage}
+          />
+        </div>
       </div>
     </div>
   );
