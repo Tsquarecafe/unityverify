@@ -20,7 +20,7 @@ const TopUpForm: FC<TopUpFormProps> = ({}) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      if (!amount)
+      if (!parseInt(amount))
         return toast({
           title: "Invalid Amount",
           description: "Please Enter a Valid Amount",

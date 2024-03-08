@@ -17,6 +17,7 @@ import { getAllUsersPayments } from "@/lib/redux/slices/payment/paymentThunk";
 import { AppDispatch, RootState } from "@/lib/redux/store";
 import { cn } from "@/lib/utils";
 import { Download, Search, X } from "lucide-react";
+import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
@@ -142,6 +143,16 @@ const TopUp: FC<TopUpProps> = ({}) => {
             </Button>
           </div>
 
+          <Link
+            href="/admin/top-up/email-credit"
+            className={cn(
+              buttonVariants({ variant: "outline" }),
+              "text-sm text-emerald-600 h-12 w-full md:w-48 "
+            )}
+          >
+            Credit With Email
+          </Link>
+
           {allPayments && allPayments.length > 0 ? (
             <a
               download="UnityVerify_Payment_List"
@@ -205,6 +216,7 @@ const TopUp: FC<TopUpProps> = ({}) => {
             </Select>
           </div>
         </div>
+        <div className="flex justify-end "></div>
       </div>
 
       <div className="relative overflow-x-auto">
