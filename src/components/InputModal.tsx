@@ -153,7 +153,7 @@ const InputModal: FC = ({}) => {
   };
 
   return (
-    <div className=" bg-slate-900 bg-opacity-50 fixed top-0 left-0 right-0 bottom-0 ">
+    <div className=" bg-slate-900 bg-opacity-50 fixed top-0 left-0 right-0 bottom-0">
       <div className="flex justify-center items-center h-full">
         <div
           ref={modalRef}

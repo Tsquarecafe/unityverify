@@ -128,7 +128,7 @@ const Users: FC<pageProps> = ({}) => {
                   <th className="text-left text-sm">Agent Bonus</th>
                   <th className="text-left text-sm">No. of Transaction</th>
                   <th className="text-left text-sm">No. of Payment</th>
-                  <th></th>
+                  <th className="text-left text-sm">Edit</th>
                 </tr>
               </thead>
               <tbody>
