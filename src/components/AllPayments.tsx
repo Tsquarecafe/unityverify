@@ -97,16 +97,18 @@ const AllPayments: FC<AllPaymentsProps> = ({}) => {
                 )}
               </td>
             </tr>
-
-            <Pagination
-              currentPage={currentPage}
-              numberOfPages={numberOfPages}
-              handlePrevPage={handlePrevPage}
-              handleSelectPage={handleSelectPage}
-              handleNextPage={handleNextPage}
-            />
           </tbody>
         </table>
+
+        <div className="flex items-center justify-center w-full">
+          <Pagination
+            currentPage={currentPage}
+            numberOfPages={numberOfPages}
+            handlePrevPage={handlePrevPage}
+            handleSelectPage={handleSelectPage}
+            handleNextPage={handleNextPage}
+          />
+        </div>
       </div>
     </div>
   );

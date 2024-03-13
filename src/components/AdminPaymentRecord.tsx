@@ -1,6 +1,6 @@
 import { FC, useRef, useState } from "react";
 import { format, parseISO } from "date-fns";
-import {  MoreVertical } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 import { Payment, PaymentStatus, User } from "@prisma/client";
 import Image from "next/image";
 import { formatToNaira } from "@/lib/utils";
@@ -41,6 +41,15 @@ const AdminPaymentRecord: FC<AdminPaymentRecordProps> = ({
       updatePayment({
         paymentId: id,
         status: PaymentStatus.CREDITED,
+      })
+    );
+    await dispatch(getAllUsersPayments({}));
+  };
+  const handleDeclineTrasaction = async () => {
+    await dispatch(
+      updatePayment({
+        paymentId: id,
+        status: PaymentStatus.FAILED,
       })
     );
     await dispatch(getAllUsersPayments({}));
@@ -103,14 +112,7 @@ const AdminPaymentRecord: FC<AdminPaymentRecordProps> = ({
                   isLoading={isLoading}
                   disabled={isLoading}
                   className="bg-inherit hover:bg-inherit h-full w-full text-gray-900 p-0"
-                  onClick={() =>
-                    dispatch(
-                      updatePayment({
-                        paymentId: id,
-                        status: PaymentStatus.FAILED,
-                      })
-                    )
-                  }
+                  onClick={handleDeclineTrasaction}
                 >
                   Decline
                 </Button>

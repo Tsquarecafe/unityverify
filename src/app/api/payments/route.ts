@@ -4,6 +4,7 @@ import { paymentValidator } from "@/lib/validators/payment";
 import { getAuthSession } from "@/lib/auth";
 import { z } from "zod";
 import { UserRole, createUniqueId } from "@/lib/utils";
+import { PaymentStatus } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
   let paymentSummary = {};
@@ -74,7 +75,7 @@ export async function GET(req: NextRequest) {
     const totalNumberOfPayments = await db.payment.count({
       where: {
         userId: session?.user.id,
-      }
+      },
     });
     const numberOfPages = Math.ceil(totalNumberOfPayments / limit);
 
@@ -84,7 +85,7 @@ export async function GET(req: NextRequest) {
       initiatedPayments,
       failedPayments,
       totalAmount,
-      numberOfPages
+      numberOfPages,
     };
 
     return new Response(JSON.stringify(paymentSummary), { status: 200 });
@@ -185,28 +186,29 @@ export async function PATCH(req: NextRequest) {
     if (!currentPayment)
       return new Response("invalid payment record", { status: 400 });
 
-    const user = await db.user.findFirst({
-      where: {
-        id: currentPayment.userId,
-      },
-    });
-
-    if (!user)
-      return new Response("Invalid User to be credited", {
-        status: 401,
+    if (status != PaymentStatus.FAILED) {
+      const user = await db.user.findFirst({
+        where: {
+          id: currentPayment.userId,
+        },
       });
 
-    const newAccBal = user.accountBalance + currentPayment.amount;
+      if (!user)
+        return new Response("Invalid User to be credited", {
+          status: 401,
+        });
 
-    await db.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        accountBalance: newAccBal,
-      },
-    });
+      const newAccBal = user.accountBalance + currentPayment.amount;
 
+      await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          accountBalance: newAccBal,
+        },
+      });
+    }
     await db.payment.update({
       where: {
         id: paymentId,

@@ -1,5 +1,6 @@
 "use client";
 
+import Pagination from "@/components/Pagination";
 import UserRecord from "@/components/UserRecord";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -159,45 +160,17 @@ const Users: FC<pageProps> = ({}) => {
                     )}
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    {numberOfPages ? (
-                      <div className="flex gap-6 items-center justify-center mx-auto mt-8 w-full ">
-                        <Button
-                          disabled={numberOfPages <= 1}
-                          className="bg-slate-700"
-                          onClick={handlePrevPage}
-                        >
-                          Prev
-                        </Button>
-                        <div className="flex gap-4">
-                          {[...Array(numberOfPages).keys()].map((_, index) => (
-                            <button
-                              className={`w-10 h-10 rounded-lg  ${
-                                currentPage === index + 1
-                                  ? "bg-emerald-800 text-white "
-                                  : "bg-gray-300"
-                              } hover:bg-emerald-500 hover:text-white`}
-                              onClick={() => handleSelectPage(index + 1)}
-                              key={index}
-                            >
-                              {index + 1}
-                            </button>
-                          ))}
-                        </div>
-                        <Button
-                          disabled={numberOfPages <= 1}
-                          className="bg-slate-800"
-                          onClick={handleNextPage}
-                        >
-                          Next
-                        </Button>
-                      </div>
-                    ) : null}
-                  </td>
-                </tr>
               </tbody>
             </table>
+            <div className="flex items-center justify-center w-full">
+              <Pagination
+                currentPage={currentPage}
+                numberOfPages={numberOfPages}
+                handlePrevPage={handlePrevPage}
+                handleSelectPage={handleSelectPage}
+                handleNextPage={handleNextPage}
+              />
+            </div>
           </div>
         </div>
       </>
