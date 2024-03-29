@@ -35,12 +35,6 @@ export async function POST(req: Request) {
       const photoUrlStringNew = photo?.replace(/\n/g, "");
       const signatureUrlStringNew = signature?.replace(/\n/g, "");
 
-      console.log(
-        signatureUrlStringNew,
-        isBase64(signatureUrlStringNew),
-        "isBase64(signatureUrlStringNew)"
-      );
-
       return new Response(
         JSON.stringify({
           data: {

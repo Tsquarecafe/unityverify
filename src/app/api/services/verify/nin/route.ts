@@ -61,8 +61,12 @@ export async function POST(req: Request) {
     res.data.data = { ...res.data.data, ...addressObj };
 
     if (res.data?.status) {
-      const photoUrlStringNew = res.data.data?.photo.replace(/\n/g, "");
-      const signatureUrlStringNew = res.data.data?.signature.replace(/\n/g, "");
+      const photoUrlStringNew = res.data.data?.photo
+        .split(",")[1]
+        ?.replace(/\n/g, "");
+      const signatureUrlStringNew = res.data.data?.signature
+        .split(",")[1]
+        ?.replace(/\n/g, "");
 
       return new Response(
         JSON.stringify({
