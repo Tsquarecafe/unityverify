@@ -22,7 +22,6 @@ export type slipDataType = {
 
 export type verificationResponseType2 = {
   status: boolean;
-  reference: string;
   data: {
     firstname: string;
     surname: string;
@@ -76,6 +75,7 @@ export type verificationResponseType2 = {
 export type verificationResponseType = {
   status: true;
   data: {
+    email?: string;
     birthcountry: string;
     birthdate: string;
     birthlga: string;
@@ -88,15 +88,24 @@ export type verificationResponseType = {
     heigth: string;
     maritalstatus: string;
     middlename: string;
+    psurname?: string;
+    pmiddlename?: string;
+    pfirstname?: string;
+    self_origin_lga?: string;
+    self_origin_place?: string;
+    self_origin_state?: string;
     nin: string;
     nok_address1: string;
+    nok_address2?: string;
     nok_firstname: string;
     nok_lga: string;
     nok_middlename: string;
     nok_state: string;
     nok_surname: string;
     nok_town: string;
+    nok_postalcode?: string;
     nspokenlang: string; //DDD
+    ospokenlang?: string;
     photo: string;
     profession: string;
     religion: string;

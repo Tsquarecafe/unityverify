@@ -1,17 +1,18 @@
 import { noPhotoString } from "@/lib/imageBlob";
 import isBase64 from "is-base64";
 import axios, { AxiosResponse } from "axios";
+import { extractAddressFromRes, renameResponseobjKeys } from "@/lib/utils";
 
 const baseURL = "https://api.quickverify.com.ng/verification";
 const headers = {
   "Content-Type": "application/json",
-  "x-api-key": process.env.QUICK_VERIFY_API_KEY,
+  Authorization: `Token ${process.env.NIN_PRINT_API_KEY}`,
 };
 
 const ninVerify = async (nin: string) => {
   try {
     return await axios.post(
-      `${baseURL}/nin-search`,
+      `https://ninprint.com.ng/api/nin-search2/`,
       {
         nin,
       },
@@ -47,10 +48,19 @@ export async function POST(req: Request) {
       // @ts-ignore
       res = await ninVerify(nin);
     } else {
+      return new Response("Service Currently Unavialable", {
+        status: 500,
+      });
       // @ts-ignore
       res = await vninVerify(vnin);
     }
 
+    res.data = renameResponseobjKeys(res.data);
+
+    let addressObj = extractAddressFromRes(res.data.data.address);
+    res.data.data = { ...res.data.data, ...addressObj };
+
+    console.log(res.data.data, "res.data.data");
     if (res.data?.status) {
       const photoUrlStringNew = res.data.data?.photo.replace(/\n/g, "");
       const signatureUrlStringNew = res.data.data?.signature.replace(/\n/g, "");

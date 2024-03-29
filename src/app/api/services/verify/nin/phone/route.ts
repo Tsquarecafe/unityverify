@@ -1,10 +1,12 @@
 import { noPhotoString } from "@/lib/imageBlob";
+import { renameResponseobjKeys } from "@/lib/utils";
 import axios from "axios";
 import isBase64 from "is-base64";
 
 const headers = {
   "Content-Type": "application/json",
-  "x-api-key": process.env.QUICK_VERIFY_API_KEY,
+  "x-api-key": process.env.VERIFICATION_API_KEY,
+  app_id: process.env.VERIFICATION_APP_ID,
 };
 
 export async function POST(req: Request) {
@@ -17,12 +19,14 @@ export async function POST(req: Request) {
 
   try {
     let res = await axios.post(
-      "https://api.quickverify.com.ng/verification/nin-phone",
+      "https://api.prembly.com/identitypass/verification/phone_number/advance",
       {
-        phone,
+        number: phone,
       },
       { headers }
     );
+
+    res.data = renameResponseobjKeys(res.data);
 
     if (res.data?.status) {
       const { residence_Town, residence_AdressLine1, photo, signature } =

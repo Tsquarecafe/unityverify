@@ -1,3 +1,4 @@
+import { verificationResponseType2 } from "@/types/service";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -213,3 +214,79 @@ export function debounce<T extends (...args: any[]) => any>(
     timeout = setTimeout(later, wait);
   };
 }
+
+export const renameResponseobjKeys = (obj: verificationResponseType2) => {
+  let newRes = {};
+
+  let oldDataIbj = obj.data;
+  Object.keys(oldDataIbj).forEach((oldKey) => {
+    let newKey = oldKey;
+
+    if (oldKey === "residence_town") {
+      newKey = "residence_Town";
+    } else if (oldKey === "residence_address") {
+      newKey = "residence_AdressLine1";
+    } else if (oldKey === "firstName") {
+      newKey = "firstname";
+    } else if (oldKey === "lastName") {
+      newKey = "surname";
+    } else if (oldKey === "image") {
+      newKey = "photo";
+    } else if (oldKey === "mobile") {
+      newKey = "phone";
+    } else if (oldKey === "nokState") {
+      newKey = "nok_state";
+    } else if (oldKey === "nokState") {
+      newKey = "nok_state";
+    } else if (oldKey === "birthState") {
+      newKey = "birthstate";
+    } else if (oldKey === "birthState") {
+      newKey = "birthstate";
+    } else if (oldKey === "birthLGA") {
+      newKey = "birthlga";
+    } else if (oldKey === "birthCountry") {
+      newKey = "birthcountry";
+    } else if (oldKey === "birthCountry") {
+      newKey = "birthcountry";
+    } else if (oldKey === "dateOfBirth") {
+      newKey = "birthdate";
+    } else if (oldKey === "idNumber") {
+      newKey = "nin";
+    } else if (oldKey === "employmentstatus") {
+      newKey = "emplymentstatus";
+    }
+
+    /* @ts-ignore */
+    newRes[newKey] = oldDataIbj[oldKey];
+  });
+
+  /* @ts-ignore */
+  obj.data = newRes;
+  return obj;
+};
+
+export const extractAddressFromRes = (obj: any) => {
+  let newRes = {};
+
+  let oldDataIbj = obj;
+
+  Object.keys(oldDataIbj).forEach((oldKey) => {
+    let newKey = oldKey;
+
+    if (oldKey === "town") {
+      newKey = "residence_Town";
+    } else if (oldKey === "lga") {
+      newKey = "residence_lga";
+    } else if (oldKey === "state") {
+      newKey = "residence_state";
+    } else if (oldKey === "addressLine") {
+      newKey = "residence_AdressLine1";
+    }
+
+    /* @ts-ignore */
+    newRes[newKey] = oldDataIbj[oldKey];
+  });
+
+
+  return newRes
+};
