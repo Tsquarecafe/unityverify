@@ -31,6 +31,8 @@ const PremiumSlip = async (res: verificationResponseType) => {
   const { surname, firstname, middlename, birthdate, nin, photo, gender } =
     data;
 
+  console.log(surname, firstname, middlename, birthdate, nin, photo, gender);
+
   const fetchFont = async () => {
     const font: Font = {
       OCRBRegular: {
@@ -51,6 +53,17 @@ const PremiumSlip = async (res: verificationResponseType) => {
     return font;
   };
 
+  const transformData = () => {
+    if (birthdate.includes("_")) {
+      const [day, month, year] = birthdate?.split("-");
+      const formattedBirthdate = `${month}-${day}-${year}`;
+
+      return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
+    } else {
+      return birthdate;
+    }
+  };
+
   const generatePDF = async () => {
     try {
       const font = await fetchFont();
@@ -58,17 +71,11 @@ const PremiumSlip = async (res: verificationResponseType) => {
       const qrcode = (await generateQR(`{ surname: ${surname},
             givenNames: ${firstname} ${middlename}, dob: ${birthdate}}`)) as string;
 
-      const [day, month, year] = birthdate?.split("-");
-      const formattedBirthdate = `${month}-${day}-${year}`;
-
       const inputs = [
         {
           surname: `${surname || ""}`.toUpperCase(),
           givenNames: `${firstname || ""}, ${middlename || ""}`.toUpperCase(),
-          dob: format(
-            new Date(formattedBirthdate),
-            "dd MMM yyyy"
-          )?.toUpperCase(),
+          dob: transformData(),
           gender: `${gender}`.toUpperCase(),
           NGA: "NGA",
           photo: `data:image/${
@@ -100,7 +107,7 @@ const PremiumSlip = async (res: verificationResponseType) => {
       console.log(error);
       return toast({
         title: "Error Generating Basic NIN Slip",
-        description: "Unable to generate NIN slip type. Plese try again later",
+        description: "Unable to generate NIN slip type. Please try again later",
         variant: "destructive",
       });
     }

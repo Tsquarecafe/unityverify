@@ -246,8 +246,6 @@ export const renameResponseobjKeys = (obj: verificationResponseType2) => {
       newKey = "birthlga";
     } else if (oldKey === "birthCountry") {
       newKey = "birthcountry";
-    } else if (oldKey === "birthCountry") {
-      newKey = "birthcountry";
     } else if (oldKey === "dateOfBirth") {
       newKey = "birthdate";
     } else if (oldKey === "idNumber") {
@@ -287,6 +285,7 @@ export const extractAddressFromRes = (obj: any) => {
     newRes[newKey] = oldDataIbj[oldKey];
   });
 
-
-  return newRes
+  return newRes;
 };
+
+

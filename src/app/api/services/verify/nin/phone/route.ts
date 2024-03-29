@@ -26,9 +26,9 @@ export async function POST(req: Request) {
       { headers }
     );
 
-    res.data = renameResponseobjKeys(res.data);
-
     if (res.data?.status) {
+      res.data = renameResponseobjKeys(res.data);
+
       const { residence_Town, residence_AdressLine1, photo, signature } =
         res.data?.data;
 

@@ -44,6 +44,17 @@ const ImprovedSlip = async (res: verificationResponseType) => {
     return font;
   };
 
+  const transformData = () => {
+    if (birthdate.includes("_")) {
+      const [day, month, year] = birthdate?.split("-");
+      const formattedBirthdate = `${month}-${day}-${year}`;
+
+      return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
+    } else {
+      return birthdate;
+    }
+  };
+
   const generatePDF = async () => {
     try {
       const font = await fetchFont();
@@ -51,17 +62,11 @@ const ImprovedSlip = async (res: verificationResponseType) => {
       const qrcode = (await generateQR(`{ surname: ${surname},
             givenNames: ${firstname} ${middlename}, dob: ${birthdate}}`)) as string;
 
-      const [day, month, year] = birthdate?.split("-");
-      const formattedBirthdate = `${month}-${day}-${year}`;
-
       const inputs = [
         {
           surname: `${surname || ""}`.toUpperCase(),
           givenNames: `${firstname || ""}, ${middlename || ""}`.toUpperCase(),
-          dob: format(
-            new Date(formattedBirthdate),
-            "dd MMM yyyy"
-          )?.toUpperCase(),
+          dob: transformData(),
           photo: `data:image/${
             photo.charAt(0) === "/" ? "jpeg" : "png"
           };base64,${photo}`,
