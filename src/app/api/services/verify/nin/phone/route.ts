@@ -35,16 +35,24 @@ export async function POST(req: Request) {
       const photoUrlStringNew = photo?.replace(/\n/g, "");
       const signatureUrlStringNew = signature?.replace(/\n/g, "");
 
+      console.log(
+        signatureUrlStringNew,
+        isBase64(signatureUrlStringNew),
+        "isBase64(signatureUrlStringNew)"
+      );
+
       return new Response(
         JSON.stringify({
           data: {
             ...res.data.data,
-            photo: isBase64(photoUrlStringNew)
-              ? photoUrlStringNew
-              : noPhotoString,
-            signature: isBase64(signatureUrlStringNew)
-              ? signatureUrlStringNew
-              : noPhotoString,
+            photo:
+              isBase64(photoUrlStringNew) && photoUrlStringNew != ""
+                ? photoUrlStringNew
+                : noPhotoString,
+            signature:
+              isBase64(signatureUrlStringNew) && signatureUrlStringNew != ""
+                ? signatureUrlStringNew
+                : noPhotoString,
             residence_address: residence_AdressLine1,
             residence_town: residence_Town,
           },

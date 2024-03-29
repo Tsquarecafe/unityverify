@@ -60,7 +60,6 @@ export async function POST(req: Request) {
     let addressObj = extractAddressFromRes(res.data.data.address);
     res.data.data = { ...res.data.data, ...addressObj };
 
-    console.log(res.data.data, "res.data.data");
     if (res.data?.status) {
       const photoUrlStringNew = res.data.data?.photo.replace(/\n/g, "");
       const signatureUrlStringNew = res.data.data?.signature.replace(/\n/g, "");
@@ -69,12 +68,14 @@ export async function POST(req: Request) {
         JSON.stringify({
           data: {
             ...res.data?.data,
-            photo: isBase64(photoUrlStringNew)
-              ? photoUrlStringNew
-              : noPhotoString,
-            signature: isBase64(signatureUrlStringNew)
-              ? signatureUrlStringNew
-              : noPhotoString,
+            photo:
+              isBase64(photoUrlStringNew) && photoUrlStringNew != ""
+                ? photoUrlStringNew
+                : noPhotoString,
+            signature:
+              isBase64(signatureUrlStringNew) && signatureUrlStringNew != ""
+                ? signatureUrlStringNew
+                : noPhotoString,
           },
           status: res.data?.status,
         }),
