@@ -55,6 +55,8 @@ export async function POST(req: Request) {
       res = await vninVerify(vnin);
     }
 
+    console.log(res.data, "res.data");
+
     if (res.data?.status) {
       res.data = renameResponseobjKeys(res.data);
 

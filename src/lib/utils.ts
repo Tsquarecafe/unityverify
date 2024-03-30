@@ -228,6 +228,8 @@ export const renameResponseobjKeys = (obj: verificationResponseType2) => {
       newKey = "residence_AdressLine1";
     } else if (oldKey === "firstName") {
       newKey = "firstname";
+    } else if (oldKey === "middleName") {
+      newKey = "middlename";
     } else if (oldKey === "lastName") {
       newKey = "surname";
     } else if (oldKey === "image") {
@@ -287,5 +289,3 @@ export const extractAddressFromRes = (obj: any) => {
 
   return newRes;
 };
-
-
