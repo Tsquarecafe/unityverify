@@ -235,7 +235,9 @@ export const renameResponseobjKeys = (obj: verificationResponseType2) => {
     } else if (oldKey === "image") {
       newKey = "photo";
     } else if (oldKey === "mobile") {
-      newKey = "phone";
+      newKey = "telephoneno";
+    } else if (oldKey === "transaction_id") {
+      newKey = "trackingId";
     } else if (oldKey === "nokState") {
       newKey = "nok_state";
     } else if (oldKey === "nokState") {

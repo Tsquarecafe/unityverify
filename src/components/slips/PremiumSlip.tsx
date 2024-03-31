@@ -31,8 +31,6 @@ const PremiumSlip = async (res: verificationResponseType) => {
   const { surname, firstname, middlename, birthdate, nin, photo, gender } =
     data;
 
-  console.log(surname, firstname, middlename, birthdate, nin, photo, gender);
-
   const fetchFont = async () => {
     const font: Font = {
       OCRBRegular: {

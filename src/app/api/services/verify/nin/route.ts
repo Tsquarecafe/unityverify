@@ -55,12 +55,12 @@ export async function POST(req: Request) {
       res = await vninVerify(vnin);
     }
 
-    console.log(res.data, "res.data");
-
     if (res.data?.status) {
       res.data = renameResponseobjKeys(res.data);
+      res.data.data.trackingId = res.data?.transaction_id;
 
       let addressObj = extractAddressFromRes(res.data.data.address);
+
       res.data.data = { ...res.data.data, ...addressObj };
 
       const photoUrlStringNew = res.data.data?.photo
