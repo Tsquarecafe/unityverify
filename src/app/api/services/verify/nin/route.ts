@@ -57,7 +57,7 @@ export async function POST(req: Request) {
 
     if (res.data?.status) {
       res.data = renameResponseobjKeys(res.data);
-      res.data.data.trackingId = res.data?.transaction_id;
+      // res.data.data.trackingId = res.data?.transaction_id;
 
       let addressObj = extractAddressFromRes(res.data.data.address);
 

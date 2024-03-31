@@ -39,6 +39,18 @@ const PremiumSlip = async (res: verificationResponseType) => {
         ),
         fallback: true,
       },
+      OCRBBold: {
+        data: await fetch("/fonts/OCRBBold.ttf").then((res) =>
+          res.arrayBuffer()
+        ),
+        fallback: false,
+      },
+      OCRBMedium: {
+        data: await fetch("/fonts/OCRBMedium.ttf").then((res) =>
+          res.arrayBuffer()
+        ),
+        fallback: false,
+      },
 
       CalibriBold: {
         data: await fetch("/fonts/CalibriBold.TTF").then((res) =>
