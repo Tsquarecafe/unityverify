@@ -64,7 +64,7 @@ const PremiumSlip = async (res: verificationResponseType) => {
   };
 
   const transformData = () => {
-    if (birthdate.includes("_")) {
+    if (birthdate.includes("-")) {
       const [day, month, year] = birthdate?.split("-");
       const formattedBirthdate = `${month}-${day}-${year}`;
 
