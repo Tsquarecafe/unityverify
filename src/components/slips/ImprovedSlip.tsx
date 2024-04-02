@@ -46,7 +46,7 @@ const ImprovedSlip = async (res: verificationResponseType) => {
 
   const transformData = () => {
     if (birthdate.includes("-")) {
-      const [day, month, year] = birthdate?.split("-");
+      const [year, month, day] = birthdate?.split("-");
       const formattedBirthdate = `${month}-${day}-${year}`;
 
       return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
