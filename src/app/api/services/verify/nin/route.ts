@@ -64,10 +64,10 @@ export async function POST(req: Request) {
       res.data.data = { ...res.data.data, ...addressObj };
 
       const photoUrlStringNew = res.data.data?.photo
-        .split(",")[1]
+        ?.split(",")[1]
         ?.replace(/\n/g, "");
       const signatureUrlStringNew = res.data.data?.signature
-        .split(",")[1]
+        ?.split(",")[1]
         ?.replace(/\n/g, "");
 
       return new Response(
