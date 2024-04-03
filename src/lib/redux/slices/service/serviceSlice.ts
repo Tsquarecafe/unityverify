@@ -17,6 +17,7 @@ import { SlipType } from "@prisma/client";
 interface ServiceSliceState {
   selectedService: serviceDataType;
   selectedSubService: subServiceDataType | null;
+  slipBlob: null | Blob;
   selectedSlipType: slipDataType;
   allSlips: SlipType[] | null;
   isLoading: boolean;
@@ -31,6 +32,7 @@ const initialState: ServiceSliceState = {
     image: "",
     isServiecAvailable: false,
   },
+  slipBlob: null,
   selectedSubService: null,
   selectedSlipType: {
     id: "",
@@ -52,6 +54,9 @@ const serviceSlice = createSlice({
     },
     selectSubService: (state, action) => {
       state.selectedSubService = action.payload;
+    },
+    setSlipBlob: (state, action) => {
+      state.slipBlob = action.payload;
     },
     selectSlipType: (state, action) => {
       state.selectedSlipType = action.payload;
@@ -118,8 +123,7 @@ const serviceSlice = createSlice({
   },
 });
 
-
-export const { selectService, selectSubService, selectSlipType } =
+export const { selectService, selectSubService, selectSlipType, setSlipBlob } =
   serviceSlice.actions;
 
 export default serviceSlice.reducer;

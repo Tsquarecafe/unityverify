@@ -16,12 +16,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react";
+import SelectSlip from "@/components/slips/SelectSlip";
+import { setSlipBlob } from "@/lib/redux/slices/service/serviceSlice";
 
 interface SlipPageProps {}
 const SlipPage: FC<SlipPageProps> = ({}) => {
-  const { allSlips, selectedSlipType } = useSelector(
+  const { allSlips, response, selectedSlipType } = useSelector(
     (store: RootState) => store.service
   );
+
   const dispatch = useDispatch<AppDispatch>();
 
   const params = useParams<{ transactionId: string }>();
@@ -63,6 +66,13 @@ const SlipPage: FC<SlipPageProps> = ({}) => {
         status: "SUCCESS",
       });
       if (res.status === 200) {
+        if (response)
+          dispatch(
+            setSlipBlob(
+              await SelectSlip({ slipTitle: selectedSlipType.title, response })
+            )
+          );
+
         router.push("/dashboard/nin/success");
       } else {
         setIsLoading(false);

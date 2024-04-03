@@ -13,19 +13,18 @@ import { useSelector } from "react-redux";
 interface SlipProps {}
 const Slip: FC<SlipProps> = ({}) => {
   const {
-    selectedSlipType: { title },
+    slipBlob: sBlob,
     response,
+    selectedSlipType: { title },
   } = useSelector((store: RootState) => store.service);
   const [slipBlob, setSlipBlob] = useState<Blob>();
   const router = useRouter();
-  useEffect(() => {
-    const getSlipBlob = async () => {
-      if (response)
-        setSlipBlob(await SelectSlip({ slipTitle: title, response }));
-    };
 
-    getSlipBlob();
-  }, []);
+  useEffect(() => {
+    if (sBlob) {
+      setSlipBlob(sBlob);
+    }
+  }, [sBlob]);
 
   const openSlipInWindow = () => {
     if (typeof window !== "undefined" && slipBlob)
