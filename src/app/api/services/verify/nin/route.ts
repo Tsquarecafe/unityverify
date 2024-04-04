@@ -55,7 +55,7 @@ export async function POST(req: Request) {
       res = await vninVerify(vnin);
     }
 
-    if (res.data?.status) {
+    if (res.data?.status && res?.data?.data?.status == "found") {
       res.data = renameResponseobjKeys(res.data);
       // res.data.data.trackingId = res.data?.transaction_id;
 
@@ -69,6 +69,8 @@ export async function POST(req: Request) {
       const signatureUrlStringNew = res.data.data?.signature
         ?.split(",")[1]
         ?.replace(/\n/g, "");
+
+      console.log(res.data);
 
       return new Response(
         JSON.stringify({
@@ -87,6 +89,10 @@ export async function POST(req: Request) {
         }),
         { status: 200 }
       );
+    } else if (res?.data?.data?.status == "not_found") {
+      return new Response("Record Not Found", {
+        status: 500,
+      });
     } else {
       if (res?.data?.message) {
         return new Response(res.data.message, {

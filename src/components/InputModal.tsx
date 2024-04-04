@@ -112,8 +112,6 @@ const InputModal: FC = ({}) => {
             );
           }
 
-        
-
           if (verificationResult?.meta.requestStatus === "rejected") {
             return toast({
               title: "Verification Failed",
