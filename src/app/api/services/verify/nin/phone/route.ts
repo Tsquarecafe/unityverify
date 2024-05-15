@@ -1,13 +1,11 @@
 import { noPhotoString } from "@/lib/imageBlob";
 import { renameResponseobjKeys } from "@/lib/utils";
 import axios from "axios";
-import { format } from "date-fns";
 import isBase64 from "is-base64";
 
 const headers = {
   "Content-Type": "application/json",
-  "x-api-key": process.env.VERIFICATION_API_KEY,
-  app_id: process.env.VERIFICATION_APP_ID,
+  Authorization: `Bearer ${process.env.IDVERIFYTOKEN}`,
 };
 
 export async function POST(req: Request) {
@@ -20,26 +18,28 @@ export async function POST(req: Request) {
 
   try {
     let res = await axios.post(
-      "https://api.prembly.com/identitypass/verification/phone_number/advance",
+      "https://directverify.com.ng/api/pnv/index",
       {
-        number: phone,
+        idNumber: phone,
+        idType: "PNV",
+        consent: true,
       },
       { headers }
     );
 
     if (res.data?.status) {
-      res.data = renameResponseobjKeys(res.data);
+      // res.data = renameResponseobjKeys(res.data);
 
-      const { residence_Town, residence_AdressLine1, photo, signature } =
-        res.data?.data;
-
-      const photoUrlStringNew = photo?.replace(/\n/g, "");
-      const signatureUrlStringNew = signature?.replace(/\n/g, "");
+      const photoUrlStringNew = res.data.message?.photo?.replace(/\n/g, "");
+      const signatureUrlStringNew = res.data.message?.signature?.replace(
+        /\n/g,
+        ""
+      );
 
       return new Response(
         JSON.stringify({
           data: {
-            ...res.data.data,
+            ...res.data.message,
             photo:
               isBase64(photoUrlStringNew) && photoUrlStringNew != ""
                 ? photoUrlStringNew
@@ -48,8 +48,6 @@ export async function POST(req: Request) {
               isBase64(signatureUrlStringNew) && signatureUrlStringNew != ""
                 ? signatureUrlStringNew
                 : noPhotoString,
-            residence_address: residence_AdressLine1,
-            residence_town: residence_Town,
           },
           status: res.data.status,
         }),
@@ -60,11 +58,7 @@ export async function POST(req: Request) {
         return new Response(res.data.message, {
           status: 500,
         });
-      } else if (!res?.data)
-        return new Response("Record not Found!", {
-          status: 400,
-        });
-      else {
+      } else {
         return new Response("Something Went Wrong, Please try again latter", {
           status: 500,
         });

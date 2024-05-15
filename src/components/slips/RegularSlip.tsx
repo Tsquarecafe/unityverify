@@ -3,10 +3,10 @@ import { generate } from "@pdfme/generator";
 import { image, text } from "@pdfme/schemas";
 import regularSlipTemplate from "@/lib/templates/regularSlipTemplate.json";
 import { Font } from "@/types/pdfme";
-import { verificationResponseType } from "@/types/service";
+import { verificationResponseType2 } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
 
-const RegularSlip = async (res: verificationResponseType) => {
+const RegularSlip = async (res: verificationResponseType2) => {
   const template: Template = regularSlipTemplate;
 
   const { data } = res;

@@ -5,7 +5,7 @@ import premiumSlipTemplate from "@/lib/templates/premiumSlipTemplate.json";
 import type { Template } from "@pdfme/common";
 import { format } from "date-fns";
 import QRCode from "qrcode";
-import { verificationResponseType } from "@/types/service";
+import { verificationResponseType2 } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
 
 const generateQR = async (text: string) => {
@@ -22,7 +22,7 @@ const generateQR = async (text: string) => {
   }
 };
 
-const PremiumSlip = async (res: verificationResponseType) => {
+const PremiumSlip = async (res: verificationResponseType2) => {
   // @ts-ignore
   const template: Template = premiumSlipTemplate;
 
@@ -65,7 +65,7 @@ const PremiumSlip = async (res: verificationResponseType) => {
 
   const transformData = () => {
     if (birthdate.includes("-")) {
-      const [year, month, day] = birthdate?.split("-");
+      const [day, month, year] = birthdate?.split("-");
       const formattedBirthdate = `${month}-${day}-${year}`;
 
       return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();

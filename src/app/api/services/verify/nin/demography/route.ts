@@ -10,14 +10,6 @@ const headers = {
 export async function POST(req: Request) {
   const { firstname, lastname, gender, dob } = await req.json();
 
-  console.log(
-    firstname,
-    lastname,
-    gender,
-    dob,
-    "firstname, lastname, gender, dob"
-  );
-
   if (!firstname || !lastname || !gender || !dob)
     return new Response("Please Provide all fields Registered with NIMC", {
       status: 400,
@@ -39,8 +31,7 @@ export async function POST(req: Request) {
     );
 
     if (res.data?.status) {
-      const { residence_Town, residence_AdressLine1, photo, signature } =
-        res.data?.data;
+      const { photo, signature } = res.data?.data;
 
       const photoUrlStringNew = photo?.replace(/\n/g, "");
       const signatureUrlStringNew = signature?.replace(/\n/g, "");
@@ -55,8 +46,6 @@ export async function POST(req: Request) {
             signature: isBase64(signatureUrlStringNew)
               ? signatureUrlStringNew
               : noPhotoString,
-            residence_address: residence_AdressLine1,
-            residence_town: residence_Town,
           },
           status: res.data.status,
         }),

@@ -3,10 +3,10 @@ import { generate } from "@pdfme/generator";
 import { image, text } from "@pdfme/schemas";
 import nvsSlipTemplateSlip from "@/lib/templates/nvsSlipTemplateSlip.json";
 import { Font } from "@/types/pdfme";
-import { verificationResponseType } from "@/types/service";
+import { verificationResponseType2 } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
 
-const NVSSlip = async (res: verificationResponseType) => {
+const NVSSlip = async (res: verificationResponseType2) => {
   const template: Template = nvsSlipTemplateSlip;
 
   const { data } = res;

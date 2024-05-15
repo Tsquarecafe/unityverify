@@ -1,20 +1,21 @@
 import { noPhotoString } from "@/lib/imageBlob";
 import isBase64 from "is-base64";
 import axios, { AxiosResponse } from "axios";
-import { extractAddressFromRes, renameResponseobjKeys } from "@/lib/utils";
 
-const baseURL = "https://api.quickverify.com.ng/verification";
+const baseURL = "https://directverify.com.ng/api";
 const headers = {
   "Content-Type": "application/json",
-  Authorization: `Token ${process.env.NIN_PRINT_API_KEY}`,
+  Authorization: `Bearer ${process.env.IDVERIFYTOKEN}`,
 };
 
 const ninVerify = async (nin: string) => {
   try {
     return await axios.post(
-      `https://ninprint.com.ng/api/nin-search2/`,
+      `${baseURL}/nin/index`,
       {
-        nin,
+        idNumber: nin,
+        idType: "NIN",
+        consent: true,
       },
       { headers }
     );
@@ -25,18 +26,14 @@ const ninVerify = async (nin: string) => {
 };
 
 const vninVerify = async (vnin: string) => {
-  try {
-    return await axios.post(
-      `${baseURL}/vnin`,
-      {
-        vnin,
-      },
-      { headers }
-    );
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+  throw Error("Service Currently unavailable!");
+  return await axios.post(
+    `${baseURL}/vnin`,
+    {
+      vnin,
+    },
+    { headers }
+  );
 };
 
 export async function POST(req: Request) {
@@ -48,34 +45,21 @@ export async function POST(req: Request) {
       // @ts-ignore
       res = await ninVerify(nin);
     } else {
-      return new Response("Service Currently Unavialable", {
-        status: 500,
-      });
       // @ts-ignore
       res = await vninVerify(vnin);
     }
 
-    if (res.data?.status && res?.data?.data?.status == "found") {
-      res.data = renameResponseobjKeys(res.data);
-      // res.data.data.trackingId = res.data?.transaction_id;
-
-      let addressObj = extractAddressFromRes(res.data.data.address);
-
-      res.data.data = { ...res.data.data, ...addressObj };
-
-      const photoUrlStringNew = res.data.data?.photo
-        ?.split(",")[1]
-        ?.replace(/\n/g, "");
-      const signatureUrlStringNew = res.data.data?.signature
-        ?.split(",")[1]
-        ?.replace(/\n/g, "");
-
-      console.log(res.data);
+    if (res.data?.status) {
+      const photoUrlStringNew = res.data.message?.photo?.replace(/\n/g, "");
+      const signatureUrlStringNew = res.data.message?.signature?.replace(
+        /\n/g,
+        ""
+      );
 
       return new Response(
         JSON.stringify({
           data: {
-            ...res.data?.data,
+            ...res.data?.message,
             photo:
               isBase64(photoUrlStringNew) && photoUrlStringNew != ""
                 ? photoUrlStringNew
@@ -89,10 +73,6 @@ export async function POST(req: Request) {
         }),
         { status: 200 }
       );
-    } else if (res?.data?.data?.status == "not_found") {
-      return new Response("Record Not Found", {
-        status: 500,
-      });
     } else {
       if (res?.data?.message) {
         return new Response(res.data.message, {
@@ -106,7 +86,7 @@ export async function POST(req: Request) {
     }
   } catch (error) {
     console.log(error);
-    return new Response("Could not verify, please try again", {
+    return new Response("Service Not Avialable", {
       status: 500,
     });
   }
