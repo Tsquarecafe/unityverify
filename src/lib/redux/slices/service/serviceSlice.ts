@@ -2,7 +2,7 @@ import {
   serviceDataType,
   slipDataType,
   subServiceDataType,
-  verificationResponseType,
+  verificationResponseType2,
 } from "@/types/service";
 import { createSlice } from "@reduxjs/toolkit";
 import {
@@ -21,7 +21,7 @@ interface ServiceSliceState {
   selectedSlipType: slipDataType;
   allSlips: SlipType[] | null;
   isLoading: boolean;
-  response: verificationResponseType | null;
+  response: verificationResponseType2 | null;
 }
 
 const initialState: ServiceSliceState = {

@@ -8,7 +8,7 @@ import {
   regularSlipTitle,
   NVSSlipTitle,
 } from "@/lib/utils";
-import { verificationResponseType } from "@/types/service";
+import { verificationResponseType2 } from "@/types/service";
 import ImprovedSlip from "./ImprovedSlip";
 import NVSSlip from "./NVSSlip";
 
@@ -17,7 +17,7 @@ const SelectSlip = async ({
   response,
 }: {
   slipTitle: string;
-  response: verificationResponseType;
+  response: verificationResponseType2;
 }) => {
   let slipBlob: Blob;
 
