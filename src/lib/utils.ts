@@ -1,4 +1,4 @@
-import { verificationResponseType2 } from "@/types/service";
+import { ResponseTypeDirectVerify } from "@/types/service";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -215,7 +215,7 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
-export const renameResponseobjKeys = (obj: verificationResponseType2) => {
+export const renameResponseobjKeys = (obj: ResponseTypeDirectVerify) => {
   let newRes = {};
 
   let oldDataIbj = obj.data;

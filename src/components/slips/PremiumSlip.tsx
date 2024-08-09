@@ -5,7 +5,7 @@ import premiumSlipTemplate from "@/lib/templates/premiumSlipTemplate.json";
 import type { Template } from "@pdfme/common";
 import { format } from "date-fns";
 import QRCode from "qrcode";
-import { verificationResponseType2 } from "@/types/service";
+import { ResponseTypeDirectVerify } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
 
 const generateQR = async (text: string) => {
@@ -22,14 +22,21 @@ const generateQR = async (text: string) => {
   }
 };
 
-const PremiumSlip = async (res: verificationResponseType2) => {
+const PremiumSlip = async (res: ResponseTypeDirectVerify) => {
   // @ts-ignore
   const template: Template = premiumSlipTemplate;
 
   const { data } = res;
 
-  const { surname, firstname, middlename, birthdate, nin, photo, gender } =
-    data;
+  const {
+    lastName,
+    firstName,
+    middleName,
+    idNumber,
+    photo,
+    gender,
+    dateOfBirth,
+  } = data;
 
   const fetchFont = async () => {
     const font: Font = {
@@ -64,13 +71,13 @@ const PremiumSlip = async (res: verificationResponseType2) => {
   };
 
   const transformData = () => {
-    if (birthdate.includes("-")) {
-      const [day, month, year] = birthdate?.split("-");
+    if (dateOfBirth.includes("-")) {
+      const [day, month, year] = dateOfBirth?.split("-");
       const formattedBirthdate = `${month}-${day}-${year}`;
 
       return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
     } else {
-      return birthdate;
+      return dateOfBirth;
     }
   };
 
@@ -78,25 +85,28 @@ const PremiumSlip = async (res: verificationResponseType2) => {
     try {
       const font = await fetchFont();
 
-      const qrcode = (await generateQR(`{ surname: ${surname},
-            givenNames: ${firstname} ${middlename}, dob: ${birthdate}}`)) as string;
+      const qrcode = (await generateQR(`{ surname: ${lastName},
+            givenNames: ${firstName} ${middleName}, dob: ${dateOfBirth}}`)) as string;
 
       const inputs = [
         {
-          surname: `${surname || ""}`.toUpperCase(),
-          givenNames: `${firstname || ""}, ${middlename || ""}`.toUpperCase(),
+          surname: `${lastName || ""}`.toUpperCase(),
+          givenNames: `${firstName || ""}, ${middleName || ""}`.toUpperCase(),
           dob: transformData(),
           gender: `${gender}`.toUpperCase(),
           NGA: "NGA",
           photo: `data:image/${
             photo.charAt(0) === "/" ? "jpeg" : "png"
           };base64,${photo}`,
-          nin: `${nin?.slice(0, 4)} ${nin?.slice(4, 7)} ${nin?.slice(7)}`,
+          nin: `${idNumber?.slice(0, 4)} ${idNumber?.slice(
+            4,
+            7
+          )} ${idNumber?.slice(7)}`,
           issuedDate: format(new Date(), "dd MMM yyyy")?.toUpperCase(),
-          ninBackdrop1: nin,
-          ninBackdrop2: nin,
-          ninBackdrop3: nin,
-          ninBackdrop4: nin,
+          ninBackdrop1: idNumber,
+          ninBackdrop2: idNumber,
+          ninBackdrop3: idNumber,
+          ninBackdrop4: idNumber,
           qrcode,
         },
       ];

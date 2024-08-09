@@ -1,3 +1,5 @@
+import { boolean } from "zod";
+
 export type serviceDataType = {
   title: string;
   description: string;
@@ -73,7 +75,7 @@ export type verificationResponseType = {
 };
 
 export type verificationResponseType2 = {
-  status: true;
+  status: boolean;
   data: {
     email?: string;
     birthcountry: string;
@@ -119,5 +121,47 @@ export type verificationResponseType2 = {
     telephoneno: string;
     title: string;
     trackingId: string;
+  };
+};
+
+export type ResponseTypeDirectVerify = {
+  status: boolean;
+  data: {
+    id: string;
+    town: string;
+    lga: string;
+    state: string;
+    addressLine: string;
+    parentId: null;
+    status: string;
+    reason: null;
+    dataValidation: boolean;
+    selfieValidation: boolean;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    image: string;
+    signature: string;
+    mobile: string;
+    email: string;
+    birthState?: string;
+    nokState: string;
+    religion: string;
+    birthLGA?: string;
+    birthCountry: string;
+    dateOfBirth: string;
+    isConsent: boolean;
+    idNumber: string;
+    businessId: string;
+    type: string;
+    allValidationPassed: boolean;
+    gender: string;
+    requestedAt: string;
+    requestedById: string;
+    country: string;
+    createdAt: string;
+    lastModifiedAt: string;
+    photo: "";
+
   };
 };

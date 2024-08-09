@@ -3,38 +3,37 @@ import { generate } from "@pdfme/generator";
 import { image, text } from "@pdfme/schemas";
 import regularSlipTemplate from "@/lib/templates/regularSlipTemplate.json";
 import { Font } from "@/types/pdfme";
-import { verificationResponseType2 } from "@/types/service";
+import { ResponseTypeDirectVerify } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
 
-const RegularSlip = async (res: verificationResponseType2) => {
+const RegularSlip = async (res: ResponseTypeDirectVerify) => {
   const template: Template = regularSlipTemplate;
 
   const { data } = res;
 
   const {
-    surname,
-    firstname,
-    middlename,
-    residence_Town,
-    residence_state,
-    residence_AdressLine1,
-    trackingId,
-    nin,
+    lastName,
+    firstName,
+    middleName,
+    town,
+    state,
+    addressLine,
+    idNumber,
     photo,
     gender,
   } = data;
 
   const inputs = [
     {
-      surname: `${surname || ""}`.toUpperCase(),
-      firstname: `${firstname || ""}`.toUpperCase(),
-      middlename: `${middlename || ""}`.toUpperCase(),
+      surname: `${lastName || ""}`.toUpperCase(),
+      firstname: `${firstName || ""}`.toUpperCase(),
+      middlename: `${middleName || ""}`.toUpperCase(),
       gender: `${gender}`.toUpperCase(),
-      residenceAddress: `${residence_AdressLine1 || ""}`,
-      residenceTown: `${residence_Town || ""}`,
-      residenceState: `${residence_state || ""}`,
-      trackingId: `${trackingId || ""}`,
-      nin,
+      residenceAddress: `${addressLine || ""}`,
+      residenceTown: `${town || ""}`,
+      residenceState: `${state || ""}`,
+      trackingId: `${""}`,
+      nin: idNumber,
       photo: `data:image/${
         photo.charAt(0) === "/" ? "jpeg" : "png"
       };base64,${photo}`,

@@ -3,47 +3,50 @@ import { generate } from "@pdfme/generator";
 import { image, text } from "@pdfme/schemas";
 import basicSlipTemplate from "@/lib/templates/basicSlipTemplate.json";
 import { Font } from "@/types/pdfme";
-import { verificationResponseType2 } from "@/types/service";
+import { ResponseTypeDirectVerify } from "@/types/service";
 import { toast } from "@/hooks/use-toast";
 
-const BasicSlip = async (res: verificationResponseType2) => {
+const BasicSlip = async (res: ResponseTypeDirectVerify) => {
   const template: Template = basicSlipTemplate;
 
   const { data } = res;
 
   const {
-    surname,
-    firstname,
-    middlename,
-    residence_Town,
-    residence_state,
-    residence_AdressLine1,
-    trackingId,
-    birthdate,
-    birthstate,
-    birthlga,
-    telephoneno,
-    nin,
+    lastName,
+    firstName,
+    middleName,
+    town,
+    state,
+    addressLine,
+
+    idNumber,
     photo,
-    signature,
     gender,
+    dateOfBirth,
+    birthLGA,
+    birthState,
+    mobile,
+    signature,
   } = data;
 
   const inputs = [
     {
-      lastname: `${surname || ""}`.toUpperCase(),
-      firstname: `${firstname || ""}`.toUpperCase(),
-      middlename: `${middlename || ""}`.toUpperCase(),
+      lastname: `${lastName || ""}`.toUpperCase(),
+      firstname: `${firstName || ""}`.toUpperCase(),
+      middlename: `${middleName || ""}`.toUpperCase(),
       gender: `${gender || ""}`.toUpperCase(),
-      residence_address: `${residence_AdressLine1 || ""}`.toUpperCase(),
-      residence_town: `${residence_Town || ""}`.toUpperCase(),
-      residence_state: `${residence_state || ""}`,
-      tracking_id: `${trackingId || ""}`,
-      nin: `${nin?.slice(0, 4)}  ${nin?.slice(4, 7)}  ${nin?.slice(7)}`,
-      dob: `${birthdate || ""}`.toUpperCase(),
-      birth_state: `${birthstate || ""}`,
-      birth_lga: `${birthlga || ""}`,
-      phone: `${telephoneno || ""}`,
+      residence_address: `${addressLine || ""}`.toUpperCase(),
+      residence_town: `${town || ""}`.toUpperCase(),
+      residence_state: `${state || ""}`,
+      tracking_id: `${""}`,
+      nin: `${idNumber?.slice(0, 4)}  ${idNumber?.slice(
+        4,
+        7
+      )}  ${idNumber?.slice(7)}`,
+      dob: `${dateOfBirth || ""}`.toUpperCase(),
+      birth_state: `${birthState || ""}`,
+      birth_lga: `${birthLGA || ""}`,
+      phone: `${mobile || ""}`,
       photo: `data:image/${
         photo.charAt(0) === "/" ? "jpeg" : "png"
       };base64,${photo}`,

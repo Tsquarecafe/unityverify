@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
   try {
     let res = await axios.post(
-      "https://directverify.com.ng/api/pnv/index",
+      "https://directverify.com.ng/api/pnv/index", 
       {
         idNumber: phone,
         idType: "PNV",
