@@ -74,7 +74,7 @@ const PremiumSlip = async (res: ResponseTypeDirectVerify) => {
     if (dateOfBirth.includes("-")) {
       const [year, month, day] = dateOfBirth?.split("-");
       const formattedBirthdate = `${month}-${day}-${year}`;
-      console.log(format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase(), `format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase()`)
+
       return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
     } else {
       return dateOfBirth;

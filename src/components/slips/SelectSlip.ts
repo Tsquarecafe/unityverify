@@ -32,6 +32,7 @@ const SelectSlip = async ({
   } else {
     slipBlob = (await ImprovedSlip(response)) as Blob;
   }
+  alert(slipBlob.size)
   return slipBlob.size > 0 ? URL.createObjectURL(slipBlob) : "/";
 };
 
