@@ -97,7 +97,7 @@ const ImprovedSlip = async (res: ResponseTypeDirectVerify) => {
     } catch (error) {
       console.log(error);
       return toast({
-        title: "Error Generating Basic NIN Slip",
+        title: "Error Generating Improved NIN Slip",
         description: "Unable to generate NIN slip type. Plese try again later",
         variant: "destructive",
       });

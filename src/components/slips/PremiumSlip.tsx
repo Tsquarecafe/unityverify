@@ -126,7 +126,7 @@ const PremiumSlip = async (res: ResponseTypeDirectVerify) => {
     } catch (error) {
       console.log(error);
       return toast({
-        title: "Error Generating Basic NIN Slip",
+        title: "Error Generating Premium NIN Card",
         description: "Unable to generate NIN slip type. Please try again later",
         variant: "destructive",
       });
