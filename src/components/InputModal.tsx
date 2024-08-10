@@ -119,18 +119,15 @@ const InputModal: FC = ({}) => {
               variant: "destructive",
             });
           }
+          dispatch(closeModal());
           router.push(`/dashboard/nin/select-slip/${res.data.id}`);
         } else {
           return toast({
             title: "Verification Failed",
             description:
-              "Unaable to initiate transaction. Plese try again later",
+              "Unable to initiate transaction. Plese try again later",
             variant: "destructive",
           });
-        }
-
-        if (!loading) {
-          dispatch(closeModal());
         }
       }
     } catch (error) {
@@ -149,6 +146,7 @@ const InputModal: FC = ({}) => {
       });
     } finally {
       setLoading(false);
+      
     }
   };
 

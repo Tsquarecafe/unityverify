@@ -13,22 +13,22 @@ import { useSelector } from "react-redux";
 interface SlipProps {}
 const Slip: FC<SlipProps> = ({}) => {
   const {
-    slipBlob: sBlob,
+    slipUrl,
     response,
     selectedSlipType: { title },
   } = useSelector((store: RootState) => store.service);
-  const [slipBlob, setSlipBlob] = useState<Blob>();
+  const [currentSlipUrl, setCurrentSlipUrl] = useState<string>();
   const router = useRouter();
 
   useEffect(() => {
-    if (sBlob) {
-      setSlipBlob(sBlob);
+    if (slipUrl) {
+      setCurrentSlipUrl(slipUrl);
     }
-  }, [sBlob]);
+  }, [slipUrl]);
 
   const openSlipInWindow = () => {
-    if (typeof window !== "undefined" && slipBlob)
-      window.open(URL.createObjectURL(slipBlob));
+    if (typeof window !== "undefined" && currentSlipUrl)
+      window.open(currentSlipUrl);
   };
 
   return (
@@ -51,16 +51,12 @@ const Slip: FC<SlipProps> = ({}) => {
             you encounter any challenge. Have a great moment!
           </p>
 
-          {slipBlob && (
+          {currentSlipUrl && (
             <div className="flex gap-6 items-center">
               {response ? (
                 <a
                   download={`${title}_for_${response.data.firstName}_${response.data.lastName}_from_UnityVerify  `}
-                  href={
-                    slipBlob && slipBlob.size > 0
-                      ? URL.createObjectURL(slipBlob)
-                      : ""
-                  }
+                  href={currentSlipUrl}
                   className={`${buttonVariants()} text-xs flex items-center `}
                 >
                   <Download />
