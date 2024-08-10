@@ -25,6 +25,7 @@ const SelectSlip = async ({
     slipBlob = (await RegularSlip(response)) as Blob;
   } else if (slipTitle === premiumSlipTitle) {
     slipBlob = (await PremiumSlip(response)) as Blob;
+    alert(slipBlob.type)
   } else if (slipTitle === basicSlipTitle) {
     slipBlob = (await BasicSlip(response)) as Blob;
   } else if (slipTitle === NVSSlipTitle) {
