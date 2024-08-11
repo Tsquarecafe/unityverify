@@ -44,16 +44,16 @@ const ImprovedSlip = async (res: ResponseTypeDirectVerify) => {
     return font;
   };
 
-  const transformData = () => {
-    if (dateOfBirth.includes("-")) {
-      const [year, month, day] = dateOfBirth?.split("-");
-      const formattedBirthdate = `${month}-${day}-${year}`;
+  // const transformData = () => {
+  //   if (dateOfBirth.includes("-")) {
+  //     const [year, month, day] = dateOfBirth?.split("-");
+  //     const formattedBirthdate = `${month}-${day}-${year}`;
 
-      return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
-    } else {
-      return dateOfBirth;
-    }
-  };
+  //     return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
+  //   } else {
+  //     return dateOfBirth;
+  //   }
+  // };
 
   const generatePDF = async () => {
     try {
@@ -66,7 +66,7 @@ const ImprovedSlip = async (res: ResponseTypeDirectVerify) => {
         {
           surname: `${lastName || ""}`.toUpperCase(),
           givenNames: `${firstName || ""}, ${middleName || ""}`.toUpperCase(),
-          dob: transformData(),
+          dob: dateOfBirth,
           photo: `data:image/${
             photo.charAt(0) === "/" ? "jpeg" : "png"
           };base64,${photo}`,

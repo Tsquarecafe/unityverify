@@ -70,16 +70,16 @@ const PremiumSlip = async (res: ResponseTypeDirectVerify) => {
     return font;
   };
 
-  const transformData = () => {
-    if (dateOfBirth.includes("-")) {
-      const [year, month, day] = dateOfBirth?.split("-");
-      const formattedBirthdate = `${month}-${day}-${year}`;
+  // const transformData = () => {
+  //   if (dateOfBirth.includes("-")) {
+  //     const [year, month, day] = dateOfBirth?.split("-");
+  //     const formattedBirthdate = `${month}-${day}-${year}`;
 
-      return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
-    } else {
-      return dateOfBirth;
-    }
-  };
+  //     return format(new Date(formattedBirthdate), "dd MMM yyyy")?.toUpperCase();
+  //   } else {
+  //     return dateOfBirth;
+  //   }
+  // };
 
   const generatePDF = async () => {
     try {
@@ -92,7 +92,7 @@ const PremiumSlip = async (res: ResponseTypeDirectVerify) => {
         {
           surname: `${lastName || ""}`.toUpperCase(),
           givenNames: `${firstName || ""}, ${middleName || ""}`.toUpperCase(),
-          dob: transformData(),
+          dob: dateOfBirth,
           gender: `${gender}`.toUpperCase(),
           NGA: "NGA",
           photo: `data:image/${
@@ -124,7 +124,7 @@ const PremiumSlip = async (res: ResponseTypeDirectVerify) => {
 
       return new Blob([pdf.buffer], { type: "application/pdf" });
     } catch (error) {
-      console.log(error);
+     
       return toast({
         title: "Error Generating Premium NIN Card",
         description: "Unable to generate NIN slip type. Please try again later",
@@ -133,7 +133,9 @@ const PremiumSlip = async (res: ResponseTypeDirectVerify) => {
     }
   };
 
-  return await generatePDF();
+  const blobResponse = await generatePDF();
+
+  return blobResponse;
 };
 
 export default PremiumSlip;
