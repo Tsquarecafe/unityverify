@@ -15,20 +15,23 @@ const RegularSlip = async (res: ResponseTypeDirectVerify) => {
     lastName,
     firstName,
     middleName,
-    town,
-    state,
     addressLine,
     idNumber,
+    gender, 
     photo,
-    gender,
+    town,
+    state
   } = data;
 
+  // Extract base64 data by removing the 'data:image/jpg;base64,' prefix
+  // const base64Photo = images?.replace(/^data:image\/(jpg|jpeg|png);base64,/, '');
+  //  console.log(base64Photo,"base64Photo")
   const inputs = [
     {
       surname: `${lastName || ""}`.toUpperCase(),
       firstname: `${firstName || ""}`.toUpperCase(),
       middlename: `${middleName || ""}`.toUpperCase(),
-      gender: `${gender}`.toUpperCase(),
+      gender: `${gender || ""}`.toUpperCase(),
       residenceAddress: `${addressLine || ""}`,
       residenceTown: `${town || ""}`,
       residenceState: `${state || ""}`,
@@ -69,15 +72,14 @@ const RegularSlip = async (res: ResponseTypeDirectVerify) => {
 
       return new Blob([pdf.buffer], { type: "application/pdf" });
     } catch (error) {
-      console.log(error);
+      console.log(error ,"peace errror");
       return toast({
         title: "Error Generating Regular NIN Slip",
-        description: "Unable to generate NIN slip type. Plese try again later",
+        description: "Unable to generate NIN slip type. Please try again later",
         variant: "destructive",
       });
     }
   };
-
   return await generatePDF();
 };
 

@@ -35,7 +35,6 @@ const vninVerify = async (vnin: string) => {
     { headers }
   );
 };
-
 export async function POST(req: Request) {
   const { nin, vnin } = await req.json();
 
@@ -48,13 +47,13 @@ export async function POST(req: Request) {
       // @ts-ignore
       res = await vninVerify(vnin);
     }
-    if (res.data.message.status === "not_found") {
+    if (res.data.message?.status === "not_found") {
       return new Response("User Details Not Found", {
         status: 404,
       });
     }
 
-    if (res.data?.status && res.data?.message.constructor === Object) {
+    if (res.data?.status && res.data?.message?.constructor === Object) {
       const photoUrlStringNew = res.data.message?.image?.replace(/\n/g, "");
       const signatureUrlStringNew = res.data.message?.signature?.replace(
         /\n/g,
@@ -74,7 +73,7 @@ export async function POST(req: Request) {
                 ? signatureUrlStringNew
                 : noPhotoString,
           },
-          status: res.data?.status,
+          status: res?.data?.status,
         }),
         { status: 200 }
       );

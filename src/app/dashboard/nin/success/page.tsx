@@ -19,7 +19,8 @@ const Slip: FC<SlipProps> = ({}) => {
   } = useSelector((store: RootState) => store.service);
   const [currentSlipUrl, setCurrentSlipUrl] = useState<string>();
   const router = useRouter();
-
+  console.log(response,'res')
+  // console.log(response?.photo,"photo" ,response?.address.addressLine)
   useEffect(() => {
     if (slipUrl) {
       setCurrentSlipUrl(slipUrl);
@@ -55,7 +56,7 @@ const Slip: FC<SlipProps> = ({}) => {
             <div className="flex gap-6 items-center">
               {response ? (
                 <a
-                  download={`${title}_for_${response.data.firstName}_${response.data.lastName}_from_UnityVerify  `}
+                  download={`${title}_for_${response.data?.firstName}_${response?.data.lastName}_from_UnityVerify  `}
                   href={currentSlipUrl}
                   className={`${buttonVariants()} text-xs flex items-center `}
                 >

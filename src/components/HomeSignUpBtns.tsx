@@ -29,7 +29,7 @@ const HomeSignUpBtns: FC<HomeSignUpBtnsProps> = ({}) => {
   };
   return (
     <div className="flex flex-col gap-3">
-      <Button
+      {/* <Button
         size="lg"
         isLoading={isLoadingGoogle}
         onClick={loginWithGoogle}
@@ -37,7 +37,7 @@ const HomeSignUpBtns: FC<HomeSignUpBtnsProps> = ({}) => {
       >
         {isLoadingGoogle ? null : <Icons.google className="h-4 w-4 mr-2" />}
         <span className="ml-4">Log in with Google</span>
-      </Button>
+      </Button> */}
 
       <Link
         href="/sign-up"
