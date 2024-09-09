@@ -123,15 +123,21 @@ export type verificationResponseType2 = {
     trackingId: string;
   };
 };
+// export type AddressType = {
+//   addressLine: string;
+//   town: string;
+//   lga: string;
+//   state: string;
+// };
 
 export type ResponseTypeDirectVerify = {
   status: boolean;
   data: {
     id: string;
-    town: string;
-    lga: string;
-    state: string;
-    addressLine: string;
+ addressLine: string;
+  town: string;
+  lga: string;
+  state: string;  // Updated field to include the AddressType
     parentId: null;
     status: string;
     reason: null;
@@ -161,7 +167,6 @@ export type ResponseTypeDirectVerify = {
     country: string;
     createdAt: string;
     lastModifiedAt: string;
-    photo: "";
-
+    photo: string;
   };
 };
